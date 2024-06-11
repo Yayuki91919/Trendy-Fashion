@@ -29,7 +29,6 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 .gradient-2, .dropdown-mega-menu .ext-link.link-3 a .nav-header .login-form__btn.submit{
   background-image: linear-gradient(230deg, #fc5286, #fbaaa2);
-  background-color: #fc5286;
 }
 
 .gradient-3, .dropdown-mega-menu .ext-link.link-2 a, .header-right .icons .user-img .activity {
@@ -77,7 +76,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   --white: #fff;
   --gray: #f7fafc;
   --gray-dark: #333333;
-  --primary: #7571f9;
+  --primary: #e83e8c;
   --secondary: #9097c4;
   --success: #6fd96f;
   --info: #4d7cff;
@@ -121,7 +120,7 @@ body {
   line-height: 1.5;
   color: #76838f;
   text-align: left;
-  background-color: #e781b4 !important;; }
+  background-color: #ffffff !important;; }
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -202,7 +201,7 @@ a {
   background-color: transparent;
   -webkit-text-decoration-skip: objects; }
   a:hover {
-    color: #2e28f6;
+    color: #ff4090;
     text-decoration: underline; }
 
 a:not([href]):not([tabindex]) {
@@ -1234,7 +1233,7 @@ pre {
   background-color: rgba(0, 0, 0, 0.05); }
 
 .table-hover tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.075); }
+  background-color: rgba(241, 109, 138, 0.075); }
 
 .table-primary,
 .table-primary > th,
@@ -1242,10 +1241,10 @@ pre {
   background-color: #d8d7fd; }
 
 .table-hover .table-primary:hover {
-  background-color: #c0bffc; }
+  background-color: #fca3da; }
   .table-hover .table-primary:hover > td,
   .table-hover .table-primary:hover > th {
-    background-color: #c0bffc; }
+    background-color: #f196a5; }
 
 .table-secondary,
 .table-secondary > th,
@@ -2577,7 +2576,7 @@ input[type="button"].btn-block {
   text-align: center;
   white-space: nowrap;
   background-color: #e9ecef;
-  border: 1px solid #ced4da;
+  border: 1px solid #f1749e;
   border-radius: 0.25rem; }
   .input-group-text input[type="radio"],
   .input-group-text input[type="checkbox"] {

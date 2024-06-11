@@ -17,6 +17,7 @@
     <!-- Chartist -->
     <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
@@ -286,7 +287,7 @@
                         <i class="icon-envelope menu-icon"></i> <span class="nav-text">Cutomer Details</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="./email-inbox.html">Customer & Order</a></li>
+                            <li><a href="customer.php">Customer & Order</a></li>
                             <li><a href="./email-inbox.html">Order Details</a></li>
                         </ul>
                     </li>
