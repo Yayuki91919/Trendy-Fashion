@@ -46,6 +46,9 @@
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
     <script src="./js/dashboard/dashboard-1.js"></script>
 
+
+    <script src="js/scripts.js"></script>
+
 </body>
 
 </html>
