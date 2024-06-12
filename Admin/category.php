@@ -160,14 +160,11 @@
                                                 echo "<tr >";
                                                 echo "<th>".$count++."</th>";
                                                 echo "<td>" .$category['category_name']."</td>";                                               
-                                                echo "<td id='".$category['category_id']."'><span>
+                                                echo "<td id='".$category['category_id']."'>
                                                     <a href='category.php?edit_id=".$category['category_id']."' data-toggle='tooltip' data-placement='top' title='Edit'>
                                                     <i class='fa fa-pencil color-muted m-r-5'></i> </a>
-                                                
-                                                    <a href='category.php?delete_id=".$category['category_id']."' data-toggle='tooltip' data-placement='top' title='Delete' onclick=''>
-                                                    <i class='fa fa-close color-danger'></i></a></span>
-
-                                                    <button class='btn btn-danger mx-3 category_delete'>Delete </button>
+                                                                              
+                                                    <a class='category_delete' data-toggle='tooltip' data-placement='top' title='Delete'><i class='fa fa-close color-danger'></i></a>
                                                     </td>";
 
                                                 echo "</tr>";

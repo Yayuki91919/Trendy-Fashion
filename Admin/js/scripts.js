@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    console.log('in script');
+
     $(document).on('click','.category_delete',function(event){
         event.preventDefault()
         let status=confirm("Are you sure to delete?");
@@ -19,7 +19,7 @@ $(document).ready(function()
                     // alert(response)
                     if(response='success')
                     {
-                        alert("Successfully deleted")
+                        alert("Successfully deleted!")
                         location.href='category.php'
                     }
                     else
@@ -66,6 +66,7 @@ $(document).ready(function()
     //         })
     //     }
     // })
+
 
     // $(document).on('click','.btn2_delete',function(event){
     //     event.preventDefault()
