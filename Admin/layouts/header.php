@@ -7,11 +7,17 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <!-- theme meta -->
-    <meta name="theme-name" content="quixlab" />
+    <meta name="theme-name" content="trendy-fashion" />
 
     <title>Trendy Fashion</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png"> -->
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/trendy-icon/apple-touch-icon.png" ></link>
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/trendy-icon/favicon-32x32.png" ></link>
+    <link rel="icon" type="image/png" sizes="16x16" href="/../icons/trendy-icon/favicon-16x16.png" ></link>
+                  
     <!-- Pignose Calender -->
     <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
@@ -19,6 +25,8 @@
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
+    <link href="./plugins/sweetalert/css/sweetalert.css" rel="stylesheet">
+    <link href="./plugins/toastr/css/toastr.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
 </head>
@@ -256,7 +264,7 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
                     <li>
-                        <a href="dasboard.php" aria-expanded="false">
+                        <a href="dashboard.php" aria-expanded="false">
                             <i class="icon-badge menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
@@ -288,7 +296,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="customer.php">Customer & Order</a></li>
-                            <li><a href="./email-inbox.html">Order Details</a></li>
+                            <li><a href="invoice.php">Order Details</a></li>
                         </ul>
                     </li>
                     <li>
