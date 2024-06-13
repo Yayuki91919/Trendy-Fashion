@@ -6,26 +6,21 @@ class CustomerController extends Customer{
         public function getCustomers(){
             return $this->getCustomerList();
         }
-
-        public function addCategory($name)
+        public function getCustomer($id){
+            return $this->getCustomerById($id);
+        }
+        public function editCustomer($id,$name,$email,$phone)
         {
-            return $this->createCategory($name);
+            return $this->updateCustomer($id,$name,$email,$phone);
+        }
+        public function addCustomer($name)
+        {
+            return $this->createCustomer($name);
 
         }
-
-        public function getCategory($id)
+        public function deleteCustomer($id)
         {
-            return $this->getCategoryInfo($id);
-        }
-
-        public function editCategory($id,$name)
-        {
-            return $this->updateCategory($id,$name);
-        }
-
-        public function deleteCategory($id)
-        {
-            return $this->deleteCategoryInfo($id);
+            return $this->deleteCustomerInfo($id);
         }
 
 
