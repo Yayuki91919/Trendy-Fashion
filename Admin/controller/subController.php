@@ -9,9 +9,9 @@ class SubCategoryController extends SubCategory{
             
         }
 
-        public function addSubCategory($sub_id,$name,$cat_id)
+        public function addSubCategory($name,$cat_id)
         {
-            return $this->createSubCategory($sub_id,$name,$cat_id);
+            return $this->createSubCategory($name,$cat_id);
 
         }
 
@@ -25,10 +25,10 @@ class SubCategoryController extends SubCategory{
             return $this->updateSubCategory($id,$name,$cat_id);
         }
 
-        // public function deleteSubCategory($id)
-        // {
-        //     return $this->deleteSubCategoryInfo($id);
-        // }
+        public function deleteSubCategory($id)
+        {
+            return $this->deleteSubCategoryInfo($id);
+        }
 
 
 }

@@ -55,23 +55,26 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                             <div class="row">
-                                <div class="col-10">
-                                    <h4 class="card-title">Brand Lists</h4>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h4 class="card-title">Brand Lists</h4>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a href="add_sub_category.php" class="btn mb-1 gradient-2">
+                                            New Brand <span class="btn-icon-right">
+                                            <i class="fa fa-plus"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-2">
-                                    <a href="add_sub_category.php" class="btn mb-1 btn-primary">
-                                    New Brand <span class="btn-icon-right">
-                                    <i class="fa fa-plus"></i></span>
-                                    </a>
-                                </div>
-                             </div>
+                             
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Name</th>
+                                                <th>Brand</th>
                                                 <th>Category</th>
                                                 <th>Action</th>
                                             </tr>
@@ -89,7 +92,7 @@
                                                     <a href='add_sub_category.php?edit_id=".$sub['sub_id']."' data-toggle='tooltip' data-placement='top' title='Edit'>
                                                     <i class='fa fa-pencil color-muted m-r-5'></i> </a>
                                                                               
-                                                    <a class='ti-trash color-danger' data-toggle='tooltip' data-placement='top' title='Delete'></a>
+                                                    <a class='sub_category_delete ti-trash color-danger' data-toggle='tooltip' data-placement='top' title='Delete'></a>
                                                     </td>";
 
                                                 echo "</tr>";
@@ -99,7 +102,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Name</th>
+                                                <th>Brand</th>
                                                 <th>Category</th>
                                                 <th>Action</th>
                                             </tr>

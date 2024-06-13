@@ -104,7 +104,7 @@
                                         <div class="form-group mx-sm-3 mb-2">
                                             <input type="text" name="name" class="form-control" placeholder="Name" value="<?php echo $category['category_name']; ?>">
                                         </div>
-                                        <input type="submit" class="btn btn-dark mb-2" value="Update" name="edit">
+                                        <input type="submit" class="btn gradient-3 mb-2" value="Update" name="edit">
                                     </form>
                                 </div>
 
@@ -117,7 +117,7 @@
                                         <div class="form-group mx-sm-3 mb-2">
                                             <input type="text" name="name" class="form-control" placeholder="Name">
                                         </div>
-                                        <input type="submit" class="btn btn-dark mb-2" value="Enter" name="add">
+                                        <input type="submit" class="btn gradient-2 mb-2" value="Enter" name="add">
                                     </form>
                                 </div>
                                 <?php }?>

@@ -47,7 +47,6 @@
     <script src="./js/dashboard/dashboard-1.js"></script>
 
 
-    <script src="js/scripts.js"></script>
 
 </body>
 
