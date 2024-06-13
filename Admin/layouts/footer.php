@@ -46,6 +46,15 @@
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
     <script src="./js/dashboard/dashboard-1.js"></script>
 
+       <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="./plugins/sweetalert/js/sweetalert.min.js"></script>
+    <script src="./plugins/sweetalert/js/sweetalert.init.js"></script>
+     <!-- Toastr -->
+     <script src="./plugins/toastr/js/toastr.min.js"></script>
+    <script src="./plugins/toastr/js/toastr.init.js"></script>
+
 </body>
 
 </html>
