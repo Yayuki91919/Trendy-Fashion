@@ -5,10 +5,37 @@ class Product{
     public function getProductList(){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql="select product.id as id,product.name as name,product.image as image
-        ,product.price as price,product.description as desp,category.name as 
-        catname from product join category on product.cat_id=category.id";
-        // $sql='SELECT product.* FROM product JOIN category WHERE cat_id=category.id';
+
+        // $sql = "
+        //     SELECT 
+        //         c.category_name,
+        //         sc.brand_name,
+        //         p.name AS product_name,
+        //         pd.size,
+        //         SUM(pd.qty) AS total_qty,
+        //         pd.color
+        //     FROM 
+        //         product AS p
+        //     JOIN 
+        //         product_detail AS pd ON p.product_id = pd.product_id
+        //     JOIN 
+        //         sub_category AS sc ON p.sub_id = sc.sub_id
+        //     JOIN 
+        //         category AS c ON sc.category_id = c.category_id
+        //     GROUP BY 
+        //         p.product_id, pd.size, pd.color
+        // ";
+        
+        $sql = "
+                    SELECT 
+                        p.*,
+                        sc.*
+                    FROM 
+                        product AS p
+                    JOIN 
+                        sub_category AS sc ON p.sub_id = sc.sub_id
+                        
+                ";
         $statement=$con->prepare($sql);
         if($statement->execute()){
             $result=$statement->fetchAll(PDO::FETCH_ASSOC);
