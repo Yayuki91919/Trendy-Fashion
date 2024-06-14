@@ -25,18 +25,7 @@ class Invoice{
     public function getInvoiceById($id){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql="SELECT 
-            i.*, 
-            c.*, 
-            d.*
-        FROM 
-            invoice i
-        JOIN 
-            customer_account c ON i.customer_id = c.customer_id
-        JOIN 
-            deli_info d ON i.deli_info_id = d.deli_info_id
-        WHERE 
-            i.invoice_id =:id";
+        $sql="SELECT * FROM invoice WHERE invoice_id=:id";
         $statement=$con->prepare($sql);
         $statement->bindParam(':id',$id);
         if($statement->execute())
@@ -44,7 +33,6 @@ class Invoice{
             $result=$statement->fetch(PDO::FETCH_ASSOC);
             return $result;
         }
-
     }
     
 }

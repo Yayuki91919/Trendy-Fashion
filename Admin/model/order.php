@@ -6,23 +6,34 @@ class Order{
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         $sql="SELECT 
-            o.*, 
-            i.*
+            *
             FROM 
-                place_order o
-            JOIN 
-                invoice i ON o.invoice_id = i.invoice_id
+                place_order 
             WHERE 
-                i.invoice_id = :id";
+                invoice_id = :id";
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':id',$id);
+        if($statement->execute())
+        {
+            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }
+
+    }
+    public function getProductByInvoice($id){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="SELECT * FROM product WHERE product_id=:id";
         $statement=$con->prepare($sql);
         $statement->bindParam(':id',$id);
         if($statement->execute())
         {
             $result=$statement->fetch(PDO::FETCH_ASSOC);
-            return $result;
+            return $result ;
         }
 
     }
+   
    
     
 }
