@@ -1,33 +1,27 @@
 <?php
 include_once __DIR__. '../../vendor/db/db.php';
 
-class SubCategory{
-    public function getSubCategoriesList(){
+class Type{
+    public function getTypesList(){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        // $sql="select * from sub_category ORDER BY sub_id DESC";
-        
-        $sql = "SELECT sc.*, c.category_name 
-        FROM sub_category sc 
-        INNER JOIN category c ON sc.category_id = c.category_id 
-        ORDER BY sc.sub_id DESC";
-
+        $sql="select * from type";
         $statement=$con->prepare($sql);
         if($statement->execute())
         {
             $result=$statement->fetchAll(PDO::FETCH_ASSOC);
         }
         return $result;
+
     }
 
-    public function createSubCategory($name,$cat_id)
+    public function createType($name)
     {
                 $con=Database::connect();
                 $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-                $sql='insert into sub_category(brand_name,category_id) values (:name,:cat_id)';
+                $sql='insert into type(name) values (:name)';
                 $statement=$con->prepare($sql);
                 $statement->bindParam(':name',$name);
-                $statement->bindParam(':cat_id',$cat_id);
                 if($statement->execute())
                 {
                     return true;
@@ -38,11 +32,11 @@ class SubCategory{
     }
 
     
-    public function getSubCategoryInfo($id)
+    public function getTypeInfo($id)
     {
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql='select * from sub_category where sub_id=:id';
+        $sql='select * from type where type_id=:id';
         $statement=$con->prepare($sql);
         $statement->bindParam(':id',$id);
 
@@ -53,15 +47,14 @@ class SubCategory{
         }                                                
     }
 
-    public function updateSubCategory($sub_id,$name,$cat_id)
+    public function updateType($id,$name)
     {
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql='update sub_category set brand_name=:name, category_id=:cat_id where sub_id=:id';
+        $sql='update type set name=:name where type_id=:id';
         $statement=$con->prepare($sql);
         $statement->bindParam(':name',$name);
-        $statement->bindParam(':id',$sub_id);
-        $statement->bindParam(':cat_id',$cat_id);
+        $statement->bindParam(':id',$id);
         if($statement->execute())
         {
             return true;
@@ -69,15 +62,14 @@ class SubCategory{
         else{
             return false;
         }
-
     }
 
   
-    public function deleteSubCategoryInfo($id)
+    public function deleteTypeInfo($id)
     {
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql='delete from sub_category where sub_id=:id';
+        $sql='delete from type where type_id=:id';
         $statement=$con->prepare($sql);
         $statement->bindParam('id',$id);
         try{
@@ -89,6 +81,6 @@ class SubCategory{
             return false;
         }
     }
-}
 
+}
 ?>

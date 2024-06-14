@@ -7,6 +7,7 @@
     $cat_controller=new CategoryController();
     $categories=$cat_controller->getCategories();
 
+    $sub_controller = new SubCategoryController;
 
 
     // insert 
@@ -14,6 +15,7 @@
     {
         $name=$_POST['sub_name'];
         $cat_id=$_POST['cat_id'];
+
         $status=$sub_controller->addSubCategory($name,$cat_id);
         if($status)
         {
@@ -41,23 +43,6 @@
             echo '<script> location.href="sub_category.php?status='.$message.'"</script>';
         }
     }
-
-
-    // delete
-    // if(isset($_GET['delete_id']))
-    // {
-    //     $delete_id=$_GET['delete_id'];
-    //     $result=$cat_controller->deleteCategory($delete_id);
-    //     if($result)
-    //     {
-    //         $message = 3;
-    //         echo '<script> location.href="category.php?status='.$message.'"</script>';
-
-    //     }
-    //     else{
-    //         echo "You can't delete as it has releated child data";
-    //     }
-    // }
 
 
 ?>
@@ -109,13 +94,14 @@
                                                 ?>
                                             </select>
                                         </div>
-                                        <input type="submit" class="btn btn-dark mb-2" value="Update" name="edit">
+                                        <input type="submit" class="btn gradient-3 mb-2" value="Update" name="edit">
                                     </form>
                                 </div>
 
                                 <?php }else{?>
 
                                 <h4 class="card-title">Add New Brand Form</h4>
+                                
                                 <p>Enter Brand Name</p>
                                 <div class="basic-form">
                                     <form action="<?php $_PHP_SELF ?>" method="post" class="form-inline">
@@ -134,7 +120,7 @@
                                                 ?>
                                             </select>
                                         </div>
-                                        <input type="submit" class="btn btn-dark mb-2" value="Enter" name="add">
+                                        <input type="submit" class="btn gradient-2 mb-2" value="Enter" name="add">
                                     </form>
                                 </div>
                                 <?php }?>
