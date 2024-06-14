@@ -77,9 +77,9 @@ $products = $product_controller->getProduct();
                                         echo "<th>" . $count++ . "</th>";
                                         echo "<td>
                                                 <div class='card-title'>
-                                                <span class='NEO m-10'>".$p['product_name']."</span>
-                                                <span class=' m-10'>".$p['brand_name']." /</span>
-                                                <span class='h6 m-10'>".$p['category_id']."</span>
+                                                <span class='h4 m-l-10'>".$p['product_name']."</span>
+                                                <span class='NEO m-l-10'>".$p['brand_name']."</span>
+                                                <span class='NEO m-l-10'>".$p['category_id']."</span>
                                                 </div>
                                                 <div class='row'>
                                                     <div class='col-6'>
