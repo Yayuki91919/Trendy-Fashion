@@ -13,7 +13,43 @@ if (isset($_POST['add'])) {
     }
 }
 
+// $sql = "
+//                 SELECT 
+//                     p.product_id,
+//                     p.product_name,
+//                     p.description,
+//                     p.price,
+//                     p.status,
+//                     sc.brand_name,
+//                     c.category_name,
+//                     pd.image
+//                 FROM 
+//                     product AS p
+//                 JOIN 
+//                     sub_category AS sc ON p.sub_id = sc.sub_id
+//                 JOIN 
+//                     category AS c ON sc.category_id = c.category_id
+//                 JOIN (
+//                     SELECT 
+//                         product_id,
+//                         MAX(image) AS image  
+                        
+//                     FROM 
+//                         product_detail
+//                     GROUP BY 
+//                         product_id
+//                 ) AS pd ON p.product_id = pd.product_id;
 
+                        
+//                 ";
+
+//random
+    // (
+    //     SELECT image_name
+    //     FROM product_image
+    //     ORDER BY RAND()
+    //     LIMIT 1
+    // ) AS pi ON p.product_id = pi.product_id
 ?>
 
 
@@ -144,3 +180,42 @@ if (isset($_POST['add'])) {
 <?php
 include_once 'layouts/footer.php';
 ?>
+
+
+<div class='row'>
+                                                    <div class='col-6'>
+                                                        <div class='card-title'>
+                                                            <span class='h4 m-l-10'>".$p['product_name']."</span>
+                                                            <span class='NEO m-l-10'>".$p['brand_name']."</span>
+                                                            <span class='NEO m-l-10'>".$p['category_id']."</span>
+
+                                                            <span class='text-nowrap bg-light p-2 m-2 d-inline-block'>
+                                                            <span class='BTC m-l-10 lead'> Total Quantity </span> &nbsp - &nbsp; 
+                                                            <span class='NEO m-l-10 lead'>5</span>&nbsp&nbsp</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class='col-5'>
+                                                        <div class='row'>
+                                                            <div class='col'>
+                                                            <button type='button' class='btn  m-2 gradient-1'><i class='fa fa-eye'></i> Detail </button>
+                                                            </div>
+                                                            <div class='col'>
+                                                                <button type='button' class='btn  m-2 btn-rounded btn-info'>
+                                                                <span class='btn-icon-left'><i class='fa fa-plus color-info'></i></span>post
+                                                                </button>                                                    
+                                                            </div>
+                                                            <div class='col p-2 m-2' id='". $p['product_id'] . "'>
+                                                                <a href='add_product.php?edit_id=" . $p['product_id'] . "' data-toggle='tooltip' data-placement='top' title='Edit'>
+                                                                <i class=' fa fa-pencil fa-2x color-muted m-r-5'></i> </a>
+                                                                                            
+                                                                <a class='product_delete fa-2x ti-trash color-danger' data-toggle='tooltip' data-placement='top' title='Delete'></a>
+                                                                <br>
+                                                            </div> 
+                                                        </div> 
+                                                    </div>
+                                                </div>
+
+
+                                                
+ <!-- add_product.php?edit_id=<?php echo $p['product_id']; ?> -->

@@ -66,51 +66,54 @@ $products = $product_controller->getProduct();
                                     <tr>
                                         <th>No</th>
                                         <th>Product</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $count = 1;
                                     foreach ($products as $p) 
-                                    {
-                                        echo "<tr >";
-                                        echo "<th>" . $count++ . "</th>";
-                                        echo "<td>
-                                                <div class='card-title'>
-                                                <span class='h4 m-l-10'>".$p['product_name']."</span>
-                                                <span class='NEO m-l-10'>".$p['brand_name']."</span>
-                                                <span class='NEO m-l-10'>".$p['category_id']."</span>
-                                                </div>
-                                                <div class='row'>
-                                                    <div class='col-6'>
-                                                        <div class='row'>
-                                                            <div class='col'>
+                                    {   
+                                        echo "<td>".$count++."</td>";
+                                        echo "<td class='row'>
+                                                
+                                                    <div class='card h-100 w-100 bg-light'>
+                                                        <div class='row no-gutters'>
+                                                            <div class='col-md-4'>
+                                                                <img class='card-img img-fluid' src='images/big/img3.jpg' alt='' style='width: 200px; height: 200px; object-fit: cover;'>
+                                                            </div>
+                                                            <div class='col-md-8'>
+                                                                <div class='card-body'>
+                                                                    <h5 class='card-title'>".$p['product_name']."<span class='badge gradient-2'>".$p['state']."</span></h5>
+                                                                    <p class='small'>
+                                                                        <span class='NEO'>".$p['brand_name']." </span> |
+                                                                        <span class='BTC'>".$p['category_name']."</span>
+                                                                    </p>
+                                                                    <p class='card-text'>".$p['description']."</p>
+                                                                </div>
+                                                                <div class='card-footer bg-light'>
+                                                                    <small class='text-muted'>create_date - ".$p['product_name']."</small>
+                                                                    <a href='".$p['product_id']."' class='btn m-2 gradient-1'><i class='fa fa-eye'></i> Detail </a>
+                                                                     
+                                                                    <a href='".$p['product_id']."' data-toggle='tooltip' data-placement='top' title='Edit' class='m-2'>
+                                                                        <i class='fa fa-pencil fa-2x color-muted m-r-5'></i>
+                                                                    </a>
+                                                                    <a class='m-2 product_delete fa-2x ti-trash color-danger' data-toggle='tooltip' data-placement='top' title='Delete'></a>
+                                                                </div>
 
-                                                                <span class='text-nowrap bg-light p-2 m-2 d-inline-block'>Size<span class='BTC m-l-10 lead'> S </span> &nbsp - &nbsp; <span class='NEO m-l-10 lead'>5</span>&nbsp&nbsp</span>
-                                                            
-                                                            </div>  
+                                                            </div>
                                                         </div>
-                                                        
                                                     </div>
-                                                    
-                                                    <div class='col'>
-                                                        <button type='button' class='btn mb-1 gradient-1'><i class='fa fa-eye'></i> Detail </button>
-                                                    </div>
-                                                    <div class='col'>
-                                                        <button type='button' class='btn my-1 btn-rounded btn-info'>
-                                                        <span class='btn-icon-left'><i class='fa fa-plus color-info'></i></span>post
-                                                        </button>                                                    
-                                                    </div>
-                                                    <div class='col p-2 m-2' id='". $p['product_id'] . "'>
-                                                        <a href='add_product.php?edit_id=" . $p['product_id'] . "' data-toggle='tooltip' data-placement='top' title='Edit'>
-                                                        <i class=' fa fa-pencil fa-2x color-muted m-r-5'></i> </a>
-                                                                                    
-                                                        <a class='product_delete fa-2x ti-trash color-danger' data-toggle='tooltip' data-placement='top' title='Delete'></a>
-                                                        <br>
-                                                    </div>  
-                                                </div>
+
                                             </td>";
+                                        
                                             
+                                        echo "<td>
+                                                <button type='button' class='btn m-2 btn-rounded btn-info'>
+                                                    <span class='btn-icon-left'><i class='fa fa-plus color-info'></i></span>".$p['status']."
+                                                </button>
+                                            </td>";
+                                          
                                         echo "</tr>";
                                     }
                                     ?>
@@ -119,6 +122,7 @@ $products = $product_controller->getProduct();
                                     <tr>
                                         <th>No</th>
                                         <th>Product</th>
+                                        <th>Status</th>
                                     </tr>
                                 </tfoot>
                             </table>
