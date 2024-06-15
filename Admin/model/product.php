@@ -4,11 +4,33 @@ include_once __DIR__. '/../vendor/db/db.php';
 class Product{
     public function getProductList(){
         $con=Database::connect();
-        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql="select product.id as id,product.name as name,product.image as image
-        ,product.price as price,product.description as desp,category.name as 
-        catname from product join category on product.cat_id=category.id";
-        // $sql='SELECT product.* FROM product JOIN category WHERE cat_id=category.id';
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);        
+        $sql = "
+
+        SELECT 
+            p.product_id,
+            p.product_name,
+            p.description,
+            p.price,
+            p.status,
+            p.state,
+            sc.brand_name,
+            c.category_name,
+            (SELECT image_name 
+             FROM product_image 
+             WHERE product_id = p.product_id 
+             ORDER BY RAND() 
+             LIMIT 1) AS random_image
+        FROM 
+            product AS p
+        JOIN 
+            sub_category AS sc ON p.sub_id = sc.sub_id
+        JOIN 
+            category AS c ON sc.category_id = c.category_id
+
+                ";
+        
+
         $statement=$con->prepare($sql);
         if($statement->execute()){
             $result=$statement->fetchAll(PDO::FETCH_ASSOC);

@@ -286,7 +286,7 @@
                             <li><a href="category.php">Category</a></li>
                             <li><a href="sub_category.php">Sub-Category</a></li>
                             <li><a href="product_type.php">Product-type</a></li>
-                            <li><a href="product_list.php">Product List</a></li>
+                            <li><a href="product.php">Product List</a></li>
                         </ul>
                     </li>
                     <li class="nav-label">Order</li>
