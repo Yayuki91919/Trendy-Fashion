@@ -52,7 +52,7 @@ $products = $product_controller->getProduct();
                                     <h4 class="card-title">Product Lists</h4>
                                 </div>
                                 <div class="col-md-2">
-                                    <a href="add_type.php" class="btn mb-1 gradient-2">
+                                    <a href="add_product.php" class="btn mb-1 gradient-2">
                                         New Product <span class="btn-icon-right">
                                             <i class="fa fa-plus"></i></span>
                                     </a>
@@ -80,7 +80,7 @@ $products = $product_controller->getProduct();
                                                     <div class='card h-100 w-100 bg-light'>
                                                         <div class='row no-gutters'>
                                                             <div class='col-md-4'>
-                                                                <img class='card-img img-fluid' src='images/big/img3.jpg' alt='' style='width: 200px; height: 200px; object-fit: cover;'>
+                                                                <img class='card-img img-fluid' src='images/product/".$p['random_image']."' alt='' style='width: 200px; height: 200px; object-fit: cover;'>
                                                             </div>
                                                             <div class='col-md-8'>
                                                                 <div class='card-body'>

@@ -64,6 +64,7 @@
 
 
     <script src="js/scripts.js"></script>
+    <script src="js/product.js"></script>
 
 </body>
 
