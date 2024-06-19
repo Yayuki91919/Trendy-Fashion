@@ -20,6 +20,21 @@ class SubCategory{
         return $result;
     }
 
+    public function getSelectedCategory($category_id){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        
+        $sql="select * from sub_category where category_id=:category_id";
+
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':category_id',$category_id);
+        if($statement->execute())
+        {
+            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+    }
+
     public function createSubCategory($name,$cat_id)
     {
                 $con=Database::connect();

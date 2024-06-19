@@ -6,6 +6,9 @@ class CategoryController extends Category{
         public function getCategories(){
             return $this->getCategoriesList();
         }
+        public function getCategoriesWithSub(){
+            return $this->getCategoriesHaveSub();
+        }
 
         public function addCategory($name)
         {

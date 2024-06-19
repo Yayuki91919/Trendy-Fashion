@@ -15,6 +15,23 @@ class Category{
 
     }
 
+    public function getCategoriesHaveSub(){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="SELECT c.category_id, c.category_name
+                FROM category c
+                JOIN sub_category sc ON c.category_id = sc.category_id
+                GROUP BY c.category_id, c.category_name
+                ";
+        $statement=$con->prepare($sql);
+        if($statement->execute())
+        {
+            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+
+    }
+
     public function createCategory($name)
     {
                 $con=Database::connect();

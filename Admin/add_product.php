@@ -1,9 +1,19 @@
  
 <?php
     include_once 'layouts/header.php';
+    include_once __DIR__. '../controller/categoryController.php';
+    include_once __DIR__. '../controller/subController.php';
     include_once __DIR__. '../controller/typeController.php';
 
-    $type_controller = new TypeController;
+
+    $cat_controller=new CategoryController();
+    $categories=$cat_controller->getCategoriesWithSub();
+
+    $sub_controller=new SubCategoryController();
+    $subs=$sub_controller->getSubCategories();
+
+    $type_controller = new typeController();
+
 
 
     // insert 
@@ -79,23 +89,68 @@
 
                                     
                                 <h4 class="card-title">Add Product Form</h4>
-                                <p>Enter Product Type Name</p>        
                                 <form action="process_form.php" method="post" id="productForm">
-                                    <div class="form-group">
-                                        <label for="name">Product Name:</label>
-                                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name"
-                                            style="width: 100%;" required>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Product Name:</label>
+                                                <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name"
+                                                    style="width: 100%;" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            <label for="price">Price:</label>
+                                            <input type="text" id="price" name="price" class="form-control" placeholder="Enter price"
+                                                style="width: 100%;" required>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Category</label>
+                                                <select name="cat_id" class="custom-select mr-sm-2" id="categorySelect">
+                                                    <option>Choose Category</option>
+                                                    <?php foreach($categories as $category): ?>
+                                                        <option value="<?php  echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="price">Sub Category</label>
+                                                <select name="sub_cat_id" class="custom-select mr-sm-2" id="subCategorySelect">
+                                                    <!-- Options will be populated dynamically -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Product Type:</label>
+                                                <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name"
+                                                    style="width: 100%;" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            <label for="price">Price:</label>
+                                            <input type="text" id="price" name="price" class="form-control" placeholder="Enter price"
+                                                style="width: 100%;" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="form-group">
                                         <label for="des">Description:</label>
                                         <input type="text" id="des" name="des" class="form-control" placeholder="Enter description"
                                             style="width: 100%;" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="price">Price:</label>
-                                        <input type="text" id="price" name="price" class="form-control" placeholder="Enter price"
-                                            style="width: 100%;" required>
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <div style="max-width: 100%; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
                                             <label style="font-weight: bold;">Select Images:</label>
@@ -152,30 +207,49 @@
         <!--**********************************
             Content body end
         ***********************************-->
-        <script>
-        function previewImages(event) {
-            var input = event.target;
-            var previewContainer = document.getElementById('previewContainer');
-            previewContainer.innerHTML = ''; // Clear previous previews
 
-            var files = input.files;
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                var reader = new FileReader();
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                reader.onload = function(e) {
-                    var image = document.createElement('img');
-                    image.style.maxWidth = '150px';
-                    image.style.maxHeight = '150px';
-                    image.style.margin = '5px';
-                    image.src = e.target.result;
-                    previewContainer.appendChild(image);
-                };
 
-                reader.readAsDataURL(file);
+    <script>
+        
+    $(document).ready(function() {
+        $('#categorySelect').change(function() {
+            var category_id = $(this).val(); // Get the selected category ID
+            $.ajax({
+                type: 'POST',
+                url: 'get_subcategories.php',
+                data: { category_id: category_id },
+                dataType: 'json', // Ensure this is set to 'json'
+                success: function(response) {
+                    $('#subCategorySelect').empty();
+                    $.each(response, function(index, subcategory) {
+                        $('#subCategorySelect').append('<option value="' + subcategory.sub_id + '">' + subcategory.brand_name + '</option>');
+                        console.log(subcategory.sub_id); // Log each sub_id
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error: ' + status + ': ' + error);
+                }
+            });
+        });
+        $('#productForm').submit(function(event) {
+            // Prevent form submission
+            event.preventDefault();
+            
+            // Check if the selected value is the default ("Choose Category")
+            var category_id = $('#categorySelect').val();
+            if (category_id === "") {
+                // Show an error message or take other action (e.g., highlight the select box)
+                alert('Please select a category.');
+                return false; // Prevent form submission
             }
-        }
+        });
+    });
+
     </script>
+
+       
 <?php
     include_once 'layouts/footer.php';
 ?>

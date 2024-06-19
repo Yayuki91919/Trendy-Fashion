@@ -29,7 +29,10 @@ class SubCategoryController extends SubCategory{
         {
             return $this->deleteSubCategoryInfo($id);
         }
-
+        public function getselectCategory($category_id)
+        {
+            return $this->getSelectedCategory($category_id);
+        }
 
 }
 ?>
