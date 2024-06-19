@@ -1,0 +1,48 @@
+
+/* orderlist */
+
+.toggle-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.floating-order-list {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    max-height: 100vh; /* Set a maximum height for the order list */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+    overflow: hidden; /* Prevent content from overflowing */
+}
+
+.floating-order-list h2 {
+    margin-top: 0;
+}
+
+.order-list-content {
+    max-height: 40vh; /* Set a maximum height for the scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+body.show-order-list .floating-order-list {
+    display: block;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+

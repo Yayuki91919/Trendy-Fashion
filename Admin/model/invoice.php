@@ -34,6 +34,17 @@ class Invoice{
             return $result;
         }
     }
+    public function getInvoiceByCustomerId($id){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="SELECT * FROM invoice WHERE customer_id=:id";
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':id',$id);
+        if($statement->execute()){
+            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+    }
     
 }
 ?>

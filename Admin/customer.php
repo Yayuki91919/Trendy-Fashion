@@ -83,7 +83,7 @@
                                                 <a href="customer.php?cust_id=<?php echo $customer['customer_id']?>" class="ti-trash" 
                                                 data-toggle="tooltip" data-placement="top" title="Delete">
                                                 </td>
-                                                <td><button type="button" class="btn mb-1 btn-rounded btn-info">View</button></td>
+                                                <td><a href="customer_order.php?customer_id=<?php echo $customer['customer_id'] ?>" class="btn mb-1 btn-rounded gradient-7">View</a></td>
                                             </tr>
                                             <?php }} ?>
                                         </tbody>

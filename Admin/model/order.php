@@ -23,7 +23,11 @@ class Order{
     public function getProductByInvoice($id){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql="SELECT * FROM product WHERE product_id=:id";
+        $sql="SELECT p.*,(SELECT image_name 
+             FROM product_image 
+             WHERE product_id = p.product_id 
+             ORDER BY RAND() 
+             LIMIT 1) AS random_image FROM product as p WHERE product_id=:id";
         $statement=$con->prepare($sql);
         $statement->bindParam(':id',$id);
         if($statement->execute())

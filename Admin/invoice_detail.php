@@ -10,7 +10,6 @@
     {
     $id=$_GET['invoice_id'];
     }
-    
     $order_controller=new OrderController();
     $orders=$order_controller->getOrderListByInvoice($id);
     $invoice_controller=new InvoiceController();
@@ -19,8 +18,9 @@
     $deli_controller=new DeliInfoController();
     $delis=$deli_controller->getDeliInfoListById($in_id);
     $delivery=$delivery_controller->getDeliveryListByInvoiceId($id);
+    $location_id=$delis['location_id'];
     $location_controller=new LocationController();
-    $location=$location_controller->getLocationListById($id);
+    $location=$location_controller->getLocationListById($location_id);
 
 ?>
 
@@ -101,7 +101,7 @@
                                  $product= $order_controller->getProductListByInvoice($pid);
                                 ?>
                             <div class="media border-bottom-1 p-t-15">
-                                <img class="mr-3 rounded-circle" src="images/avatar/1.jpg" alt="">
+                                <img class="m-2" src="images/avatar/1.jpg" alt="">
                                 <div class="media-body">
                                     <div class="row">
                                         <div class="col-lg-5">
