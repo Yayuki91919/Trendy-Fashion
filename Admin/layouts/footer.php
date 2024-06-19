@@ -63,6 +63,9 @@
 <script src="./plugins/validation/jquery.validate-init.js"></script>
 
 
+    <script src="js/scripts.js"></script>
+    <script src="js/product.js"></script>
+
 </body>
 
 </html>

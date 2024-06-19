@@ -8,6 +8,7 @@ class productController extends Product
     {
         return $this->getProductList();
     }
+    
     public function addProduct($image, $name, $price, $desp, $category)
     {
         if ($image['error'] == 0) {
