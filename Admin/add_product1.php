@@ -1,3 +1,61 @@
+ 
+<?php
+    include_once __DIR__. '../controller/categoryController.php';
+    include_once __DIR__. '../controller/subController.php';
+    include_once __DIR__. '../controller/typeController.php';
+
+
+    $cat_controller=new CategoryController();
+    $categories=$cat_controller->getCategoriesWithSub();
+
+    $sub_controller=new SubCategoryController();
+    $subs=$sub_controller->getSubCategories();
+
+    $type_controller = new typeController();
+    $types=$type_controller->getTypes();
+
+
+
+    // insert 
+    if(isset($_POST['addProduct']))
+    {   
+        echo "hello";
+        $name=$_POST['name'];
+        $price = $_POST['price'];
+        $cat_id= $_POST['cat_id'];
+        $sub_id= $_POST['sub_id'];
+
+
+        echo "$name<hr>$price<hr>$cat_id<hr>$sub_id";
+
+        //$status=$type_controller->addType($name);
+        // if($status)
+        // {
+             //echo '<script> location.href="product_type.php</script>';
+        // }
+
+    }
+
+    //   get edit data to update
+    // if(isset($_GET['edit_id']))
+    // {
+    //     $type_id = $_GET['edit_id'];
+    //     $type = $type_controller->getType($type_id);
+    // }
+
+    // if(isset($_POST['edit']))
+    // {
+    //     $name=$_POST['name'];
+    //     $status=$type_controller->editType($type_id,$name);
+    //     if($status)
+    //     {
+    //         $message=2;
+    //         echo '<script> location.href="product_type.php?status='.$status.'"</script>';
+    //     }
+    // }
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,55 +72,22 @@
     <!-- <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png"> -->
 
     
-    <link rel="apple-touch-icon" sizes="180x180" href="./icons/trendy-icon/apple-touch-icon.png" ></link>
-    <link rel="icon" type="image/png" sizes="32x32" href="./icons/trendy-icon/favicon-32x32.png" ></link>
-    <link rel="icon" type="image/png" sizes="16x16" href="/../icons/trendy-icon/favicon-16x16.png" ></link>
-                  
-    <!-- Pignose Calender -->
-    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
-    <!-- Chartist -->
-    <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
-    <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <!-- Custom Stylesheet -->
-    <link href="./plugins/sweetalert/css/sweetalert.css" rel="stylesheet">
-    <link href="./plugins/toastr/css/toastr.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <!-- Custom Stylesheet -->
-    <link href="./plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
-    <!-- Page plugins css -->
-    <link href="./plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
-    <!-- Color picker plugins css -->
-    <link href="./plugins/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
-    <!-- Date picker plugins css -->
-    <link href="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
-    <!-- Daterange picker plugins css -->
-    <link href="./plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-    <link href="./plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-    <!-- Custom Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
 
+
+    <link href="./plugins/jquery-steps/css/jquery.steps.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .preview-image {
+            max-width: 100px;
+            margin: 5px;
+        }
+    </style>
    
    
 
 </head>
 
 <body>
-
-    <!--*******************
-        Preloader start
-    ********************-->
-    <!-- <div id="preloader">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-            </svg>
-        </div>
-    </div> -->
-    <!--*******************
-        Preloader end
-    ********************-->
-
 
     <!--**********************************
         Main wrapper start
@@ -425,3 +450,225 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
+
+
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        
+        <div class="content-body">
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Add Product</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <form action="<?php $_PHP_SELF ?>" method="post" enctype="multipart/form-data" id="step-form-horizontal" class="step-form-horizontal">
+                            <div>
+                                <h4>Description</h4>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <input type="text" name="name" class="form-control" placeholder="Product Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <select name="cat_id" class="form-control" id="categorySelect">
+                                                    <option>Select Category</option>
+                                                    <?php foreach($categories as $category): ?>
+                                                        <option value="<?php  echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <input type="number" name="price" class="form-control" placeholder="Price">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <select name="sub_id" class="form-control" id="subCategorySelect">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <textarea id="description" name="des" class="form-control" name="description" placeholder="Description" rows="4" cols="50"></textarea>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </section>
+                                <!-- <h4>Image</h4>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <input type="file" name="img" accept="image/*" multiple class="form-control" placeholder="Choose Images" required >
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12" id="previewContainer">
+                                            
+                                        </div>
+                                    </div>
+                                </section> -->
+                                <h4>Image</h4>
+                                <section style="height: auto;">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <input type="file" name="img" accept="image/*" multiple class="form-control" placeholder="Choose Images" required id="imageInput">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12" id="previewContainer"></div>
+                                    </div>
+                                </section>
+                                <h4>Specifications</h4>
+                                <section>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="creditCard" placeholder="Credit Card Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="date" placeholder="Expiration Date">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="owner" placeholder="Credit Card Owner">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <h4>Comfirmation</h4>
+                                <section>
+                                    <div class="row h-100">
+                                        <div class="col-12 h-100 d-flex flex-column justify-content-center align-items-center">
+                                            <h2>You have submitted form successfully!</h2>
+                                            <p>Thank you very much for you information. we will procceed accordingly.</p>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+    <script>
+        
+    $(document).ready(function() {
+        $('#categorySelect').change(function() {
+            var category_id = $(this).val(); // Get the selected category ID
+            $.ajax({
+                type: 'POST',
+                url: 'get_subcategories.php',
+                data: { category_id: category_id },
+                dataType: 'json', // Ensure this is set to 'json'
+                success: function(response) {
+                    $('#subCategorySelect').empty();
+                    $.each(response, function(index, subcategory) {
+                        $('#subCategorySelect').append('<option value="' + subcategory.sub_id + '">' + subcategory.brand_name + '</option>');
+                        console.log(subcategory.sub_id); // Log each sub_id
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error: ' + status + ': ' + error);
+                }
+            });
+        });
+        // $('#productForm').submit(function(event) {
+        //     // Prevent form submission
+        //     event.preventDefault();
+            
+        //     // Check if the selected value is the default ("Choose Category")
+        //     var category_id = $('#categorySelect').val();
+        //     if (category_id === "") {
+        //         // Show an error message or take other action (e.g., highlight the select box)
+        //         alert('Please select a category.');
+        //         return false; // Prevent form submission
+        //     }
+        // });
+    });
+
+    </script>
+
+<!-- ********************************************* -->
+    
+<!-- *****************Images************************ -->
+    <script>
+    $(document).ready(function(){
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            // console.log('File input changed'); // Debugging log
+            const previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = ''; // Clear previous images
+            const files = event.target.files;
+
+            if (files.length === 0) {
+                console.log('No files selected'); // Debugging log
+                return;
+            }
+
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // console.log('File loaded'); // Debugging log
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('preview-image');
+                    previewContainer.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+        
+    </script>
+</body>
+
+         <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="plugins/common/common.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/gleek.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+
+
+    <script src="./plugins/jquery-steps/build/jquery.steps.min.js"></script>
+    <script src="./plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="./js/plugins-init/jquery-steps-init.js"></script>
+  
+<?php
+    include_once 'layouts/footer.php';
+?>

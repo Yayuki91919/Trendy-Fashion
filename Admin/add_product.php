@@ -13,39 +13,47 @@
     $subs=$sub_controller->getSubCategories();
 
     $type_controller = new typeController();
+    $types=$type_controller->getTypes();
 
 
 
     // insert 
-    if(isset($_POST['add']))
-    {
+    if(isset($_POST['addProduct']))
+    {   
+        echo "hello";
         $name=$_POST['name'];
+        $price = $_POST['price'];
+        $cat_id= $_POST['cat_id'];
+        $sub_id= $_POST['sub_id'];
 
-        $status=$type_controller->addType($name);
-        if($status)
-        {
-            echo '<script> location.href="product_type.php?status='.$status.'"</script>';
-        }
+
+        echo "$name<hr>$price<hr>$cat_id<hr>$sub_id";
+
+        //$status=$type_controller->addType($name);
+        // if($status)
+        // {
+             //echo '<script> location.href="product_type.php</script>';
+        // }
 
     }
 
     //   get edit data to update
-    if(isset($_GET['edit_id']))
-    {
-        $type_id = $_GET['edit_id'];
-        $type = $type_controller->getType($type_id);
-    }
+    // if(isset($_GET['edit_id']))
+    // {
+    //     $type_id = $_GET['edit_id'];
+    //     $type = $type_controller->getType($type_id);
+    // }
 
-    if(isset($_POST['edit']))
-    {
-        $name=$_POST['name'];
-        $status=$type_controller->editType($type_id,$name);
-        if($status)
-        {
-            $message=2;
-            echo '<script> location.href="product_type.php?status='.$status.'"</script>';
-        }
-    }
+    // if(isset($_POST['edit']))
+    // {
+    //     $name=$_POST['name'];
+    //     $status=$type_controller->editType($type_id,$name);
+    //     if($status)
+    //     {
+    //         $message=2;
+    //         echo '<script> location.href="product_type.php?status='.$status.'"</script>';
+    //     }
+    // }
 
 
 ?>
@@ -74,7 +82,7 @@
                                 <?php if(isset($_GET['edit_id'])){                                    
                                     ?>
                                         
-                                <h4 class="card-title">Product Product Form</h4>
+                                <h4 class="card-title"> Product Form</h4>
                                 <p>Enter Product Name</p>
                                 <div class="basic-form">
                                     <form action="<?php $_PHP_SELF ?>" method="post" class="form-inline">
@@ -87,9 +95,47 @@
 
                                 <?php }else{?>
 
+                                    <?php 
+                                        
+                                        if(isset($_POST['addProduct']))
+                                        {   
+                                            $name=$_POST['name'];
+                                            $price = $_POST['price'];
+                                            $cat_id= $_POST['cat_id'];
+                                            $sub_id= $_POST['sub_id'];
+                                            $des= $_POST['des'];
+                                            $img=[];$sizes=[];
+                                             $img = $_POST['img'];
+                                             $sizes = $_POST['sizes'];
+                                             $colors = [];
+                                            foreach($_POST['img'] as $img){
+
+                                            }                                             
+                                             foreach($_POST['sizes'] as $size) {
+                                                
+                                                $sizeName = isset($size['name']) ? $size['name'] : '';
                                     
+                                                foreach($size['colors'] as $color) {
+                                                    $colorName = $color['name'];
+                                                    $quantity = $color['quantity'];
+                                                    echo "$sizeName, $colorName, $quantity<br>";
+                                                }
+                                            }
+
+
+                                    
+                                    
+                                    
+                                            //$status=$type_controller->addType($name);
+                                            // if($status)
+                                            // {
+                                                 //echo '<script> location.href="product_type.php</script>';
+                                            // }
+                                    
+                                        }
+                                        ?>
                                 <h4 class="card-title">Add Product Form</h4>
-                                <form action="process_form.php" method="post" id="productForm">
+                                <form action="<?php $_PHP_SELF ?>" method="post" >
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -121,43 +167,30 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="price">Sub Category</label>
-                                                <select name="sub_cat_id" class="custom-select mr-sm-2" id="subCategorySelect">
-                                                    <!-- Options will be populated dynamically -->
+                                                <select name="sub_id" class="custom-select mr-sm-2" id="subCategorySelect">
+
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
                                     
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="name">Product Type:</label>
-                                                <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name"
-                                                    style="width: 100%;" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            <label for="price">Price:</label>
-                                            <input type="text" id="price" name="price" class="form-control" placeholder="Enter price"
-                                                style="width: 100%;" required>
-                                            </div>
-                                        </div>
-                                    </div>
+                
                                     
                                     <div class="form-group">
                                         <label for="des">Description:</label>
-                                        <input type="text" id="des" name="des" class="form-control" placeholder="Enter description"
+                                        <input type="textbox
+                                        " id="des" name="des" class="form-control" placeholder="Enter description"
                                             style="width: 100%;" required>
                                     </div>
                                     
                                     <div class="form-group">
                                         <div style="max-width: 100%; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
                                             <label style="font-weight: bold;">Select Images:</label>
-                                            <input type="file" accept="image/*" multiple onchange="previewImages(event)" style="display: block; margin-top: 10px;">
+                                            <input type="file" name="img" accept="image/*" multiple  style="display: block; margin-top: 10px;">
+                                            <!-- <input type="image" name="img" accept="image/*" multiple onchange="previewImages(event)" style="display: block; margin-top: 10px;"> -->
 
                                             <div id="previewContainer" style="display: flex; flex-wrap: wrap; margin-top: 10px;">
-                                                <!-- Images will be previewed here -->
+                                            
                                             </div>
                                         </div>
                                     </div>
@@ -190,13 +223,15 @@
                                     </div>
 
                                     <hr>
-                                    <button type="submit" class="btn btn-success" style="margin-top: 20px;">Add Product</button>
+                                    <input type="submit" value="Add Product" class="btn btn-success" name="addProduct">
                                 </form>
 
     
 
 
-                                <?php }?>
+                                <?php }
+                                ?>
+                                
                             </div>
                         </div>
                     </div>
@@ -233,18 +268,18 @@
                 }
             });
         });
-        $('#productForm').submit(function(event) {
-            // Prevent form submission
-            event.preventDefault();
+        // $('#productForm').submit(function(event) {
+        //     // Prevent form submission
+        //     event.preventDefault();
             
-            // Check if the selected value is the default ("Choose Category")
-            var category_id = $('#categorySelect').val();
-            if (category_id === "") {
-                // Show an error message or take other action (e.g., highlight the select box)
-                alert('Please select a category.');
-                return false; // Prevent form submission
-            }
-        });
+        //     // Check if the selected value is the default ("Choose Category")
+        //     var category_id = $('#categorySelect').val();
+        //     if (category_id === "") {
+        //         // Show an error message or take other action (e.g., highlight the select box)
+        //         alert('Please select a category.');
+        //         return false; // Prevent form submission
+        //     }
+        // });
     });
 
     </script>
