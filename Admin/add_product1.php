@@ -71,7 +71,10 @@
     <!-- Favicon icon -->
     <!-- <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png"> -->
 
-    
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/trendy-icon/apple-touch-icon.png" ></link>
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/trendy-icon/favicon-32x32.png" ></link>
+    <link rel="icon" type="image/png" sizes="16x16" href="/../icons/trendy-icon/favicon-16x16.png" ></link>
+     
 
 
     <link href="./plugins/jquery-steps/css/jquery.steps.css" rel="stylesheet">
@@ -483,6 +486,21 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
+                                                <input type="text" name="name" class="form-control" placeholder="Product Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <input type="text" name="name" class="form-control" placeholder="Product Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <input type="text" name="name" class="form-control" placeholder="Product Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
                                                 <select name="cat_id" class="form-control" id="categorySelect">
                                                     <option>Select Category</option>
                                                     <?php foreach($categories as $category): ?>
@@ -540,9 +558,11 @@
                                         <div class="col-lg-12" id="previewContainer"></div>
                                     </div>
                                 </section>
-                                <h4>Specifications</h4>
+
+                                
+                                <h4>Size and Color</h4>
                                 <section>
-                                    <div class="row">
+                                    <div class="row" >
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <input class="form-control" type="text" name="creditCard" placeholder="Credit Card Number">
