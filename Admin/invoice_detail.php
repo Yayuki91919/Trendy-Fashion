@@ -101,7 +101,7 @@
                                  $product= $order_controller->getProductListByInvoice($pid);
                                 ?>
                             <div class="media border-bottom-1 p-t-15">
-                                <img class="m-2" src="images/avatar/1.jpg" alt="">
+                                <img class="m-2" src="images/product/<?php echo $product['random_image'] ?>"  width="80" height="80" alt="">
                                 <div class="media-body">
                                     <div class="row">
                                         <div class="col-lg-5">

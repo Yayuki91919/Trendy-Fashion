@@ -320,7 +320,7 @@
                             <i class="icon-screen-tablet menu-icon"></i><span class="nav-text">Delivery Setting</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">Delivary Fees</a></li>
+                            <li><a href="delivery_setting.php">Delivary Fees</a></li>
                         </ul>
                     </li>
                     <li class="nav-label">For Users</li>
@@ -329,7 +329,7 @@
                             <i class="icon-graph menu-icon"></i> <span class="nav-text">User Interface</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="./chart-flot.html">Banners</a></li>
+                            <li><a href="./banner.php">Banners</a></li>
                             <li><a href="./chart-morris.html">Collabration</a></li>
                             <li><a href="./chart-chartjs.html">Shoo Info</a></li>
                             <li><a href="./chart-chartjs.html">Contact Data</a></li>

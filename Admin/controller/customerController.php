@@ -16,7 +16,6 @@ class CustomerController extends Customer{
         public function addCustomer($name)
         {
             return $this->createCustomer($name);
-
         }
         public function deleteCustomer($id)
         {

@@ -1,21 +1,11 @@
 <?php 
     include('layouts/header.php');
-    include_once __DIR__. '../controller/customerController.php';
-    $customer_controller=new CustomerController();
-    $customers=$customer_controller->getCustomers();
-    if(isset($_GET['cust_id'])){
-       
-            $delete_id=$_GET['cust_id'];
-            $result=$customer_controller->deleteCustomer($delete_id);
-            if($result)
-            {
-                $message = 3;
-                echo '<script> location.href="customer.php?status='.$message.'"</script>';
-            }
-            else{
-                echo "You can't delete as it has releated child data";
-            }
-        }
+    include_once __DIR__. '../controller/bannerController.php';
+    include_once __DIR__. '../controller/subController.php';
+    $banner_controller=new BannerController();
+    $banners=$banner_controller->getBanners();
+    $sub_controller = new SubCategoryController;
+    
     
     
 ?>
@@ -54,46 +44,51 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Customer Lists</h4>
+                                <div class="row">
+                                    <div class="col-sm-9"><h4 class="card-title">Customer Lists</h4></div>
+                                    <div class="col-sm-2"><a href="new_banner.php" class="btn mb-1 btn-rounded gradient-2">+ New Banner</a></div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered zero-configuration table-hover">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Username</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
+                                                <th>Image</th>
+                                                <th>Title</th>
+                                                <th>Brand Name</th>
                                                 <th>Action</th>
-                                                <th>Orders</th>
+                                                <th>View Details</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php  $count=1;
-                                            if(isset($customers)){
-                                            foreach($customers as $customer){
+                                            if(isset($banners)){
+                                            foreach($banners as $banner){
+                                                $sub_id=$banner['sub_id'];
+                                                $sub=$sub_controller->getSubCategory($sub_id);
                                              ?>
                                             <tr>
                                                 <td><?php echo $count++; ?></td>
-                                                <td><?php echo $customer['username'] ?></td>
-                                                <td><?php echo $customer['email'] ?></td>
-                                                <td><?php echo $customer['phone'] ?></td>
-                                                <td><a href="customer_edit.php?cust_id=<?php echo $customer['customer_id']?>" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i> </a>
+                                                <td><img src="images/banner_photo/<?php echo $banner['image'] ?>" width="100" alt=""></td>
+                                                <td><?php echo $banner['title'] ?></td>
+                                                <td><?php echo $sub['brand_name'] ?></td>
+                                                <td><a href="banner_edit.php?banner_id=<?php echo $banner['banner_id']?>" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i> </a>
                                               
-                                                <a href="customer.php?cust_id=<?php echo $customer['customer_id']?>" class="ti-trash" 
+                                                <a href="customer.php?banner_id=<?php echo $banner['banner_id']?>" class="ti-trash" 
                                                 data-toggle="tooltip" data-placement="top" title="Delete">
                                                 </td>
-                                                <td><a href="customer_order.php?customer_id=<?php echo $customer['customer_id'] ?>" class="btn mb-1 btn-rounded gradient-7">View</a></td>
+                                                <td><a href="banner_view.php?banner_id=<?php echo $banner['banner_id'] ?>" class="btn mb-1 btn-rounded gradient-7">View More</a></td>
                                             </tr>
                                             <?php }} ?>
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Username</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
+                                                <th>Image</th>
+                                                <th>Title</th>
+                                                <th>Brand Name</th>
                                                 <th>Action</th>
-                                                <th>Orders</th>
+                                                <th>View Details</th>
                                             </tr>
                                         </tfoot>
                                     </table>
