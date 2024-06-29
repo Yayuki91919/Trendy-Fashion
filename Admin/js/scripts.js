@@ -32,7 +32,7 @@ $(document).ready(function()
                 }
             })
         }
-    })
+    });
 
     $(document).on('click','.sub_category_delete',function(event){
         event.preventDefault()
@@ -65,7 +65,7 @@ $(document).ready(function()
                 }
             })
         }
-    })
+    });
 
     $(document).on('click','.type_delete',function(event){
         event.preventDefault()
@@ -98,8 +98,8 @@ $(document).ready(function()
                 }
             })
         }
-    })
+    });
 
-   // $('#mytable').DataTable();
+
     
 });

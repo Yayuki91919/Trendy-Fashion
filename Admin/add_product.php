@@ -1,430 +1,448 @@
- <?php
-    include_once 'layouts/header.php';
-    include_once __DIR__ . '../controller/categoryController.php';
-    include_once __DIR__ . '../controller/subController.php';
-    include_once __DIR__ . '../controller/typeController.php';
+<?php
+include_once 'layouts/header.php';
+include_once __DIR__ . '../controller/categoryController.php';
+include_once __DIR__ . '../controller/subController.php';
+include_once __DIR__ . '../controller/typeController.php';
+include_once __DIR__ . '../controller/productController.php';
 
 
-    $cat_controller = new CategoryController();
-    $categories = $cat_controller->getCategoriesWithSub();
+$cat_controller = new CategoryController();
+$categories = $cat_controller->getCategoriesWithSub();
 
-    $sub_controller = new SubCategoryController();
-    $subs = $sub_controller->getSubCategories();
+$sub_controller = new SubCategoryController();
+$subs = $sub_controller->getSubCategories();
 
-    $type_controller = new typeController();
-    $types = $type_controller->getTypes();
+$type_controller = new typeController();
+$types = $type_controller->getTypes();
 
+$product_controller = new productController();
+$colors = $product_controller->getColors();
+$sizes = $product_controller->getSizes();
+$size_color = $product_controller->getSizeColor();
 
-
-    // insert 
-    if (isset($_POST['addProduct'])) {
-        echo "hello";
-        $name = $_POST['name'];
-        $price = $_POST['price'];
-        $cat_id = $_POST['cat_id'];
-        $sub_id = $_POST['sub_id'];
+// insert 
+if (isset($_POST['addProduct'])) {
 
 
-        echo "$name<hr>$price<hr>$cat_id<hr>$sub_id";
-
-        //$status=$type_controller->addType($name);
-        // if($status)
-        // {
-        //echo '<script> location.href="product_type.php</script>';
-        // }
-
-    }
-
-    //   get edit data to update
-    // if(isset($_GET['edit_id']))
+    //$status=$type_controller->addType($name);
+    // if($status)
     // {
-    //     $type_id = $_GET['edit_id'];
-    //     $type = $type_controller->getType($type_id);
+    //echo '<script> location.href="product_type.php</script>';
     // }
 
-    // if(isset($_POST['edit']))
-    // {
-    //     $name=$_POST['name'];
-    //     $status=$type_controller->editType($type_id,$name);
-    //     if($status)
-    //     {
-    //         $message=2;
-    //         echo '<script> location.href="product_type.php?status='.$status.'"</script>';
-    //     }
-    // }
+}
+
+//   get edit data to update
+// if(isset($_GET['edit_id']))
+// {
+//     $type_id = $_GET['edit_id'];
+//     $type = $type_controller->getType($type_id);
+// }
+
+// if(isset($_POST['edit']))
+// {
+//     $name=$_POST['name'];
+//     $status=$type_controller->editType($type_id,$name);
+//     if($status)
+//     {
+//         $message=2;
+//         echo '<script> location.href="product_type.php?status='.$status.'"</script>';
+//     }
+// }
 
 
-    ?>
+?>
 
 
- <!--**********************************
+<!--**********************************
             Content body start
         ***********************************-->
 
- <div class="content-body">
-     <div class="row page-titles mx-0">
-         <div class="col p-md-0">
-             <ol class="breadcrumb">
-                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Add Product</a></li>
-             </ol>
-         </div>
-     </div>
-     <!-- row -->
+<div class="content-body">
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Add Product</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
 
-     <div class="container-fluid">
-         <div class="row">
-             <div class="col-lg-12  ">
-                 <div class="card">
-                     <div class="card-body">
-                         <?php if (isset($_GET['edit_id'])) {
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12  ">
+                <div class="card">
+                    <div class="card-body">
+                        <?php if (isset($_GET['edit_id'])) {
+                        ?>
+
+                            <h4 class="card-title"> Product Form</h4>
+                            <p>Enter Product Name</p>
+                            <div class="basic-form">
+                                <form action="<?php $_PHP_SELF ?>" method="post" class="form-inline">
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <input type="text" name="name" class="form-control" placeholder="Name" value="<?php echo $type['name']; ?>">
+                                    </div>
+                                    <input type="submit" class="btn gradient-3 mb-2" value="Update" name="edit">
+                                </form>
+                            </div>
+
+                        <?php } else { ?>
+
+
+
+                            <?php
+                            if (isset($_POST['addProduct'])) {
+                                $name = $_POST['name'];
+                                $price = $_POST['price'];
+                                $cat_id = $_POST['cat_id'];
+                                $sub_id = $_POST['sub_id'];
+                                $type_id = $_POST['type_id'];
+                                $des = $_POST['des'];
+                                $images = $_FILES['images'];
+                                $status = $product_controller->addProduct($name, $price, $sub_id, $type_id, $des, $images);
+                                if($status)
+                                {
+                                    echo '<script> location.href="product.php?status='.$status.'"</script>';
+                                }
+
+                                // echo "<pre>";
+                                // print_r($status);
+                                // echo "</pre>";
+
+                            }
+                            
+                            
                             ?>
 
-                             <h4 class="card-title"> Product Form</h4>
-                             <p>Enter Product Name</p>
-                             <div class="basic-form">
-                                 <form action="<?php $_PHP_SELF ?>" method="post" class="form-inline">
-                                     <div class="form-group mx-sm-3 mb-2">
-                                         <input type="text" name="name" class="form-control" placeholder="Name" value="<?php echo $type['name']; ?>">
-                                     </div>
-                                     <input type="submit" class="btn gradient-3 mb-2" value="Update" name="edit">
-                                 </form>
-                             </div>
-
-                         <?php } else { ?>
-
-                             <?php
-
-                                if (isset($_POST['addProduct'])) {
-                                    $name = $_POST['name'];
-                                    $price = $_POST['price'];
-                                    $cat_id = $_POST['cat_id'];
-                                    $sub_id = $_POST['sub_id'];
-                                    $des = $_POST['des'];
-                                    $img = [];
-                                    $sizes = [];
-                                    $img = $_POST['img'];
-                                    $sizes = $_POST['sizes'];
-                                    $colors = [];
-                                    foreach ($_POST['img'] as $img) {
-                                    }
-                                    foreach ($_POST['sizes'] as $size) {
-
-                                        $sizeName = isset($size['name']) ? $size['name'] : '';
-
-                                        foreach ($size['colors'] as $color) {
-                                            $colorName = $color['name'];
-                                            $quantity = $color['quantity'];
-                                            echo "$sizeName, $colorName, $quantity<br>";
-                                        }
-                                    }
 
 
 
 
+                            <h4 class="card-title">Add Product Form</h4>
+                            <form action="<?php $_PHP_SELF ?>" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Product Name:</label>
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name" style="width: 100%;">
+                                        </div>
+                                    </div>
 
-                                    //$status=$type_controller->addType($name);
-                                    // if($status)
-                                    // {
-                                    //echo '<script> location.href="product_type.php</script>';
-                                    // }
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Category</label>
+                                            <select name="cat_id" class="form-control mr-sm-2" id="categorySelect">
+                                                <option>Choose Category</option>
+                                                <?php foreach ($categories as $category) : ?>
+                                                    <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="price">Price:</label>
+                                            <input type="text" id="price" name="price" class="form-control" placeholder="Enter price" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="price">Sub Category</label>
+                                            <select name="sub_id" class="form-control    mr-sm-2" id="subCategorySelect">
 
-                                }
-                                ?>
-                             <h4 class="card-title">Add Product Form</h4>
-                             <form action="<?php $_PHP_SELF ?>" method="post">
-                                 <div class="row">
-                                     <div class="col-md-6">
-                                         <div class="form-group">
-                                             <label for="name">Product Name:</label>
-                                             <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name" style="width: 100%;" required>
-                                         </div>
-                                     </div>
-                                     <div class="col-md-6">
-                                         <div class="form-group">
-                                             <label for="price">Price:</label>
-                                             <input type="text" id="price" name="price" class="form-control" placeholder="Enter price" style="width: 100%;" required>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="row">
-                                     <div class="col-md-6">
-                                         <div class="form-group">
-                                             <label for="name">Category</label>
-                                             <select name="cat_id" class="custom-select mr-sm-2" id="categorySelect">
-                                                 <option>Choose Category</option>
-                                                 <?php foreach ($categories as $category) : ?>
-                                                     <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
-                                                 <?php endforeach; ?>
-                                             </select>
-                                         </div>
-                                     </div>
-                                     <div class="col-md-6">
-                                         <div class="form-group">
-                                             <label for="price">Sub Category</label>
-                                             <select name="sub_id" class="custom-select mr-sm-2" id="subCategorySelect">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="des">Description:</label>
+                                            <!-- <textarea id="description" name="des" class="custom-select " name="description" placeholder="Description" style="width: 100%;"></textarea> -->
+                                            <textarea id="description" name="des" class="form-control" placeholder="Description" rows="5" style="width: 100%;"></textarea>
 
-                                             </select>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="row">
-                                     <div class="col-md-6">
-                                         <div class="form-group">
-                                             <label for="des">Description:</label>
-                                             <!-- <textarea id="description" name="des" class="custom-select " name="description" placeholder="Description" style="width: 100%;"></textarea> -->
-                                             <textarea id="description" name="des" class="form-control" placeholder="Description" rows="5" style="width: 100%;"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Type</label>
+                                            <select name="type_id" class="form-control mr-sm-2" id="categorySelect">
+                                                <option>Choose Type</option>
+                                                <?php foreach ($types as $type) : ?>
+                                                    <option value="<?php echo $type['type_id']; ?>"><?php echo $type['name']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
 
-                                         </div>
-                                     </div>
-                                     <div class="col-md-6">
-                                         <div class="form-group">
-                                             <label for="name">Type</label>
-                                             <select name="cat_id" class="custom-select mr-sm-2" id="categorySelect">
-                                                 <option>Choose Type</option>
-                                                 <?php foreach ($types as $type) : ?>
-                                                     <option value="<?php echo $type['type_id']; ?>"><?php echo $type['name']; ?></option>
-                                                 <?php endforeach; ?>
-                                             </select>
-                                         </div>
-                                     </div>
-                                 </div>
+                                    <!-- /# column -->
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="card-title">
+                                                    <h4>Sizes and Color <span class="float-right mt-2">
+                                                            <button type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#addProductModal">
+                                                                Add Size
+                                                            </button>
+                                                        </span></h4>
 
-                                 <div class="row">
-                                     <div class="col-md-12">
-                                         <div class="form-group">
-                                             <div style="max-width: 100%; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-                                                 <label style="font-weight: bold;">Select Images:</label>
-                                                 <!-- <input type="file" name="img" accept="image/*" multiple  style="display: block; margin-top: 10px;"> -->
-                                                 <input type="file" name="img" accept="image/*" multiple class="form-control" placeholder="Choose Images" required id="imageInput">
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Size</th>
+                                                                <th>Color</th>
+                                                                <th>Quantity</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $count = 1;
 
-                                                 <div id="previewContainer" style="display: flex; flex-wrap: wrap; margin-top: 10px;">
+                                                            foreach ($size_color as $sc) {
+                                                            ?>
 
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <hr>
-                                 
+                                                                <tr>
+                                                                    <th><?php echo $count++ ?></th>
+                                                                    <td><?php echo $sc['size'] ?></td>
+                                                                    <td><?php echo $sc['color'] ?> </td>
+                                                                    <td><span class="badge badge-primary px-2"></span>
+                                                                        <?php echo $sc['qty'] ?></td>
+                                                                    <td id=<?php echo $sc['id'] ?>>
+                                                                        <a class="delete_size" data-toggle="tooltip" data-placement="top" title="Remove">
+                                                                            <i class="fa fa-close color-danger"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php
+                                                            }
+                                                            ?>
+
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /# column -->
+
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div id="sizeColorContainer" class="card">
-                                            <div class="card-header bg-info">
-                                                <h5 class="mb-0 text-white">Sizes and Colors</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div id="sizeColorRows">
-                                                    <div class="card mb-3 size-row" id="row_1">
-                                                        <div class="card-body">
-                                                            <div class="form-row">
-                                                                <div class="col-md-3">
-                                                                    <label for="size">Size:</label>
-                                                                    <input type="text" id="size" name="sizes[1][name]" class="form-control" required>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label>Colors:</label>
-                                                                    <div class="colors-container" id="row_1_colors">
-                                                                        <div class="form-row align-items-center mt-2 color-group">
-                                                                            <div class="col-md-5">
-                                                                                <input type="text" name="sizes[1][colors][1][name]" class="form-control" placeholder="Color" required>
-                                                                            </div>
-                                                                            <div class="col-md-5">
-                                                                                <input type="number" name="sizes[1][colors][1][quantity]" class="form-control" placeholder="Quantity" required>
-                                                                            </div>
-                                                                            <div class="col-md-2 text-right">
-                                                                                <button type="button" class="removeColorButton btn btn-outline-danger">Remove</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <button type="button" class="addColorButton text-white btn btn-success mt-2">Add Color</button>
-                                                                </div>
-                                                                <div class="col-md-3 d-flex align-items-end justify-content-end">
-                                                                    <button type="button" class="removeRowButton btn btn-danger">Remove Size</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                        <div class="form-group">
+                                            <div class="p-3 bg-light border rounded shadow-sm">
+                                                <label class="font-weight-bold">Select Images:</label>
+                                                <input type="file" name="images[]" accept="image/*" multiple class="form-control" placeholder="Choose Images" required id="imageInput">
+
+                                                <div id="previewContainer" class="row mt-3">
+                                                    <!-- Previewed images will be added here -->
                                                 </div>
-                                                <button type="button" id="addSizeColorButton" class="btn btn-primary mt-3">Add Size and Color</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                 <hr>
-                                 <input type="submit" value="Add Product" class="btn btn-success" name="addProduct">
-                             </form>
+                                <hr>
+                                <input type="submit" value="Add Product" class="btn text-white btn-info" name="addProduct">
+                            </form>
+
+
+                            <?php
+                            if (isset($_POST['addSize'])) {
+                                $size_id = $_POST['size_id'];
+                                $color_id = $_POST['color_id'];
+                                $qty = $_POST['qty'];
+
+                                $size_name = $product_controller->getSize($size_id);
+                                foreach ($size_name as $s) {
+                                    $size = $s;
+                                }
+
+                                $color_name = $product_controller->getColor($color_id);
+                                foreach ($color_name as $c) {
+                                    $color = $c;
+                                }
+
+                                // echo $size_id,$size,$color_id,$color,$qty;
+
+                                $status = $product_controller->addSize_Color($color_id, $color, $size_id, $size, $qty);
+                                if ($status) {
+                                    // var_dump($status);
+                                    echo '<script> location.href="add_product.php"</script>';
+                                }
+                            } ?>
+
+
+                            <!-- ######################modal############### -->
+                            <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form method="post" action="<?php $_PHP_SELF ?>">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="size">Size:</label>
+                                                    <select name="size_id" class="form-control">
+                                                        <?php foreach ($sizes as $size) : ?>
+                                                            <option value="<?php echo $size['size_id']; ?>"><?php echo $size['size'] ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="color">Color:</label>
+                                                    <select name="color_id" class="form-control">
+                                                        <?php foreach ($colors as $color) : ?>
+                                                            <option value="<?php echo $color['color_id']; ?>"><?php echo $color['color'] ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="qty">Quantity:</label>
+                                                    <input type="number" min="1" name="qty" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn text-white btn-secondary" data-dismiss="modal">Close</button>
+                                                <input type="submit" name="addSize" class="btn btn-primary" value="Add Size">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- #########################modal end####################################### -->
 
 
 
 
-                         <?php }
-                            ?>
 
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
-     <!-- #/ container -->
- </div>
- <!--**********************************
+                        <?php }
+                        ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
             Content body end
         ***********************************-->
 
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 <!-- *********************Image preview*************************** -->
- <script>
-     $(document).ready(function() {
-         document.getElementById('imageInput').addEventListener('change', function(event) {
-             // console.log('File input changed'); // Debugging log
-             const previewContainer = document.getElementById('previewContainer');
-             previewContainer.innerHTML = ''; // Clear previous images
-             const files = event.target.files;
 
-             if (files.length === 0) {
-                 console.log('No files selected'); // Debugging log
-                 return;
-             }
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = ''; // Clear previous images
+            const files = event.target.files;
 
-             for (const file of files) {
-                 const reader = new FileReader();
-                 reader.onload = function(e) {
-                     // console.log('File loaded'); // Debugging log
-                     const img = document.createElement('img');
-                     img.src = e.target.result;
-                     img.classList.add('preview-image');
-                     previewContainer.appendChild(img);
-                 }
-                 reader.readAsDataURL(file);
-             }
-         });
-     });
- </script>
+            if (files.length === 0) {
+                console.log('No files selected'); // Debugging log
+                return;
+            }
+
+            for (const file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const colDiv = document.createElement('div');
+                    colDiv.classList.add('col-6', 'col-md-4', 'col-lg-3', 'mb-3'); // Adjust column size as needed
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('img-fluid'); // Bootstrap class for responsive images
+                    colDiv.appendChild(img);
+                    previewContainer.appendChild(colDiv);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
 
 
 <!-- ***********************Sub Category************************* -->
- <script>
-     $(document).ready(function() {
-         $('#categorySelect').change(function() {
-             var category_id = $(this).val(); // Get the selected category ID
-             $.ajax({
-                 type: 'POST',
-                 url: 'get_subcategories.php',
-                 data: {
-                     category_id: category_id
-                 },
-                 dataType: 'json', // Ensure this is set to 'json'
-                 success: function(response) {
-                     $('#subCategorySelect').empty();
-                     $.each(response, function(index, subcategory) {
-                         $('#subCategorySelect').append('<option value="' + subcategory.sub_id + '">' + subcategory.brand_name + '</option>');
-                         console.log(subcategory.sub_id); // Log each sub_id
-                     });
-                 },
-                 error: function(xhr, status, error) {
-                     console.error('AJAX Error: ' + status + ': ' + error);
-                 }
-             });
-         });
-         // $('#productForm').submit(function(event) {
-         //     // Prevent form submission
-         //     event.preventDefault();
-
-         //     // Check if the selected value is the default ("Choose Category")
-         //     var category_id = $('#categorySelect').val();
-         //     if (category_id === "") {
-         //         // Show an error message or take other action (e.g., highlight the select box)
-         //         alert('Please select a category.');
-         //         return false; // Prevent form submission
-         //     }
-         // });
-     });
- </script>
-
-
-<!-- ********************Sizes and colors**************************** -->
-    <script>
-        $(document).ready(function() {
-            var sizeIndex = 2;
-            var colorIndex = 2;
-
-            $('#addSizeColorButton').click(function() {
-                var newRow = `
-                    <div class="card mb-3 size-row" id="row_${sizeIndex}">
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="col-md-3">
-                                    <label for="size">Size:</label>
-                                    <input type="text" name="sizes[${sizeIndex}][name]" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Colors:</label>
-                                    <div class="colors-container" id="row_${sizeIndex}_colors">
-                                        <div class="form-row align-items-center mt-2 color-group">
-                                            <div class="col-md-5">
-                                                <input type="text" name="sizes[${sizeIndex}][colors][1][name]" class="form-control" placeholder="Color" required>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <input type="number" name="sizes[${sizeIndex}][colors][1][quantity]" class="form-control" placeholder="Quantity" required>
-                                            </div>
-                                            <div class="col-md-2 text-right">
-                                                <button type="button" class="removeColorButton btn btn-outline-danger">Remove</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="addColorButton text-white btn btn-success mt-2">Add Color</button>
-                                </div>
-                                <div class="col-md-3 d-flex align-items-end justify-content-end">
-                                    <button type="button" class="removeRowButton btn btn-danger">Remove Size</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                $('#sizeColorRows').append(newRow);
-                sizeIndex++;
-            });
-
-            $(document).on('click', '.addColorButton', function() {
-                var parent = $(this).closest('.size-row');
-                var rowId = parent.attr('id');
-                var colorsContainer = parent.find('.colors-container');
-                var newColorGroup = `
-                    <div class="form-row align-items-center mt-2 color-group">
-                        <div class="col-md-5">
-                            <input type="text" name="${rowId}_colors[${colorIndex}][name]" class="form-control" placeholder="Color" required>
-                        </div>
-                        <div class="col-md-5">
-                            <input type="number" name="${rowId}_colors[${colorIndex}][quantity]" class="form-control" placeholder="Quantity" required>
-                        </div>
-                        <div class="col-md-2 text-right">
-                            <button type="button" class="removeColorButton btn btn-outline-danger">Remove</button>
-                        </div>
-                    </div>
-                `;
-                colorsContainer.append(newColorGroup);
-                colorIndex++;
-            });
-
-            $(document).on('click', '.removeColorButton', function() {
-                var colorGroups = $(this).closest('.colors-container').find('.color-group');
-                if (colorGroups.length > 1) {
-                    $(this).closest('.color-group').remove();
-                }
-            });
-
-            $(document).on('click', '.removeRowButton', function() {
-                var sizeRows = $('#sizeColorRows').find('.size-row');
-                if (sizeRows.length > 1) {
-                    $(this).closest('.size-row').remove();
+<script>
+    $(document).ready(function() {
+        $('#categorySelect').change(function() {
+            var category_id = $(this).val(); // Get the selected category ID
+            $.ajax({
+                type: 'POST',
+                url: 'get_subcategories.php',
+                data: {
+                    category_id: category_id
+                },
+                dataType: 'json', // Ensure this is set to 'json'
+                success: function(response) {
+                    $('#subCategorySelect').empty();
+                    $.each(response, function(index, subcategory) {
+                        $('#subCategorySelect').append('<option value="' + subcategory.sub_id + '">' + subcategory.brand_name + '</option>');
+                        console.log(subcategory.sub_id); // Log each sub_id
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error: ' + status + ': ' + error);
                 }
             });
         });
-    </script>
 
- <?php
-    include_once 'layouts/footer.php';
-    ?>
+    });
+</script>
+
+<!-- ********************Sizes and colors**************************** -->
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.delete_size', function(event) {
+            event.preventDefault()
+            let status = confirm("Are you sure to delete???");
+            console.log(status)
+
+            if (status) {
+                let id = $(this).parent().attr('id')
+                console.log("id is " + id);
+
+                $.ajax({
+                    method: 'post',
+                    url: 'delete_product.php',
+                    data: {
+                        delete_size: id
+                    },
+                    success: function(response) {
+                        //  alert(response)
+                        if (response = 'success') {
+                            alert("Successfully deleted!")
+                            location.href = 'add_product.php'
+                        } else {
+                            alert(response)
+                        }
+                    },
+                    error: function(error) {
+
+                    }
+                })
+            }
+        });
+    });
+</script>
+
+
+<?php
+include_once 'layouts/footer.php';
+?>
