@@ -75,10 +75,11 @@
         <div class="nav-header gradient-2">
         <div class="brand-logo gradient-2">
                 <a href="index.php">
-                    <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
-                    <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
+                    <!-- <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
+                    <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span> -->
                     <span class="brand-title">
-                        <img src="images/logo-text.png" alt="">
+                        <!-- <img src="images/logo-text.png" alt="h"> -->
+                         <h3 class="text-white">Trendy Fashion</h3>
                     </span>
                 </a>
             </div>
