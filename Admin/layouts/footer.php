@@ -62,6 +62,8 @@
 <script src="./plugins/validation/jquery.validate.min.js"></script>
 <script src="./plugins/validation/jquery.validate-init.js"></script>
 
+    <script src="./plugins/summernote/dist/summernote.min.js"></script>
+    <script src="./plugins/summernote/dist/summernote-init.js"></script>
 
     <script src="js/scripts.js"></script>
     <!-- <script src="js/product.js"></script> -->

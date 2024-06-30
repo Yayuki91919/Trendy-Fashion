@@ -13,10 +13,10 @@ class Banner{
         return $result;
 
     }
-    public function getCustomerById($id){
+    public function getBannerById($id){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql="select * from customer_account where customer_id=:id";
+        $sql="select * from banner where banner_id=:id";
         $statement=$con->prepare($sql);
         $statement->bindParam(':id',$id);
         if($statement->execute())
@@ -44,29 +44,23 @@ class Banner{
                     return false;
                 }
     }
-    public function updateCustomer($id,$name,$email,$phone)
+    public function updateBanner($id, $title, $image, $sub_id)
     {
-        $con=Database::connect();
-        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql='update customer_account set username=:name,email=:email,phone=:phone where customer_id=:id';
-        $statement=$con->prepare($sql);
-        $statement->bindParam(':name',$name);
-        $statement->bindParam(':email',$email);
-        $statement->bindParam(':phone',$phone);
-        $statement->bindParam(':id',$id);
-        if($statement->execute())
-        {
-            return true;
-        }
-        else{
-            return false;
-        }
+    $con = Database::connect();
+    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = 'UPDATE banner SET title = :title, image = :image, sub_id = :sub_id WHERE banner_id = :id';
+    $statement = $con->prepare($sql);
+    $statement->bindParam(':title', $title);
+    $statement->bindParam(':image', $image);
+    $statement->bindParam(':sub_id', $sub_id);
+    $statement->bindParam(':id', $id);
+    return $statement->execute();
     }
-    public function deleteCustomerInfo($id)
+    public function deleteBannerInfo($id)
     {
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql='delete from customer_account where customer_id=:id';
+        $sql='delete from banner where banner_id=:id';
         $statement=$con->prepare($sql);
         $statement->bindParam('id',$id);
         try{
