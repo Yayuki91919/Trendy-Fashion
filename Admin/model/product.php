@@ -28,6 +28,7 @@ class Product{
             sub_category AS sc ON p.sub_id = sc.sub_id
         JOIN 
             category AS c ON sc.category_id = c.category_id
+        ORDER BY p.product_id DESC
 
                 ";
         
@@ -196,6 +197,7 @@ class Product{
         return $result;
     }
 
+
     public function getSizeInfo($size_id){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -248,11 +250,75 @@ class Product{
         return $result;
         
     }
+
+    public function getSizeColorInfo($id){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql = "
+        SELECT 
+            pd.d_id,
+            pd.qty,
+            pc.color,
+            pz.size
+        FROM 
+            product_detail AS pd
+        JOIN 
+            product_color AS pc ON pd.color = pc.color_id
+        JOIN 
+            product_size AS pz ON pd.size = pz.size_id
+        WHERE 
+            pd.product_id = :id
+    ";
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':id', $id);
+        if($statement->execute()){
+            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+        
+    }
+
+    public function getImageList($id){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="select * from product_image where product_id=:id";
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':id', $id);
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } else {
+            return []; // Return an empty array if execution fails
+        }
+    }
+
     public function getProductInfo($id)
     {
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql="select * from product where id=:id";
+        $sql = "
+        
+        SELECT 
+            p.product_id,
+            p.product_name,
+            p.description,
+            p.price,
+            p.status,
+            p.state,
+            p.date,
+            sc.brand_name,
+            c.category_name
+        FROM 
+            product AS p
+
+        JOIN 
+            sub_category AS sc ON p.sub_id = sc.sub_id
+        JOIN 
+            category AS c ON sc.category_id = c.category_id
+
+        WHERE p.product_id = :id
+                ";
+        
         $statement=$con->prepare($sql);
         $statement->bindParam(':id',$id);
         if($statement->execute())
@@ -260,13 +326,14 @@ class Product{
             $result=$statement->fetch(PDO::FETCH_ASSOC);
             return $result ;
         }
+
     }
 
     public function deleteSizeColorInfo($id)
     {
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql="delete from temp_product where id=:id";
+        $sql="delete from product_detail where product_id=:id";
         $statement=$con->prepare($sql);
         $statement->bindParam(':id',$id);
         try

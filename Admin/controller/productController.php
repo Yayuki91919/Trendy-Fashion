@@ -130,6 +130,14 @@ class productController extends Product
     {
         return $this->getSizeColor();
     }
+    public function getSizeColorDetail($id)
+    {
+        return $this->getSizeColorInfo($id);
+    }
+    public function getImages($id)
+    {
+        return $this->getImageList($id);
+    }
     public function getColors()
     {
         return $this->getColorList();
