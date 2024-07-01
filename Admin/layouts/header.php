@@ -1,6 +1,12 @@
+<?php
+//session_start();
+// if(isset($_SESSION['username'])){
+//     echo '<script>window.location.href = "index.php";</script>';
+//    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,7 +47,8 @@
     <link href="./plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-
+     <!-- Custom Stylesheet -->
+     <link href="./plugins/summernote/dist/summernote.css" rel="stylesheet">
    
    
 
@@ -331,9 +338,8 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="./banner.php">Banners</a></li>
-                            <li><a href="./chart-morris.html">Collabration</a></li>
-                            <li><a href="./chart-chartjs.html">Shoo Info</a></li>
-                            <li><a href="./chart-chartjs.html">Contact Data</a></li>
+                            <li><a href="./collaboration.php">Collabration</a></li>
+                            <li><a href="./shopinfo.php">Shop Info</a></li>
                         </ul>
                     </li>
                     <!-- <li class="nav-label">UI Components</li>

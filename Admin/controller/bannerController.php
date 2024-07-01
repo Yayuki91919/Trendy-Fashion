@@ -9,14 +9,13 @@ class BannerController extends Banner{
         public function getBanner($id){
             return $this->getBannerById($id);
         }
-        public function editBanner($id,$name,$email,$phone)
+        public function editBanner($id,$title,$image,$sub_id)
         {
-            return $this->updateBanner($id,$name,$email,$phone);
+            return $this->updateBanner($id,$title,$image,$sub_id);
         }
         public function addBanner($title,$image,$sub_id)
         {
             return $this->createBanner($title,$image,$sub_id);
-
         }
         public function deleteBanner($id)
         {

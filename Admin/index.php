@@ -1,3 +1,42 @@
+<?php
+session_start();
+include_once __DIR__. '../controller/adminloginController.php';
+$admin_controller = new adminloginController();
+
+// Initialize variables
+$emailErr = $passwordErr = "";
+$email = $password =$login_error = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize form inputs
+    if (empty($_POST["email"])) {
+        $emailErr = "Email Address is required";
+    } else {
+        $email = test_input($_POST["email"]);
+    }
+
+    if (empty($_POST["password"])) {
+        $passwordErr = "Password is required";
+    } else {
+        $password = test_input($_POST["password"]);
+    }
+    $admin = $admin_controller->getAdmin();
+    
+    if(($email==$admin['email'])&&($password==$admin['password'])){
+        $_SESSION['username']=$admin['username'];
+        header('Location:dashboard.php');
+    }else{
+        $login_error="Invalid Login!";
+    }
+ }
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>
 
 <!DOCTYPE html>
 <html class="h-100" lang="en">
@@ -16,7 +55,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/../icons/trendy-icon/favicon-16x16.png" ></link>
 
 </head>
-
+<style>
+.error {color: #FF0000;}
+</style>
 <body class="h-100">
 
     <!--*******************
@@ -32,11 +73,6 @@
     <!--*******************
         Preloader end
     ********************-->
-
-
-
-
-
     <div class="login-form-bg h-100">
         <div class="container h-100">
             <div class="row justify-content-center h-100">
@@ -46,14 +82,15 @@
                             <div class="card-body pt-5">
                                 <a class="text-center" href="index.html"> <h4>Admin of Trendy Fashion</h4></a>
 
-                                <form class="mt-5 mb-5 login-input">
+                                <form class="mt-5 mb-5 login-input" action='index.php' method='post'>
+                                <center><label class="error"><?php echo  $login_error;?></label></center>
                                     <div class="form-group">
-                                        <input type="email" class="form-control" placeholder="Email">
+                                        <input type="email" class="form-control" name="email" placeholder="Email" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" placeholder="Password">
+                                        <input type="password" class="form-control" name="password" placeholder="Password" required>
                                     </div>
-                                    <button class="btn gradient-2 login-form__btn submit w-100">Login In</button>
+                                    <button class="btn gradient-2 login-form__btn submit w-100" name="submit">Login In</button>
                                 </form>
                                 <p class="mt-5 login-form__footer"><a href="forget_password.php" class="text-primary">Forget Password?</a></p>
                             </div>
@@ -63,9 +100,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <!--**********************************
         Scripts
