@@ -5,13 +5,14 @@ include_once __DIR__ . '../controller/productController.php';
 $product_controller = new productController();
 $products = $product_controller->getProduct();
 
-// if (isset($_POST['add'])) {
-//     $name = $_POST['name'];
-//     $status = $product_controller->addProduct($name);
-//     if ($status) {
-//         echo '<script> location.href="product.php?status=' . $status . '"</script>';
-//     }
-// }
+if (isset($_GET['delete_pid'])) {
+    $id = $_GET['delete_pid'];
+    $status = $product_controller->deleteProduct($id);
+    if ($status) {
+        //var_dump($status);
+        echo '<script> location.href="product.php"</script>';
+    }
+}
 
 
 ?>
@@ -66,54 +67,53 @@ $products = $product_controller->getProduct();
                                     <tr>
                                         <th>No</th>
                                         <th>Product</th>
-                                        <th>Status</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $count = 1;
-                                    foreach ($products as $p) 
-                                    {   
-                                        echo "<td>".$count++."</td>";
+                                    foreach ($products as $p) {
+                                        echo "<td>" . $count++ . "</td>";
                                         echo "<td class='row'>
-                                                
-                                                    <div class='card h-100 w-100 bg-light'>
-                                                        <div class='row no-gutters'>
-                                                            <div class='col-md-4'>
-                                                                <img class='card-img img-fluid' src='images/product/".$p['random_image']."' alt='' style='width: 200px; height: 200px; object-fit: cover;'>
-                                                            </div>
-                                                            <div class='col-md-8'>
-                                                                <div class='card-body'>
-                                                                    <h5 class='card-title'>".$p['product_name']."<span class='badge gradient-2'>".$p['state']."</span></h5>
-                                                                    <p class='small'>
-                                                                        <span class='NEO'>".$p['brand_name']." </span> |
-                                                                        <span class='BTC'>".$p['category_name']."</span>
-                                                                    </p>
-                                                                    <p class='card-text'>".$p['description']."</p>
-                                                                </div>
-                                                                <div class='card-footer bg-light'>
-                                                                    <small class='text-muted'>create_date - ".$p['date']."</small>
-                                                                    <a href='product_detail.php?pid=".$p['product_id']."' class='btn m-2 gradient-1'><i class='fa fa-eye'></i> Detail </a>
-                                                                     
-                                                                    <a href='".$p['product_id']."' data-toggle='tooltip' data-placement='top' title='Edit' class='m-2'>
-                                                                        <i class='fa fa-pencil fa-2x color-muted m-r-5'></i>
-                                                                    </a>
-                                                                    <a class='m-2 product_delete fa-2x ti-trash color-danger' data-toggle='tooltip' data-placement='top' title='Delete'></a>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
+                                        <div class='card h-100 w-100 bg-light'>
+                                            <div class='row no-gutters'>
+                                                <div class='col-md-4'>
+                                                    <img class='card-img img-fluid' src='images/product/" . $p['random_image'] . "' alt='' style='width: 200px; height: 200px; object-fit: cover;'>
+                                                </div>
+                                                <div class='col-md-8'>
+                                                    <div class='card-body'>
+                                                        <h5 class='card-title'>" . $p['product_name'] . "<span class='badge gradient-2'>" . $p['state'] . "</span></h5>
+                                                        <p class='small'>
+                                                            <span class='NEO'>" . $p['brand_name'] . " </span> |
+                                                            <span class='BTC'>" . $p['category_name'] . "</span>
+                                                        </p>
+                                                        <p class='card-text'>" . $p['description'] . "</p>
+                                                        <small class='text-muted'>create_date - " . $p['date'] . "</small>
                                                     </div>
-
-                                            </td>";
+                                                    <div class='card-footer bg-light'>
+                                                        <a href='product_detail.php?pid=" . $p['product_id'] . "' class='btn m-2 gradient-1'><i class='fa fa-eye'></i> Detail </a>
+                                                        <a href='product.php?delete_pid=" . $p['product_id'] . "' onclick='return confirm(\"Are you sure to delete?\")' class='m-2 btn btn-danger'>
+                                                        <i class='fa fa-trash'></i>Delete</a>";
+                                                        
+                                                        if ($p['status'] == 'Public') {
+                                                            echo "<button type='button' class='btn btn-success m-2'>
+                                                                    <i class='fa fa-check'></i> Public
+                                                                  </button>";
+                                                        } else {
+                                                            echo "<button type='button' class='btn btn-warning m-2'>
+                                                                    <i class='fa fa-lock'></i> Private
+                                                                  </button>";
+                                                        }
+                                                        
+                                                    echo "</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>";
+                                
                                         
-                                            
-                                        echo "<td>
-                                                <button type='button' class='btn m-2 btn-rounded btn-info'>
-                                                    <span class='btn-icon-left'><i class='fa fa-plus color-info'></i></span>".$p['status']."
-                                                </button>
-                                            </td>";
-                                          
+
                                         echo "</tr>";
                                     }
                                     ?>
@@ -122,10 +122,11 @@ $products = $product_controller->getProduct();
                                     <tr>
                                         <th>No</th>
                                         <th>Product</th>
-                                        <th>Status</th>
+                                        
                                     </tr>
                                 </tfoot>
                             </table>
+                            
                         </div>
                     </div>
                 </div>

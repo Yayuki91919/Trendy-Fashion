@@ -20,36 +20,32 @@ $colors = $product_controller->getColors();
 $sizes = $product_controller->getSizes();
 $size_color = $product_controller->getSizeColor();
 
-// insert 
 if (isset($_POST['addProduct'])) {
-
-
-    //$status=$type_controller->addType($name);
-    // if($status)
-    // {
-    //echo '<script> location.href="product_type.php</script>';
-    // }
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+    $cat_id = $_POST['cat_id'];
+    $sub_id = $_POST['sub_id'];
+    $type_id = $_POST['type_id'];
+    $des = $_POST['des'];
+    $images = $_FILES['images'];
+    $status = $product_controller->addProduct($name, $price, $sub_id, $type_id, $des, $images);
+    if($status)
+    {
+        echo '<script> location.href="product.php?status='.$status.'"</script>';
+    }
 
 }
 
-//   get edit data to update
-// if(isset($_GET['edit_id']))
-// {
-//     $type_id = $_GET['edit_id'];
-//     $type = $type_controller->getType($type_id);
-// }
-
-// if(isset($_POST['edit']))
-// {
-//     $name=$_POST['name'];
-//     $status=$type_controller->editType($type_id,$name);
-//     if($status)
-//     {
-//         $message=2;
-//         echo '<script> location.href="product_type.php?status='.$status.'"</script>';
-//     }
-// }
-
+if (isset($_GET['size_color_delete'])) {
+    $temp_id = $_GET['size_color_delete'];
+    $status = $product_controller->deleteTemp($temp_id);
+    if ($status) {
+        //var_dump($status);
+        echo '<script> location.href="add_product.php"</script>';
+    }
+}
+                            
+                            
 
 ?>
 
@@ -74,67 +70,22 @@ if (isset($_POST['addProduct'])) {
             <div class="col-lg-12  ">
                 <div class="card">
                     <div class="card-body">
-                        <?php if (isset($_GET['edit_id'])) {
-                        ?>
-
-                            <h4 class="card-title"> Product Form</h4>
-                            <p>Enter Product Name</p>
-                            <div class="basic-form">
-                                <form action="<?php $_PHP_SELF ?>" method="post" class="form-inline">
-                                    <div class="form-group mx-sm-3 mb-2">
-                                        <input type="text" name="name" class="form-control" placeholder="Name" value="<?php echo $type['name']; ?>">
-                                    </div>
-                                    <input type="submit" class="btn gradient-3 mb-2" value="Update" name="edit">
-                                </form>
-                            </div>
-
-                        <?php } else { ?>
-
-
-
-                            <?php
-                            if (isset($_POST['addProduct'])) {
-                                $name = $_POST['name'];
-                                $price = $_POST['price'];
-                                $cat_id = $_POST['cat_id'];
-                                $sub_id = $_POST['sub_id'];
-                                $type_id = $_POST['type_id'];
-                                $des = $_POST['des'];
-                                $images = $_FILES['images'];
-                                $status = $product_controller->addProduct($name, $price, $sub_id, $type_id, $des, $images);
-                                if($status)
-                                {
-                                    echo '<script> location.href="product.php?status='.$status.'"</script>';
-                                }
-
-                                // echo "<pre>";
-                                // print_r($status);
-                                // echo "</pre>";
-
-                            }
-                            
-                            
-                            ?>
-
-
-
-
-
+                        
                             <h4 class="card-title">Add Product Form</h4>
                             <form action="<?php $_PHP_SELF ?>" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name">Product Name:</label>
-                                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name" style="width: 100%;">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name" style="width: 100%;" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name">Category</label>
-                                            <select name="cat_id" class="form-control mr-sm-2" id="categorySelect">
-                                                <option>Choose Category</option>
+                                            <select name="cat_id" class="form-control mr-sm-2" id="categorySelect" required>
+                                                <option value="">Choose Category</option>
                                                 <?php foreach ($categories as $category) : ?>
                                                     <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
                                                 <?php endforeach; ?>
@@ -146,7 +97,7 @@ if (isset($_POST['addProduct'])) {
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="price">Price:</label>
-                                            <input type="text" id="price" name="price" class="form-control" placeholder="Enter price" style="width: 100%;">
+                                            <input type="text" id="price" name="price" class="form-control" placeholder="Enter price" style="width: 100%;" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -163,15 +114,15 @@ if (isset($_POST['addProduct'])) {
                                         <div class="form-group">
                                             <label for="des">Description:</label>
                                             <!-- <textarea id="description" name="des" class="custom-select " name="description" placeholder="Description" style="width: 100%;"></textarea> -->
-                                            <textarea id="description" name="des" class="form-control" placeholder="Description" rows="5" style="width: 100%;"></textarea>
+                                            <textarea id="description" name="des" class="form-control" placeholder="Description" rows="5" style="width: 100%;" required></textarea>
 
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="name">Type</label>
-                                            <select name="type_id" class="form-control mr-sm-2" id="categorySelect">
-                                                <option>Choose Type</option>
+                                            <select name="type_id" class="form-control mr-sm-2" id="categorySelect" required>
+                                                <option value="">Choose Type</option>
                                                 <?php foreach ($types as $type) : ?>
                                                     <option value="<?php echo $type['type_id']; ?>"><?php echo $type['name']; ?></option>
                                                 <?php endforeach; ?>
@@ -217,10 +168,12 @@ if (isset($_POST['addProduct'])) {
                                                                     <td><?php echo $sc['color'] ?> </td>
                                                                     <td><span class="badge badge-primary px-2"></span>
                                                                         <?php echo $sc['qty'] ?></td>
-                                                                    <td id=<?php echo $sc['id'] ?>>
-                                                                        <a class="delete_size" data-toggle="tooltip" data-placement="top" title="Remove">
-                                                                            <i class="fa fa-close color-danger"></i></a>
-                                                                    </td>
+                                                                    <td><a href="add_product.php?size_color_delete=<?php echo $sc['id'] ?>" 
+                                                                    onclick="return confirm('Are you sure to delete?')">
+                                                                    <i class="fa fa-trash text-danger"></i></a></td>
+                                                                                                
+                                            
+
                                                                 </tr>
                                                             <?php
                                                             }
@@ -327,11 +280,6 @@ if (isset($_POST['addProduct'])) {
 
 
 
-
-
-                        <?php }
-                        ?>
-
                     </div>
                 </div>
             </div>
@@ -406,43 +354,10 @@ if (isset($_POST['addProduct'])) {
     });
 </script>
 
-<!-- ********************Sizes and colors**************************** -->
-<script>
-    $(document).ready(function() {
-        $(document).on('click', '.delete_size', function(event) {
-            event.preventDefault()
-            let status = confirm("Are you sure to delete???");
-            console.log(status)
 
-            if (status) {
-                let id = $(this).parent().attr('id')
-                console.log("id is " + id);
-
-                $.ajax({
-                    method: 'post',
-                    url: 'delete_product.php',
-                    data: {
-                        delete_size: id
-                    },
-                    success: function(response) {
-                        //  alert(response)
-                        if (response = 'success') {
-                            alert("Successfully deleted!")
-                            location.href = 'add_product.php'
-                        } else {
-                            alert(response)
-                        }
-                    },
-                    error: function(error) {
-
-                    }
-                })
-            }
-        });
-    });
-</script>
 
 
 <?php
 include_once 'layouts/footer.php';
 ?>
+<!-- image validation message if not entering in database-->
