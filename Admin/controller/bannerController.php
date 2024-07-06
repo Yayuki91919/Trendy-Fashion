@@ -13,6 +13,10 @@ class BannerController extends Banner{
         {
             return $this->updateBanner($id,$title,$image,$sub_id);
         }
+        public function editBannerImage($id,$image)
+        {
+            return $this->updateBannerImage($id,$image);
+        }
         public function addBanner($title,$image,$sub_id)
         {
             return $this->createBanner($title,$image,$sub_id);

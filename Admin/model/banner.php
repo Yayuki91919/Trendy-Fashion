@@ -56,6 +56,18 @@ class Banner{
     $statement->bindParam(':id', $id);
     return $statement->execute();
     }
+    
+    public function updateBannerImage($id,$image)
+    {
+    $con = Database::connect();
+    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = 'UPDATE banner SET image = :image WHERE banner_id = :id';
+    $statement = $con->prepare($sql);
+    $statement->bindParam(':image', $image);
+    $statement->bindParam(':id', $id);
+    return $statement->execute();
+    }
+
     public function deleteBannerInfo($id)
     {
         $con=Database::connect();

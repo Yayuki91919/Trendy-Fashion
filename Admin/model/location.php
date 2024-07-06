@@ -25,6 +25,19 @@ class Location{
         }
         return $result;
     }
+    public function getLocationInfoExceptFromId($id){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="SELECT * FROM location WHERE location_id <> :excluded_id";
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':excluded_id', $id, PDO::PARAM_INT);
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+    
+        return isset($result) ? $result : [];
+       
+    }
     public function addNewLocation($city,$township){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);

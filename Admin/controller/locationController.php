@@ -9,6 +9,9 @@ class LocationController extends Location{
         public function getLocationListById($id){
             return $this->getLocationById($id);
         }
+        public function getLocationExceptFromId($id){
+            return $this->getLocationInfoExceptFromId($id);
+        }
         public function createNewLocation($city,$township){
             return $this->addNewLocation($city,$township);
         }

@@ -14,8 +14,7 @@
             $message = 3;
             echo '<script> location.href="banner.php?status='.$message.'"</script>';
         }
-    }
-    
+    } 
 ?>
 <script>
 function confirmDelete() {
@@ -46,7 +45,7 @@ function confirmDelete() {
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Customer</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Banner</a></li>
             </ol>
         </div>
     </div>
@@ -59,7 +58,7 @@ function confirmDelete() {
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-9">
-                                <h4 class="card-title">Customer Lists</h4>
+                                <h4 class="card-title">Banner Lists</h4>
                             </div>
                             <div class="col-sm-2"><a href="new_banner.php" class="btn mb-1 btn-rounded gradient-2">+ New
                                     Banner</a></div>
@@ -82,7 +81,7 @@ function confirmDelete() {
                                             foreach($banners as $banner){
                                                 $sub_id=$banner['sub_id'];
                                                 $sub=$sub_controller->getSubCategory($sub_id);
-                                             ?>
+                                    ?>
                                     <tr>
                                         <td><?php echo $count++; ?></td>
                                         <?php
@@ -103,7 +102,7 @@ function confirmDelete() {
                                                 class="ti-trash" data-toggle="tooltip" data-placement="top"
                                                 title="Delete" onclick="return confirmDelete()">
                                         </td>
-                                        <td><a href="banner_view.php?banner_id=<?php echo $banner['banner_id'] ?>"
+                                        <td><a href="view_banner.php?banner_id=<?php echo $banner['banner_id'] ?>"
                                                 class="btn mb-1 btn-rounded gradient-7">View More</a></td>
                                     </tr>
                                     <?php }} ?>

@@ -15,10 +15,13 @@
             else{
                 echo "You can't delete as it has releated child data";
             }
-        }
-    
-    
+        } 
 ?>
+<script>
+function confirmDelete() {
+    return confirm("Are you sure you want to delete?");
+}
+</script>
         <!--**********************************
             Content body start
         ***********************************-->
@@ -80,7 +83,7 @@
                                                 <td><a href="customer_edit.php?cust_id=<?php echo $customer['customer_id']?>" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i> </a>
                                               
                                                 <a href="customer.php?cust_id=<?php echo $customer['customer_id']?>" class="ti-trash" 
-                                                data-toggle="tooltip" data-placement="top" title="Delete">
+                                                data-toggle="tooltip" data-placement="top"  title="Delete" onclick="return confirmDelete()">
                                                 </td>
                                                 <td><a href="customer_order.php?customer_id=<?php echo $customer['customer_id'] ?>" class="btn mb-1 btn-rounded gradient-7">View</a></td>
                                             </tr>
