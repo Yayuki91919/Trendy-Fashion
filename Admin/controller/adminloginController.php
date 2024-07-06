@@ -10,5 +10,19 @@ class AdminLoginController extends Admin{
         {
             return $this->updateAdmin($id,$info);
         }
+        public function getAdminEmail($email)
+        {
+            return $this->CheckAdminEmail($email);
+
+        }
+        public function UpdateAdminResetToken($email, $token)
+        {
+            return $this->UpdateResetToken($email, $token);
+        }
+        public function resetAdminPassword($token, $password)
+        {
+            return $this->ResetPassword($token, $password);
+
+        }
 }
 ?>
