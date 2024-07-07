@@ -426,5 +426,33 @@ class Product
             return false;
         }
     }
+    public function getProductsInfoByType($typeId)
+    {
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql='select * from product where type_id=:id';
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':id',$typeId);
+
+        if($statement->execute())
+        {
+            $result=$statement->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        }  
+    }
+    public function getProductsInfoBySubCategory($subCategoryId)
+    {
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql='select * from product where sub_id=:id';
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':id',$subCategoryId);
+
+        if($statement->execute())
+        {
+            $result=$statement->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        }  
+    }
     
 }

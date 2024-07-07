@@ -248,4 +248,15 @@ class productController extends Product
     {
         return $this->deleteProductDetailInfo($product_detail_id);
     }
+// *************************user Interface*********************************
+
+    public function getProductsByType($typeId)
+    {
+        return $this->getProductsInfoByType($typeId);
+    }
+    public function getProductsBySubCategory($subCategoryId)
+    {
+        return $this->getProductsInfoBySubCategory($subCategoryId);
+    }
+
 }

@@ -12,6 +12,14 @@
             echo '<script> location.href="product_type.php?status=' . $status . '"</script>';
         }
     }
+    if (isset($_GET['delete_tid'])) {
+        $delete_id = $_GET['delete_tid'];
+        $status = $type_controller->deleteType($delete_id);
+        if ($status) {
+            $status=3;
+            echo '<script> location.href="product_type.php?status=' . $status . '"</script>';
+        }
+    }
 
 
     ?>
@@ -77,11 +85,14 @@
                                             echo "<th>" . $count++ . "</th>";
                                             echo "<td>" . $type['name'] . "</td>";
                                             echo "<td id='" . $type['type_id'] . "'>
-                                                    <a href='add_type.php?edit_id=" . $type['type_id'] . "' data-toggle='tooltip' data-placement='top' title='Edit'>
-                                                    <i class='fa fa-pencil color-muted m-r-5'></i> </a>
-                                                                              
-                                                    <a class='type_delete ti-trash color-danger' data-toggle='tooltip' data-placement='top' title='Delete'></a>
+                                                        <a href='add_type.php?edit_id=" . $type['type_id'] . "' data-toggle='tooltip' data-placement='top' title='Edit'>
+                                                            <i class='fa fa-pencil color-muted m-r-5'></i>
+                                                        </a>
+                                                                                    
+                                                        <a href='product_type.php?delete_tid=" . $type['type_id'] . "' class='ti-trash color-danger' onclick=\"return confirm('Are you sure to delete?');\" data-toggle='tooltip' data-placement='top' title='Delete'>
+                                                        </a>
                                                     </td>";
+
 
                                             echo "</tr>";
                                         }

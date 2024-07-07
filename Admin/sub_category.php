@@ -6,15 +6,15 @@
     $sub_controller=new SubCategoryController();
     $sub_categories=$sub_controller->getSubCategories();
 
-    if(isset($_POST['add']))
+    if(isset($_GET['delete_sid']))
     {
-        $name=$_POST['name'];
-        $status=$cat_controller->addSubCategory($name);
+        $sid=$_GET['delete_sid'];
+        $status=$sub_controller->deleteSubCategory($sid);
         if($status)
         {
+            $status=3;
             echo '<script> location.href="sub_category.php?status='.$status.'"</script>';
         }
-
     }
 
 
@@ -32,11 +32,11 @@
                 }
                 elseif(isset($_GET['status']) && $_GET['status'] == 2)
                 {
-                    echo "<div class='alert alert-success' > New Category has been successfully updated</div>";
+                    echo "<div class='alert alert-success' > New Brand has been successfully updated</div>";
                 }
                 elseif(isset($_GET['status']) && $_GET['status'] == 3)
                 {
-                    echo "<div class='alert alert-success' >Category has been successfully deleted</div>";
+                    echo "<div class='alert alert-success' >Brand has been successfully deleted</div>";
                 }
 
         ?>
@@ -92,7 +92,8 @@
                                                     <a href='add_sub_category.php?edit_id=".$sub['sub_id']."' data-toggle='tooltip' data-placement='top' title='Edit'>
                                                     <i class='fa fa-pencil color-muted m-r-5'></i> </a>
                                                                               
-                                                    <a class='sub_category_delete ti-trash color-danger' data-toggle='tooltip' data-placement='top' title='Delete'></a>
+                                                    <a href='sub_category.php?delete_sid=" . $sub['sub_id'] . "' class='ti-trash color-danger' onclick=\"return confirm('Are you sure to delete?');\" data-toggle='tooltip' data-placement='top' title='Delete'>
+                                                    </a>
                                                     </td>";
 
                                                 echo "</tr>";
