@@ -2,7 +2,7 @@
     include('layouts/header.php');
     include_once __DIR__. '../controller/bannerController.php';
     include_once __DIR__. '../controller/subController.php';
-    $sub_controllor = new SubCategoryController;
+    $sub_controllor = new SubCategoryController();
     $banner_controller=new BannerController();
     $errors = [];
     $success = '';
