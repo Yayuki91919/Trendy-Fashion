@@ -3,22 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banner Example</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Photobanner Animation</title>
     <style>
-        .banner {
+        .wrapper {
             width: 100%;
-            height: 500px;
+            overflow: hidden;
         }
-        .banner-container {
-            max-width: 1920px;
-            margin: 0 auto;
+        .photobanner {
+            display: flex;
+            width: 100%;
+            animation: bannermove 50s linear infinite;
+        }
+        .photobanner img {
+            margin: 0 25px;
+            box-shadow: 2px 2px 8px #8a8a8a;
+        }
+        @keyframes bannermove {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="banner-container">
-        <img src="images/banner_photo/card-1.png" alt="Banner" class="banner">
+    <div class="wrapper">
+        <div class="photobanner">
+            <a href="shop-sidebar.php"><img src="https://i.ibb.co/DfbLcN1/photo-1426901013385-803d40bd5558.jpg" alt="Image 1" /></a>
+        </div>
     </div>
 </body>
 </html>
