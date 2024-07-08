@@ -153,7 +153,6 @@ if (isset($_GET['pid']) && isset($_GET['edit_status'])) {
                                     </tr>
                                 </tfoot>
                             </table>
-                            
                         </div>
                     </div>
                 </div>

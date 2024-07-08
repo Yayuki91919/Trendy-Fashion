@@ -19,8 +19,8 @@ if(isset($_GET['pid']))
 		<div class="row">
 			<div class="col-md-6">
 				<ol class="breadcrumb">
-					<li><a href="index.php">Home</a></li>
-					<li><a href="shop-sidebar.php">Shop</a></li>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="shop.html">Shop</a></li>
 					<li class="active">Single Product</li>
 				</ol>
 			</div>
@@ -44,7 +44,7 @@ if(isset($_GET['pid']))
 								<div class='item'>
 									<img src='images/shop/single-products/product-2.jpg' alt='' data-zoom-image="images/shop/single-products/product-2.jpg" />
 								</div> -->
-								<?php $ram_images = $product_controller->getRamdomImages($product_id); ?>
+								<?php $ram_images = $product_controller->getRamdgiomImages($product_id); ?>
 								<?php foreach($ram_images as $img)
 								{?>
 									<div class='item active'>
@@ -106,6 +106,7 @@ if(isset($_GET['pid']))
 				<?php
 				$detail = $product_controller->getProducts($product_id);
 
+				
 				?>
 				<div class="single-product-details">
 					<h2><?php echo $detail['product_name']; ?></h2>
