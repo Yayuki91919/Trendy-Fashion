@@ -16,7 +16,6 @@ class Collaboration{
         }
 
     }
-
     public function updateCollaboration($id,$info)
     {
         $con=Database::connect();

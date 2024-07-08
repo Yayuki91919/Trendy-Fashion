@@ -24,7 +24,7 @@
   <meta name="generator" content="Themefisher Constra HTML Template v1.0">
   
   <!-- theme meta -->
-  <meta name="theme-name" content="aviato" />
+  <meta name="theme-name" content="Trendy Fashion" />
   
   <!-- Favicon -->
   <!-- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" /> -->

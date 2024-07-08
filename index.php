@@ -10,35 +10,9 @@ $product_controller= new productController();
 $banners = $banner_controller->getbanners();
 
 ?>
-<style>
-	  .wrapper {
-            width: 100%;
-            overflow: hidden;
-			margin-bottom:50px;
-			box-shadow: 2px 2px 8px pink;
-        }
-        .photobanner {
-            display: flex;
-            width: 100%;
-            animation: bannermove 20s linear infinite;
-			margin-bottom:20px;
-        }
-        .photobanner img {
-            margin: 0 25px;
-            box-shadow: 2px 2px 8px pink;
-			border:none;
-			border-radius:5%;
-        }
-        @keyframes bannermove {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-</style>
-<?php foreach($banners as $banner) { 
+<link rel="stylesheet" href="css/index.css">
+<?php if($banners!=null){
+foreach($banners as $banner) { 
         $images = explode(',', $banner['image']);
     ?>
 <div class="hero-slider">
@@ -61,97 +35,32 @@ $banners = $banner_controller->getbanners();
             </div>
         </div>
     </div>
-    
     <?php } ?>
 </div>
 <div class="wrapper">
-	<h2 class="text-center">New Arrivals</h2>
-        <div class="photobanner">
-			<?php $products=$product_controller-> ?>
-            <a href="shop-sidebar.php"><img src=""
-                    alt="" /></a>
-        </div>
+    <?php   $subid=$banner['sub_id'];
+		    $product=$product_controller->getProductsBySubCategory($subid);
+            if($product!=null){
+			$product_id=$product['product_id'];
+			$pimages=$product_controller->getImages($product_id); ?>
+    <h2 class="text-center">New Arrivals</h2>
+    <div class="photobanner">
+        <?php 
+				foreach($pimages as $pimage){
+				?>
+        <a href="shop-sidebar.php"><img width="30%" src="Admin/images/product/<?php echo $pimage['image_name'] ?>"
+                alt="" /></a>
+        <?php }} ?>
     </div>
-<!-- <section class="product-category section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="title text-center">
-                    <h2>Product Category</h2>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="category-box">
-                    <a href="#!">
-                        <img src="images/shop/category/category-1.jpg" alt="" />
-                        <div class="content">
-                            <h3>Clothes Sales</h3>
-                            <p>Shop New Season Clothing</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="category-box">
-                    <a href="#!">
-                        <img src="images/shop/category/category-2.jpg" alt="" />
-                        <div class="content">
-                            <h3>Smart Casuals</h3>
-                            <p>Get Wide Range Selection</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="category-box category-box-2">
-                    <a href="#!">
-                        <img src="images/shop/category/category-3.jpg" alt="" />
-                        <div class="content">
-                            <h3>Jewellery</h3>
-                            <p>Special Design Comes First</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
+</div>
+<?php }} ?>
 
-<?php } ?>
-
-
-
-<!--
-Start Call To Action
-==================================== -->
-<!-- <section class="call-to-action bg-gray section">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<div class="title">
-					<h2>SUBSCRIBE TO NEWSLETTER</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, <br> facilis numquam impedit ut sequi. Minus facilis vitae excepturi sit laboriosam.</p>
-				</div>
-				<div class="col-lg-6 col-md-offset-3">
-				    <div class="input-group subscription-form">
-				      <input type="text" class="form-control" placeholder="Enter Your Email Address">
-				      <span class="input-group-btn">
-				        <button class="btn btn-main" type="button">Subscribe Now!</button>
-				      </span>
-				    </div>
-			  </div>
-
-			</div>
-		</div> 		
-		
-	</div>   	
-	
-</section>    
--->
 
 <section class="section instagram-feed">
     <div class="container">
         <div class="row">
             <div class="title">
-                <h2>View us on instagram</h2>
+                <h2>Shopping With Us</h2>
             </div>
         </div>
         <div class="row">

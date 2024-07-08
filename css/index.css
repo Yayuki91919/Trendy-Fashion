@@ -1,0 +1,26 @@
+.wrapper {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom:50px;
+    box-shadow: 2px 2px 8px pink;
+}
+.photobanner {
+    display: flex;
+    width: 100%;
+    animation: bannermove 20s linear infinite;
+    margin-bottom:20px;
+}
+.photobanner img {
+    margin: 0 25px;
+    box-shadow: 2px 2px 8px pink;
+    border:none;
+    border-radius:5%;
+}
+@keyframes bannermove {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

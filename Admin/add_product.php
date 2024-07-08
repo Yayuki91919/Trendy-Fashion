@@ -1,5 +1,5 @@
 <?php
-include_once 'layouts/header.php';
+ include_once 'layouts/header.php';
 include_once __DIR__ . '../controller/categoryController.php';
 include_once __DIR__ . '../controller/subController.php';
 include_once __DIR__ . '../controller/typeController.php';

@@ -24,7 +24,7 @@
 						</a>
 					</li>
 				</ul>
-				<ul class="footer-menu text-uppercase">
+				<!-- <ul class="footer-menu text-uppercase">
 					<li>
 						<a href="contact.html">CONTACT</a>
 					</li>
@@ -37,7 +37,8 @@
 					<li>
 						<a href="contact.html">PRIVACY POLICY</a>
 					</li>
-				</ul>
+				</ul> -->
+				<h3>Trendy Fashion For You</h3>
 			</div>
 		</div>
 	</div>

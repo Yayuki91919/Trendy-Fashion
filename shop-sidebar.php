@@ -25,7 +25,7 @@ $product_id="";
                 <div class="content">
                     <h1 class="page-name">Shop</h1>
                     <ol class="breadcrumb">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.php">Home</a></li>
                         <li class="active">shop</li>
                     </ol>
                 </div>
