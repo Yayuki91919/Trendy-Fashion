@@ -22,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $admin = $admin_controller->getAdmin();
     
+
     if(($email==$admin['email'])&&($password==$admin['password'])){
         $_SESSION['username']=$admin['username'];
         header('Location:dashboard.php');

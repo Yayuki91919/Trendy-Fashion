@@ -123,18 +123,7 @@ if (isset($_GET['pid']) && isset($_GET['edit_status'])) {
                                                                 </a>";
 
                                                             }
-                                                            
-                                                            
-                                                                
-
-                                                                
-    
-                                                            
-                                                                
-    
-                                                            
-                                                                                              
-
+                                                         
                                                         echo "</div>
                                                     </div>
                                                 </div>

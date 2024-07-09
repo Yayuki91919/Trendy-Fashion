@@ -24,6 +24,7 @@ if (isset($_POST['typeId']) || isset($_POST['subCategoryId'])) {
         if (isset($products['product_id'])) {
             $products = [$products];
         }
+        //   var_dump($products);
         
         foreach ($products as $p) {
             $product_id = $p['product_id'];
