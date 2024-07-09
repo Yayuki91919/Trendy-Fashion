@@ -20,14 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $password = test_input($_POST["password"]);
     }
-<<<<<<< HEAD
     $admins = $admin_controller->getAdmin();
     foreach($admins as $admin){
-=======
-    $admin = $admin_controller->getAdmin();
-    
-
->>>>>>> 65a924da6ba71d7ac6a6468b89963db7340e22c3
     if(($email==$admin['email'])&&($password==$admin['password'])){
         $_SESSION['username']=$admin['username'];
         header('Location:dashboard.php');
