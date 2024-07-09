@@ -32,7 +32,7 @@ if(isset($_GET['pid']))
 			</div>
 		</div>
 		<div class="row mt-20">
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="single-product-slider">
 					<div id='carousel-custom' class='carousel slide' data-ride='carousel'>
 						<div class='carousel-outer'>
@@ -102,7 +102,7 @@ if(isset($_GET['pid']))
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-8">
 				<?php
 				$detail = $product_controller->getProducts($product_id);
 

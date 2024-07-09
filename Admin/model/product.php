@@ -462,7 +462,7 @@ class Product
 
         if($statement->execute())
         {
-            $result=$statement->fetch(PDO::FETCH_ASSOC);
+            $result=$statement->fetchALL(PDO::FETCH_ASSOC);
             return $result;
         }  
     }
@@ -477,7 +477,7 @@ class Product
 
         if($statement->execute())
         {
-            $result=$statement->fetch(PDO::FETCH_ASSOC);
+            $result=$statement->fetchALL(PDO::FETCH_ASSOC);
             return $result;
         }  
     }
