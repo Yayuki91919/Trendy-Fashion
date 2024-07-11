@@ -9,37 +9,7 @@ class productController extends Product
         return $this->getProductList();
     }
     
-    // public function addProduct($name, $price, $cat_id, $sub_id, $type_id, $des, $image)
-    // {
-    //     $uploaded_filenames = [];
-        
-    //     foreach ($image['error'] as $key => $error) {
-    //         if ($error == 0) {
-    //             $filename = $image['name'][$key];
-    //             $extension = explode('.', $filename);
-    //             $filetype = end($extension);
-    //             $filesize = $image['size'][$key];
-    //             $allowed_types = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
-    //             $temp_file = $image['tmp_name'][$key];
-                
-    //             if (in_array($filetype, $allowed_types)) {
-    //                 if ($filesize <= 2000000) {
-    //                     $timestamp = time();
-    //                     $new_filename = $timestamp . $filename;
-                        
-    //                     if (move_uploaded_file($temp_file, '../images/product/' . $new_filename)) {
-    //                         $uploaded_filenames[] = $new_filename;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-        
-    //     if (!empty($uploaded_filenames)) {
-    //          return $this->addNewProduct($uploaded_filenames, $name, $price, $cat_id, $sub_id, $type_id, $des);
-    //     }
-    
-    // }
+  
 
     public function addProduct($name, $price, $sub_id, $type_id, $des, $images)
     {
