@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once __DIR__ . '/Admin/controller/userController.php';
-$userController = new UserController;
+$userController = new UsersController;
 
 // Initialize variables
 $emailErr = $passwordErr = "";
@@ -22,11 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = test_input($_POST["password"]);
   }
   $user = $userController->userLogin($email,$password);
-  //  var_dump($user);
+    
+  //  $_SESSION['user_login']=$user;
+  //  echo $_SESSION['user_login']['username'];
   // echo $password,$email;
-  foreach($user as $u)
-  {
-      if (($email == $u['email']) && ($password == $u['password']))
+
+  // foreach($user as $u)
+  // {
+      if (($email == $user['email']) && ($password == $user['password']))
        {
           // $_SESSION['username'] = $u['username'];
           $_SESSION['user_login']=$user;
@@ -34,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
           $_SESSION['error'] = "Login failed.";
         }
-  }
+  // }
 
 
 }

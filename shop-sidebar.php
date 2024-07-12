@@ -98,24 +98,24 @@ $product_id="";
                         <?php } ?>
                         <div class="preview-meta">
                             <ul>
-                                <li>
+                                <!-- <li>
                                     
-                                    <a href="product-single.php?pid=<?php echo $product_id; ?>">
+                                    <a href="product-single.php?pid=<?php //echo $product_id; ?>">
                                         <i class="tf-ion-ios-search-strong"></i>
                                     </a>
 
-                                </li>
+                                </li> -->
                                 <!-- <li>
                                     <a href="#!"><i class="tf-ion-ios-heart"></i></a>
                                 </li> -->
                                 <li>
-                                    <a href=href="product-single.php?pid=<?php echo $product_id; ?>&user_id=<?php //    echo $product_id; ?>"><i class="tf-ion-android-cart"></i></a>
+                                    <a href="product-single.php?pid=<?php echo $product_id; ?>"><i class="tf-ion-android-cart"></i></a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="product-content">
-                        <h4><a href="product-single.html"><?php echo htmlspecialchars($p['product_name']); ?></a></h4>
+                        <h4><a><?php echo htmlspecialchars($p['product_name']); ?></a></h4>
                         <p class="price"><?php echo htmlspecialchars($p['price']) . " Ks"; ?></p>
                     </div>
                 </div>

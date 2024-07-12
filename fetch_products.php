@@ -6,13 +6,10 @@ $product_controller = new productController();
 if (isset($_POST['typeId']) || isset($_POST['subCategoryId'])) {
     if (isset($_POST['typeId'])) {
         $typeId = $_POST['typeId'];
-        if($typeId == 'all'){
+        if ($typeId == 'all') {
             $products = $product_controller->getProduct();
-
-
-        }else{
+        } else {
             $products = $product_controller->getProductsByType($typeId);
-
         }
     } elseif (isset($_POST['subCategoryId'])) {
         $subCategoryId = $_POST['subCategoryId'];
@@ -25,7 +22,7 @@ if (isset($_POST['typeId']) || isset($_POST['subCategoryId'])) {
             $products = [$products];
         }
         //   var_dump($products);
-        
+
         foreach ($products as $p) {
             $product_id = $p['product_id'];
             $images = $product_controller->getRamdomImages($product_id); ?>
@@ -33,9 +30,9 @@ if (isset($_POST['typeId']) || isset($_POST['subCategoryId'])) {
             <div class="col-md-4">
                 <div class="product-item">
                     <div class="product-thumb">
-                        <?php if($p['state'] != 'None'){?>
+                        <?php if ($p['state'] != 'None') { ?>
 
-                        <span class="bage"><?php echo htmlspecialchars($p['state']); ?></span>
+                            <span class="bage"><?php echo htmlspecialchars($p['state']); ?></span>
 
                         <?php } ?>
                         <?php foreach ($images as $img) { ?>
@@ -43,17 +40,18 @@ if (isset($_POST['typeId']) || isset($_POST['subCategoryId'])) {
                         <?php } ?>
                         <div class="preview-meta">
                             <ul>
-                                <li>
-                                    <!-- <span data-toggle="modal" data-target="#product-modal">
+                                <!-- <li>
+                                    
+                                    <a href="product-single.php?pid=<?php //echo $product_id; ?>">
                                         <i class="tf-ion-ios-search-strong"></i>
-                                    </span> -->
-                                    <a href="product-single.php?pid=<?php echo $product_id; ?>"><i class="tf-ion-ios-search-strong"></i></a>
-                                </li>
-                                <li>
+                                    </a>
+
+                                </li> -->
+                                <!-- <li>
                                     <a href="#!"><i class="tf-ion-ios-heart"></i></a>
-                                </li>
+                                </li> -->
                                 <li>
-                                    <a href="#!"><i class="tf-ion-android-cart"></i></a>
+                                    <a href="product-single.php?pid=<?php echo $product_id; ?>"><i class="tf-ion-android-cart"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -64,7 +62,7 @@ if (isset($_POST['typeId']) || isset($_POST['subCategoryId'])) {
                     </div>
                 </div>
             </div>
-        <?php }
+<?php }
     } else {
         echo '<p>No products found for this type/sub-category.</p>';
     }

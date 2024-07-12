@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '../../vendor/db/db.php';
 
-class User
+class Users
 {
 
     public function registerUser($name, $email, $password, $phone)
@@ -41,7 +41,7 @@ class User
         $statement->bindParam(':password',$p);
         if($statement->execute())
         {
-            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
+            $result=$statement->fetch(PDO::FETCH_ASSOC);
         }
         return $result ;
 

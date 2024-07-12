@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__. '/../model/user.php';
 
-class UserController extends User 
+class UsersController extends Users 
 {
     
     public function createUser($name, $email, $password, $phone)
