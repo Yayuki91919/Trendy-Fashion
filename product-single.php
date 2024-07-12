@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once 'layouts/header.php';
 include_once __DIR__ . '/Admin/controller/productController.php';
 
@@ -6,8 +6,7 @@ $product_controller = new productController();
 
 
 
-if(isset($_GET['pid']))
-{
+if (isset($_GET['pid'])) {
 	$product_id = $_GET['pid'];
 }
 
@@ -38,36 +37,29 @@ if(isset($_GET['pid']))
 						<div class='carousel-outer'>
 							<!-- me art lab slider -->
 							<div class='carousel-inner '>
-								<!-- <div class='item active'>
-									<img src='images/shop/single-products/product-1.jpg' alt='' data-zoom-image="images/shop/single-products/product-1.jpg" />
-								</div>
-								<div class='item'>
-									<img src='images/shop/single-products/product-2.jpg' alt='' data-zoom-image="images/shop/single-products/product-2.jpg" />
-								</div> -->
-								<?php $ram_images = $product_controller->getRamdomImages($product_id); ?>
-								<?php foreach($ram_images as $img)
-								{?>
+
+								<?php $ram_images = $product_controller->getRandomImages($product_id); ?>
+								<?php foreach ($ram_images as $img) { ?>
 									<div class='item active'>
 										<img src="Admin/images/product/<?php echo $img['image_name']; ?>" alt='' data-zoom-image="Admin/images/product/<?php echo $img['image_name']; ?>" />
 									</div>
-								
+
 								<?php
 								} ?>
 
 								<?php $images = $product_controller->getImages($product_id); ?>
-								<?php foreach($images as $img)
-								{?>
+								<?php foreach ($images as $img) { ?>
 									<div class='item'>
 										<img src="Admin/images/product/<?php echo $img['image_name']; ?>" alt='' data-zoom-image="Admin/images/product/<?php echo $img['image_name']; ?>" />
 									</div>
-								
+
 								<?php
 								} ?>
-									
-								
-								
+
+
+
 							</div>
-							
+
 							<!-- sag sol -->
 							<a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
 								<i class="tf-ion-ios-arrow-left"></i>
@@ -76,27 +68,25 @@ if(isset($_GET['pid']))
 								<i class="tf-ion-ios-arrow-right"></i>
 							</a>
 						</div>
-						
+
 						<!-- thumb -->
 						<ol class='carousel-indicators mCustomScrollbar meartlab'>
-						<?php $ram1_images = $product_controller->getRamdomImages($product_id); ?>
-								<?php foreach($ram1_images as $img)
-								{?>
-									<li data-target='#carousel-custom' class='active'>
-										<img src="Admin/images/product/<?php echo $img['image_name']; ?>" alt='' />
-									</li>
-								
-								<?php
-								} ?>
-						<?php $images1 = $product_controller->getImages($product_id); ?>
-								<?php foreach($images1 as $img)
-								{?>
-									<li data-target='#carousel-custom' data-slide-to='1'>
-										<img src="Admin/images/product/<?php echo $img['image_name']; ?>" alt='' />
-									</li>
-								
-								<?php
-								} ?>
+							<?php $ram1_images = $product_controller->getRandomImages($product_id); ?>
+							<?php foreach ($ram1_images as $img) { ?>
+								<li data-target='#carousel-custom' class='active'>
+									<img src="Admin/images/product/<?php echo $img['image_name']; ?>" alt='' />
+								</li>
+
+							<?php
+							} ?>
+							<?php $images1 = $product_controller->getImages($product_id); ?>
+							<?php foreach ($images1 as $img) { ?>
+								<li data-target='#carousel-custom' data-slide-to='1'>
+									<img src="Admin/images/product/<?php echo $img['image_name']; ?>" alt='' />
+								</li>
+
+							<?php
+							} ?>
 
 						</ol>
 					</div>
@@ -109,25 +99,29 @@ if(isset($_GET['pid']))
 				?>
 				<div class="single-product-details">
 					<h2><?php echo $detail['product_name']; ?></h2>
-					<p class="product-price"><?php echo $detail['price']." Ks"; ?></p>
-					
-					<p class="product-description mt-20">
-					<?php echo $detail['description']; ?>
-					</p>
-					
-					<div class="product-size">
-						<span>Size & Color:</span>
-						<select class="form-control">
-							<?php 
-							$size = $product_controller->getSizeColorDetail($product_id);
-							foreach($size as $s)
-							{?>
-							<option><?php echo $s['size']." & ". $s['color'];?> </option>
-								
-							<?php
-						 	}
-							?>
+					<p class="product-price"><?php echo $detail['price'] . " Ks"; ?></p>
 
+					<p class="product-description mt-20">
+						<?php echo $detail['description']; ?>
+					</p>
+					<div class="product-size">
+						<span>Size</span>
+						<select class="form-control" name="size" id="sizeSelect">
+							<option value="">Select</option>
+
+							<?php
+							$size = $product_controller->getSizeDistict($product_id);
+							foreach ($size as $s) {
+								echo '<option value="' . $s['size_id'] . '">' . $s['size'] . '</option>';
+							}
+							?>
+						</select>
+
+					</div>
+					<div class="product-size">
+						<span>Color</span>
+						<select class="form-control" name="color" id="colorSelect">
+							<!-- Options will be populated dynamically via AJAX -->
 						</select>
 					</div>
 					<div class="product-quantity">
@@ -142,7 +136,7 @@ if(isset($_GET['pid']))
 							<li><a href="product-single.html"><?php echo $detail['brand_name']; ?></a></li>
 							<span>/</span>
 							<li><a href="product-single.html"><?php echo $detail['type']; ?></a></li>
-							
+
 						</ul>
 					</div>
 					<a href="cart.html" class="btn btn-main mt-20">Add To Cart</a>
@@ -164,83 +158,83 @@ if(isset($_GET['pid']))
 						</div>
 						<div id="reviews" class="tab-pane fade">
 							<div class="post-comments">
-						    	<ul class="media-list comments-list m-bot-50 clearlist">
-								    <!-- Comment Item start-->
-								    <li class="media">
+								<ul class="media-list comments-list m-bot-50 clearlist">
+									<!-- Comment Item start-->
+									<li class="media">
 
-								        <a class="pull-left" href="#!">
-								            <img class="media-object comment-avatar" src="images/blog/avater-1.jpg" alt="" width="50" height="50" />
-								        </a>
+										<a class="pull-left" href="#!">
+											<img class="media-object comment-avatar" src="images/blog/avater-1.jpg" alt="" width="50" height="50" />
+										</a>
 
-								        <div class="media-body">
-								            <div class="comment-info">
-								                <h4 class="comment-author">
-								                    <a href="#!">Jonathon Andrew</a>
-								                	
-								                </h4>
-								                <time datetime="2013-04-06T13:53">July 02, 2015, at 11:34</time>
-								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>
-								            </div>
+										<div class="media-body">
+											<div class="comment-info">
+												<h4 class="comment-author">
+													<a href="#!">Jonathon Andrew</a>
 
-								            <p>
-								                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut ante eleifend eleifend.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod laborum minima, reprehenderit laboriosam officiis praesentium? Impedit minus provident assumenda quae.
-								            </p>
-								        </div>
+												</h4>
+												<time datetime="2013-04-06T13:53">July 02, 2015, at 11:34</time>
+												<a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>
+											</div>
 
-								    </li>
-								    <!-- End Comment Item -->
+											<p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut ante eleifend eleifend.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod laborum minima, reprehenderit laboriosam officiis praesentium? Impedit minus provident assumenda quae.
+											</p>
+										</div>
 
-								    <!-- Comment Item start-->
-								    <li class="media">
+									</li>
+									<!-- End Comment Item -->
 
-								        <a class="pull-left" href="#!">
-								            <img class="media-object comment-avatar" src="images/blog/avater-4.jpg" alt="" width="50" height="50" />
-								        </a>
+									<!-- Comment Item start-->
+									<li class="media">
 
-								        <div class="media-body">
+										<a class="pull-left" href="#!">
+											<img class="media-object comment-avatar" src="images/blog/avater-4.jpg" alt="" width="50" height="50" />
+										</a>
 
-								            <div class="comment-info">
-								                <div class="comment-author">
-								                    <a href="#!">Jonathon Andrew</a>
-								                </div>
-								                <time datetime="2013-04-06T13:53">July 02, 2015, at 11:34</time>
-								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>
-								            </div>
+										<div class="media-body">
 
-								            <p>
-								                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut ante eleifend eleifend. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni natus, nostrum iste non delectus atque ab a accusantium optio, dolor!
-								            </p>
+											<div class="comment-info">
+												<div class="comment-author">
+													<a href="#!">Jonathon Andrew</a>
+												</div>
+												<time datetime="2013-04-06T13:53">July 02, 2015, at 11:34</time>
+												<a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>
+											</div>
 
-								        </div>
+											<p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut ante eleifend eleifend. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni natus, nostrum iste non delectus atque ab a accusantium optio, dolor!
+											</p>
 
-								    </li>
-								    <!-- End Comment Item -->
+										</div>
 
-								    <!-- Comment Item start-->
-								    <li class="media">
+									</li>
+									<!-- End Comment Item -->
 
-								        <a class="pull-left" href="#!">
-								            <img class="media-object comment-avatar" src="images/blog/avater-1.jpg" alt="" width="50" height="50">
-								        </a>
+									<!-- Comment Item start-->
+									<li class="media">
 
-								        <div class="media-body">
+										<a class="pull-left" href="#!">
+											<img class="media-object comment-avatar" src="images/blog/avater-1.jpg" alt="" width="50" height="50">
+										</a>
 
-								            <div class="comment-info">
-								                <div class="comment-author">
-								                    <a href="#!">Jonathon Andrew</a>
-								                </div>
-								                <time datetime="2013-04-06T13:53">July 02, 2015, at 11:34</time>
-								                <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>
-								            </div>
+										<div class="media-body">
 
-								            <p>
-								                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut ante eleifend eleifend.
-								            </p>
+											<div class="comment-info">
+												<div class="comment-author">
+													<a href="#!">Jonathon Andrew</a>
+												</div>
+												<time datetime="2013-04-06T13:53">July 02, 2015, at 11:34</time>
+												<a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>
+											</div>
 
-								        </div>
+											<p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at magna ut ante eleifend eleifend.
+											</p>
 
-								    </li>
-							</ul>
+										</div>
+
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -265,18 +259,18 @@ if(isset($_GET['pid']))
 						<div class="preview-meta">
 							<ul>
 								<li>
-									<span  data-toggle="modal" data-target="#product-modal">
+									<span data-toggle="modal" data-target="#product-modal">
 										<i class="tf-ion-ios-search"></i>
 									</span>
 								</li>
 								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
+									<a href="#"><i class="tf-ion-ios-heart"></i></a>
 								</li>
 								<li>
 									<a href="#!"><i class="tf-ion-android-cart"></i></a>
 								</li>
 							</ul>
-                      	</div>
+						</div>
 					</div>
 					<div class="product-content">
 						<h4><a href="product-single.html">Reef Boardsport</a></h4>
@@ -291,18 +285,18 @@ if(isset($_GET['pid']))
 						<div class="preview-meta">
 							<ul>
 								<li>
-									<span  data-toggle="modal" data-target="#product-modal">
+									<span data-toggle="modal" data-target="#product-modal">
 										<i class="tf-ion-ios-search-strong"></i>
 									</span>
 								</li>
 								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
+									<a href="#"><i class="tf-ion-ios-heart"></i></a>
 								</li>
 								<li>
 									<a href="#!"><i class="tf-ion-android-cart"></i></a>
 								</li>
 							</ul>
-                      	</div>
+						</div>
 					</div>
 					<div class="product-content">
 						<h4><a href="product-single.html">Rainbow Shoes</a></h4>
@@ -317,18 +311,18 @@ if(isset($_GET['pid']))
 						<div class="preview-meta">
 							<ul>
 								<li>
-									<span  data-toggle="modal" data-target="#product-modal">
+									<span data-toggle="modal" data-target="#product-modal">
 										<i class="tf-ion-ios-search"></i>
 									</span>
 								</li>
 								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
+									<a href="#"><i class="tf-ion-ios-heart"></i></a>
 								</li>
 								<li>
 									<a href="#!"><i class="tf-ion-android-cart"></i></a>
 								</li>
 							</ul>
-                      	</div>
+						</div>
 					</div>
 					<div class="product-content">
 						<h4><a href="product-single.html">Strayhorn SP</a></h4>
@@ -343,18 +337,18 @@ if(isset($_GET['pid']))
 						<div class="preview-meta">
 							<ul>
 								<li>
-									<span  data-toggle="modal" data-target="#product-modal">
+									<span data-toggle="modal" data-target="#product-modal">
 										<i class="tf-ion-ios-search"></i>
 									</span>
 								</li>
 								<li>
-			                        <a href="#" ><i class="tf-ion-ios-heart"></i></a>
+									<a href="#"><i class="tf-ion-ios-heart"></i></a>
 								</li>
 								<li>
 									<a href="#!"><i class="tf-ion-android-cart"></i></a>
 								</li>
 							</ul>
-                      	</div>
+						</div>
 					</div>
 					<div class="product-content">
 						<h4><a href="product-single.html">Bradley Mid</a></h4>
@@ -362,7 +356,7 @@ if(isset($_GET['pid']))
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
 </section>
@@ -372,33 +366,74 @@ if(isset($_GET['pid']))
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		<i class="tf-ion-close"></i>
 	</button>
-  	<div class="modal-dialog " role="document">
-    	<div class="modal-content">
-	      	<div class="modal-body">
-	        	<div class="row">
-	        		<div class="col-md-8">
-	        			<div class="modal-image">
-		        			<img class="img-responsive" src="images/shop/products/modal-product.jpg" />
-	        			</div>
-	        		</div>
-	        		<div class="col-md-3">
-	        			<div class="product-short-details">
-	        				<h2 class="product-title">GM Pendant, Basalt Grey</h2>
-	        				<p class="product-price">$200</p>
-	        				<p class="product-short-description">
-	        					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem iusto nihil cum. Illo laborum numquam rem aut officia dicta cumque.
-	        				</p>
-	        				<a href="#!" class="btn btn-main">Add To Cart</a>
-	        				<a href="#!" class="btn btn-transparent">View Product Details</a>
-	        			</div>
-	        		</div>
-	        	</div>
-	        </div>
-    	</div>
-  	</div>
+	<div class="modal-dialog " role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="modal-image">
+							<img class="img-responsive" src="images/shop/products/modal-product.jpg" />
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="product-short-details">
+							<h2 class="product-title">GM Pendant, Basalt Grey</h2>
+							<p class="product-price">$200</p>
+							<p class="product-short-description">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem iusto nihil cum. Illo laborum numquam rem aut officia dicta cumque.
+							</p>
+							<a href="#!" class="btn btn-main">Add To Cart</a>
+							<a href="#!" class="btn btn-transparent">View Product Details</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+<!-- Include jQuery from a CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<?php 
+<script>
+$(document).ready(function() {
+    $('#sizeSelect').change(function() {
+        var selectedSize = $(this).val();
+        var productId = '<?php echo $product_id; ?>';
+
+        // AJAX call to fetch colors for selected size and product ID
+        $.ajax({
+            url: 'get_colors.php',
+            method: 'POST',
+            data: {
+                size: selectedSize,
+                product_id: productId
+            },
+            dataType: 'json',
+            success: function(response) {
+                $('#colorSelect').empty(); // Clear current options
+
+                // Populate color options based on response
+                $.each(response, function(index, color) {
+                    // Append an option with value as color_id and text as color
+                    $('#colorSelect').append('<option value="' + color.color_id + '">' + color.color + '</option>');
+                    
+                    // Log color_id and color to console for verification
+                    console.log('Color ID: ' + color.color_id + ', Color Name: ' + color.color); 
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching colors:', error);
+                // Optionally handle errors
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+<?php
 include_once 'layouts/footer.php';
 
 ?>

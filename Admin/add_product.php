@@ -72,65 +72,7 @@ if (isset($_GET['size_color_delete'])) {
                     <div class="card-body">
                         
                             <h4 class="card-title">Add Product Form</h4>
-                            <form action="<?php $_PHP_SELF ?>" method="post" enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name">Product Name:</label>
-                                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name" style="width: 100%;" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name">Category</label>
-                                            <select name="cat_id" class="form-control mr-sm-2" id="categorySelect" required>
-                                                <option value="">Choose Category</option>
-                                                <?php foreach ($categories as $category) : ?>
-                                                    <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="price">Price:</label>
-                                            <input type="text" id="price" name="price" class="form-control" placeholder="Enter price" style="width: 100%;" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="price">Sub Category</label>
-                                            <select name="sub_id" class="form-control    mr-sm-2" id="subCategorySelect">
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="des">Description:</label>
-                                            <!-- <textarea id="description" name="des" class="custom-select " name="description" placeholder="Description" style="width: 100%;"></textarea> -->
-                                            <textarea id="description" name="des" class="form-control" placeholder="Description" rows="5" style="width: 100%;" required></textarea>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="name">Type</label>
-                                            <select name="type_id" class="form-control mr-sm-2" id="categorySelect" required>
-                                                <option value="">Choose Type</option>
-                                                <?php foreach ($types as $type) : ?>
-                                                    <option value="<?php echo $type['type_id']; ?>"><?php echo $type['name']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
+                            <div class="row">
 
                                     <!-- /# column -->
                                     <div class="col-lg-6">
@@ -190,6 +132,65 @@ if (isset($_GET['size_color_delete'])) {
                                     <!-- /# column -->
 
                                 </div>
+                            <form action="<?php $_PHP_SELF ?>" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Product Name:</label>
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name" style="width: 100%;" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Category</label>
+                                            <select name="cat_id" class="form-control mr-sm-2" id="categorySelect" required>
+                                                <option value="">Choose Category</option>
+                                                <?php foreach ($categories as $category) : ?>
+                                                    <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="price">Price:</label>
+                                            <input type="text" id="price" name="price" class="form-control" placeholder="Enter price" style="width: 100%;" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="price">Sub Category</label>
+                                            <select name="sub_id" class="form-control    mr-sm-2" id="subCategorySelect">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="des">Description:</label>
+                                            <!-- <textarea id="description" name="des" class="custom-select " name="description" placeholder="Description" style="width: 100%;"></textarea> -->
+                                            <textarea id="description" name="des" class="form-control" placeholder="Description" rows="5" style="width: 100%;" required></textarea>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Type</label>
+                                            <select name="type_id" class="form-control mr-sm-2" id="categorySelect" required>
+                                                <option value="">Choose Type</option>
+                                                <?php foreach ($types as $type) : ?>
+                                                    <option value="<?php echo $type['type_id']; ?>"><?php echo $type['name']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">

@@ -8,9 +8,33 @@ class productController extends Product
     {
         return $this->getProductList();
     }
-    
-  
+    public function getProductSize()
+    {
+        return $this->getProductSizeList();
+    }
+    public function getProductColor()
+    {
+        return $this->getProductColorList();
+    }
+    public function addProductSize($size)
+    {
+        return $this->createProductSize($size);
 
+    }
+    public function addProductColor($color)
+    {
+        return $this->createProductColor($color);
+
+    }
+    public function editProductSize($id,$size)
+        {
+            return $this->updateProductSize($id,$size);
+        }
+        public function editProductColor($id,$color)
+        {
+            return $this->updateProductColor($id,$color);
+        }
+    
     public function addProduct($name, $price, $sub_id, $type_id, $des, $images)
     {
         // Check if the image array is properly structured
@@ -134,8 +158,6 @@ class productController extends Product
         return "No files were uploaded successfully.";
     }
 
-
-    
     
     public function addSize_Color($color_id,$color,$size_id,$size,$qty)
     {
@@ -209,6 +231,16 @@ class productController extends Product
     {
         return $this->deleteTempInfo($id);
     }
+    public function deleteProductSize($delete_id)
+    {
+        return $this->deleteProductSizeInfo($delete_id);
+    }
+    public function deleteProductColor($delete_id)
+    {
+        return $this->deleteProductColorInfo($delete_id);
+    }
+    
+
     public function deleteProduct($id)
     {
         return $this->deleteProductInfo($id);
@@ -232,9 +264,18 @@ class productController extends Product
     {
         return $this->getProductsInfoBySubCategory($subCategoryId);
     }
-    public function getRamdomImages($id)
+    
+    public function getColorsBySize($size,$product_id)
     {
-        return $this->getRamdomImageList($id);
+        return $this->getColorsInfoBySize($size,$product_id);
+    }
+    public function getRandomImages($id)
+    {
+        return $this->getRandomImageList($id);
+    }
+    public function getSizeDistict($product_id)
+    {
+        return $this->getSizeDistictInfo($product_id);
     }
 
 }

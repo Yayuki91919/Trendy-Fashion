@@ -48,7 +48,84 @@ class Product
         }
         return $result;
     }
+    public function getProductColorList()
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "select * from product_color";
 
+        $statement = $con->prepare($sql);
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+    }
+    public function getProductSizeList()
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "select * from product_size ";
+        $statement = $con->prepare($sql);
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+    }
+    public function createProductSize($size)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = 'insert into product_size(size) values (:size)';
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':size', $size);
+        if ($statement->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function createProductColor($color)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = 'insert into product_color(color) values (:color)';
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':color', $color);
+        if ($statement->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updateProductSize($id, $size)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = 'update product_size set size=:size where size_id=:id';
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':size', $size);
+        $statement->bindParam(':id', $id);
+        if ($statement->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function updateProductColor($id, $color)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = 'update product_color set color=:color where color_id=:id';
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':color', $color);
+        $statement->bindParam(':id', $id);
+        if ($statement->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function addNewProduct($filenames, $name, $price, $sub_id, $type_id, $des)
     {
@@ -112,7 +189,7 @@ class Product
     }
 
     public function addNewMoreImage($filenames, $product_id)
-    {   
+    {
         // Connect to the database
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -125,16 +202,14 @@ class Product
         foreach ($filenames as $image) {
             $statement->bindParam(':image', $image);
             $statement->bindParam(':product_id', $product_id);
-    
+
             // Check execution for each image
             if (!$statement->execute()) {
                 return false;
             }
         }
-    
+
         return true;
-
-
     }
 
 
@@ -347,7 +422,7 @@ class Product
         }
     }
 
-    public function updateProduct($id,$product_name,$sub_id,$type_id,$price,$des,$state)
+    public function updateProduct($id, $product_name, $sub_id, $type_id, $price, $des, $state)
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -368,14 +443,14 @@ class Product
             return false;
         }
     }
-    public function updateProductStatus($pid,$edit_status)
+    public function updateProductStatus($pid, $edit_status)
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-        if($edit_status==1){
+
+        if ($edit_status == 1) {
             $status = 0;
-        }else{
+        } else {
             $status = 1;
         }
         $sql = "update product set status=:status
@@ -383,7 +458,7 @@ class Product
         $statement = $con->prepare($sql);
         $statement->bindParam(':id', $pid);
         $statement->bindParam(':status', $status);
-        
+
         if ($statement->execute()) {
             return true;
         } else {
@@ -448,41 +523,107 @@ class Product
             return false;
         }
     }
+    public function deleteProductSizeInfo($id)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "delete from product_size where size_id=:id";
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':id', $id);
+        try {
+            $statement->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    public function deleteProductColorInfo($id)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "delete from product_color where color_id=:id";
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':id', $id);
+        try {
+            $statement->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 
     // *************************user interface**************************
 
 
     public function getProductsInfoByType($typeId)
     {
-        $con=Database::connect();
-        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql='select * from product where type_id=:id';
-        $statement=$con->prepare($sql);
-        $statement->bindParam(':id',$typeId);
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = 'select * from product where type_id=:id';
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':id', $typeId);
 
-        if($statement->execute())
-        {
-            $result=$statement->fetchALL(PDO::FETCH_ASSOC);
+        if ($statement->execute()) {
+            $result = $statement->fetchALL(PDO::FETCH_ASSOC);
             return $result;
-        }  
+        }
     }
     public function getProductsInfoBySubCategory($subCategoryId)
     {
-        $con=Database::connect();
-        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-         $sql='select * from product where sub_id=:id';
-        
-        $statement=$con->prepare($sql);
-        $statement->bindParam(':id',$subCategoryId);
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = 'select * from product where sub_id=:id';
 
-        if($statement->execute())
-        {
-            $result=$statement->fetchALL(PDO::FETCH_ASSOC);
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':id', $subCategoryId);
+
+        if ($statement->execute()) {
+            $result = $statement->fetchALL(PDO::FETCH_ASSOC);
             return $result;
-        }  
+        }
+    }
+    public function getSizeDistictInfo($product_id)
+    {
+        $con = Database::connect(); // Replace Database::connect() with your database connection method
+
+        $sql = "SELECT DISTINCT ps.size_id, ps.size
+                FROM product_detail pd
+                JOIN product_size ps ON pd.size = ps.size_id
+                WHERE pd.product_id = :id";
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':id', $product_id);
+
+        if ($statement->execute()) {
+            $result = $statement->fetchALL(PDO::FETCH_ASSOC);
+            return $result;
+        }
     }
 
-    public function getRamdomImageList($id)
+    public function getColorsInfoBySize($size,$product_id)
+    {
+        $con = Database::connect(); // Replace Database::connect() with your database connection method
+
+        $sql = "SELECT DISTINCT pc.color_id, pc.color
+        FROM product_detail pd
+        JOIN product_color pc ON pd.color = pc.color_id
+        WHERE pd.size = :size AND pd.product_id = :product_id";
+
+        // $sql = "SELECT DISTINCT color FROM product_detail WHERE size = :size";
+
+
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':size', $size);
+        $statement->bindParam(':product_id', $product_id);
+
+        if ($statement->execute()) {
+            $result = $statement->fetchALL(PDO::FETCH_ASSOC);
+            return $result;
+        }
+    }
+
+
+    public function getRandomImageList($id)
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -491,6 +632,12 @@ class Product
 
         $statement = $con->prepare($sql);
         $statement->bindParam(':id', $id);
+        // if ($statement->execute()) {
+        //     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        //     return $result;
+        // } else {
+        //     return []; // Return an empty array if execution fails
+        // }
         if ($statement->execute()) {
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -498,5 +645,4 @@ class Product
             return []; // Return an empty array if execution fails
         }
     }
-    
 }

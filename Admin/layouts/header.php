@@ -309,7 +309,9 @@
                         <ul aria-expanded="false">
                             <li><a href="category.php">Category</a></li>
                             <li><a href="sub_category.php">Sub-Category</a></li>
-                            <li><a href="product_type.php">Product-type</a></li>
+                            <li><a href="product_type.php">Product Type</a></li>
+                            <li><a href="product_size.php">Product Size</a></li>
+                            <li><a href="product_color.php">Product Color</a></li>
                             <li><a href="product.php">Product List</a></li>
                         </ul>
                     </li>

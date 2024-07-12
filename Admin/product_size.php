@@ -1,40 +1,39 @@
  
 <?php
     include_once 'layouts/header.php';
-    include_once __DIR__. '../controller/categoryController.php';
+    include_once __DIR__. '../controller/productController.php';
 
-    $cat_controller=new CategoryController();
-    $categories=$cat_controller->getCategories();
+    $productController=new productController();
+    $sizes=$productController->getProductSize();
 
     // insert 
     if(isset($_POST['add']))
     {
-        $name=$_POST['name'];
-        $status=$cat_controller->addCategory($name);
+        $size=$_POST['size'];
+        $status=$productController->addProductSize($size);
         if($status)
         {
             // header('location:category.php');
-            echo '<script> location.href="category.php?status='.$status.'"</script>';
+            echo '<script> location.href="product_size.php?status='.$status.'"</script>';
         }
-
     }
 
     // get edit data to update
     if(isset($_GET['edit_id']))
     {
         $id=$_GET['edit_id'];
-        $cat_controller=new CategoryController();
-        $category=$cat_controller->getCategory($id);
+        $productController=new ProductController();
+        $size=$productController->getSize($id);
     }
 
     if(isset($_POST['edit']))
     {
-        $name=$_POST['name'];
-        $status=$cat_controller->editCategory($id,$name);
+        $size=$_POST['size'];
+        $status=$productController->editProductSize($id,$size);
         if($status)
         {
             $message=2;
-            echo '<script> location.href="category.php?status='.$message.'"</script>';
+            echo '<script> location.href="product_size.php?status='.$message.'"</script>';
         }
     }
 
@@ -43,11 +42,11 @@
     if(isset($_GET['delete_id']))
     {
         $delete_id=$_GET['delete_id'];
-        $result=$cat_controller->deleteCategory($delete_id);
+        $result=$productController->deleteProductSize($delete_id);
         if($result)
         {
             $message = 3;
-            echo '<script> location.href="category.php?status='.$message.'"</script>';
+            echo '<script> location.href="product_size.php?status='.$message.'"</script>';
 
         }
         else{
@@ -67,15 +66,15 @@
         <?php
                 if(isset($_GET['status']) && $_GET['status'] == 1)
                 {
-                    echo "<div class='alert alert-success text-success' > New Category has been successfully added </div>";
+                    echo "<div class='alert alert-success text-success' > New Product Size has been successfully added </div>";
                 }
                 elseif(isset($_GET['status']) && $_GET['status'] == 2)
                 {
-                    echo "<div class='alert alert-success' > New Category has been successfully updated</div>";
+                    echo "<div class='alert alert-success' > New Product Size has been successfully updated</div>";
                 }
                 elseif(isset($_GET['status']) && $_GET['status'] == 3)
                 {
-                    echo "<div class='alert alert-success' >Category has been successfully deleted</div>";
+                    echo "<div class='alert alert-success' >Product Size has been successfully deleted</div>";
                 }
 
                 ?>
@@ -97,12 +96,12 @@
                                 <?php if(isset($_GET['edit_id'])){                                    
                                     ?>
                                         
-                                <h4 class="card-title">Edit Category Form</h4>
-                                <p>Enter Category Name</p>
+                                <h4 class="card-title">Edit Product Size Form</h4>
+                                <p>Enter Size</p>
                                 <div class="basic-form">
                                     <form action="<?php $_PHP_SELF ?>" method="post" class="form-inline">
                                         <div class="form-group mx-sm-3 mb-2">
-                                            <input type="text" name="name" class="form-control" placeholder="Name" value="<?php echo $category['category_name']; ?>">
+                                            <input type="text" name="size" class="form-control" placeholder="Size" value="<?php echo $size['size']; ?>">
                                         </div>
                                         <input type="submit" class="btn gradient-3 mb-2" value="Update" name="edit">
                                     </form>
@@ -110,12 +109,12 @@
 
                                 <?php }else{?>
 
-                                <h4 class="card-title">Add Category Form</h4>
-                                <p>Enter Category Name</p>
+                                <h4 class="card-title">Add Product Size Form</h4>
+                                <p>Enter Size</p>
                                 <div class="basic-form">
                                     <form action="<?php $_PHP_SELF ?>" method="post" class="form-inline">
                                         <div class="form-group mx-sm-3 mb-2">
-                                            <input type="text" name="name" class="form-control" placeholder="Name">
+                                            <input type="text" name="size" class="form-control" placeholder="Size">
                                         </div>
                                         <input type="submit" class="btn gradient-2 mb-2" value="Enter" name="add">
                                     </form>
@@ -130,41 +129,32 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h4>Table Striped</h4>
+                                    <h4>Product Size Table</h4>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Name</th>
+                                                <th>Size</th>
                                                 <!-- <th>Date</th> -->
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- <tr>
-                                                <th>1</th>
-                                                <td>Kolor Tea Shirt For Man</td>
-                                                </td>
-                                                <td>January 22</td>
-                                                <td><span>
-                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i> </a>
-                                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-close color-danger"></i></a></span>
-                                                </td>
-                                            </tr> -->
+                                            
                                             <?php
                                             $count=1;
-                                            foreach($categories as $category)
+                                            foreach($sizes as $size)
                                             {
                                                 echo "<tr >";
                                                 echo "<th>".$count++."</th>";
-                                                echo "<td>" .$category['category_name']."</td>";                                               
-                                                echo "<td id='".$category['category_id']."'>
-                                                    <a href='category.php?edit_id=".$category['category_id']."' data-toggle='tooltip' data-placement='top' title='Edit'>
+                                                echo "<td>" .$size['size']."</td>";                                               
+                                                echo "<td id='".$size['size_id']."'>
+                                                    <a href='product_size.php?edit_id=".$size['size_id']."' data-toggle='tooltip' data-placement='top' title='Edit'>
                                                     <i class='fa fa-pencil color-muted m-r-5'></i> </a>
                                                                               
-                                                    <a href='category.php?delete_id=".$category['category_id']."'  onclick=\"return confirm('Are you sure want to delete?');\" ><i class='fa fa-close color-danger'></i></a>
+                                                    <a href='product_size.php?delete_id=".$size['size_id']."'  onclick=\"return confirm('Are you sure want to delete?');\" ><i class='fa fa-close color-danger'></i></a>
                                                     </td>";
 
                                                 echo "</tr>";
@@ -185,6 +175,5 @@
         ***********************************-->
 
 
-<?php
-    include_once 'layouts/footer.php';
-?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
