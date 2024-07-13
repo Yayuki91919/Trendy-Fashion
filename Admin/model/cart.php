@@ -11,7 +11,7 @@ class Cart
         $sql = "
         select 
             c.cart_id,
-            c.product_id,
+            d.product_id,
             c.customer_id,
             c.quantity,
             ps.size,
@@ -25,21 +25,23 @@ class Cart
             p.state,
             (SELECT image_name 
             FROM product_image 
-            WHERE product_id = p.product_id 
+            WHERE product_id = d.product_id 
             ORDER BY RAND() 
             LIMIT 1) AS random_image
         from 
             cart as c
+        join
+            product_detail as d on c.d_id = d.d_id
         join 
-            product as p on p.product_id = c.product_id
+            product as p on p.product_id = d.product_id
         join
-            product_size as ps on ps.size_id
+            product_size as ps on ps.size_id = d.size
         join
-            product_color as pc on pc.color_id
+            product_color as pc on pc.color_id = d.color
         where 
             customer_id=:cid
         GROUP BY 
-            c.product_id";
+            d.product_id";
         $statement = $con->prepare($sql);
         $statement->bindParam(':cid', $cid);
         if ($statement->execute()) {

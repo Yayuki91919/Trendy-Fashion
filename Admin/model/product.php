@@ -604,13 +604,10 @@ class Product
     {
         $con = Database::connect(); // Replace Database::connect() with your database connection method
 
-        $sql = "SELECT DISTINCT pc.color_id, pc.color
+        $sql = "SELECT DISTINCT pc.color_id, pc.color, pd.d_id, pd.product_id, pd.qty
         FROM product_detail pd
         JOIN product_color pc ON pd.color = pc.color_id
         WHERE pd.size = :size AND pd.product_id = :product_id";
-
-        // $sql = "SELECT DISTINCT color FROM product_detail WHERE size = :size";
-
 
         $statement = $con->prepare($sql);
         $statement->bindParam(':size', $size);

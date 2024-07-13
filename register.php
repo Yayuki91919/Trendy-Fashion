@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once __DIR__ . '/Admin/controller/userController.php';
-$userController = new UserController;
+$userController = new UsersController;
 
 
 $name = $status = $email = $phone = $password = $c_password = "";

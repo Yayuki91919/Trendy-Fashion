@@ -81,7 +81,7 @@ $product_id="";
                 <div class="row" id="productContainer">
                     <?php foreach ($products as $p) { 
 						$product_id=$p['product_id'];
-						$images = $product_controller->getRamdomImages($product_id); ?>
+						$images = $product_controller->getRandomImages($product_id); ?>
 
 						
 						

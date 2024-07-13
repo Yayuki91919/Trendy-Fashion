@@ -4,13 +4,18 @@ include_once __DIR__ . '/Admin/controller/productController.php';
 
 $product_controller = new productController();
 
-
-
 if (isset($_GET['pid'])) {
 	$product_id = $_GET['pid'];
 }
 
+$cid = $_SESSION['user_login']['customer_id'];
+if(isset($_POST['addToCart']))
+{
+	
+}
+
 ?>
+
 <!-- Main Menu Section -->
 
 <section class="single-product">
@@ -55,8 +60,6 @@ if (isset($_GET['pid'])) {
 
 								<?php
 								} ?>
-
-
 
 							</div>
 
@@ -104,42 +107,47 @@ if (isset($_GET['pid'])) {
 					<p class="product-description mt-20">
 						<?php echo $detail['description']; ?>
 					</p>
-					<div class="product-size">
-						<span>Size</span>
-						<select class="form-control" name="size" id="sizeSelect">
-							<option value="">Select</option>
+					<form action="<?php $_PHP_SELF ?>" method="post" onsubmit="return validateForm()">
+						<div class="product-size">
+							<span>Size</span>
+							<select class="form-control" name="size" id="sizeSelect">
+								<option value="">Select</option>
 
-							<?php
-							$size = $product_controller->getSizeDistict($product_id);
-							foreach ($size as $s) {
-								echo '<option value="' . $s['size_id'] . '">' . $s['size'] . '</option>';
-							}
-							?>
-						</select>
-
-					</div>
-					<div class="product-size">
-						<span>Color</span>
-						<select class="form-control" name="color" id="colorSelect">
-							<!-- Options will be populated dynamically via AJAX -->
-						</select>
-					</div>
-					<div class="product-quantity">
-						<span>Quantity:</span>
-						<div class="product-quantity-slider">
-							<input id="product-quantity" type="text" value="1" name="product-quantity" min="1">
+								<?php
+								$size = $product_controller->getSizeDistict($product_id);
+								foreach ($size as $s) {
+									echo '<option value="' . $s['size_id'] . '">' . $s['size'] . '</option>';
+								}
+								?>
+							</select>
 						</div>
-					</div>
-					<div class="product-category">
-						<span><?php echo $detail['category_name']; ?></span>
-						<ul>
-							<li><a href="product-single.html"><?php echo $detail['brand_name']; ?></a></li>
-							<span>/</span>
-							<li><a href="product-single.html"><?php echo $detail['type']; ?></a></li>
+						<div class="product-size">
+							<span>Color</span>
+							<select class="form-control" name="color" id="colorSelect">
+								<!-- Options will be populated dynamically via AJAX -->
+							</select>
+						</div>
 
-						</ul>
-					</div>
-					<a href="cart.html" class="btn btn-main mt-20">Add To Cart</a>
+						<input type="hidden" name="d_id" id="d_id">
+						<input type="hidden" name="avaliable_quantity" id="qty">
+
+						<div class="product-quantity">
+							<span>Quantity:</span>
+							<div class="product-quantity-slider">
+								<input id="product-quantity" type="text" name="product-quantity" min="1">
+							</div>
+						</div>
+
+						<div class="product-category">
+							<span><?php echo $detail['category_name']; ?></span>
+							<ul>
+								<li><a href="product-single.html"><?php echo $detail['brand_name']; ?></a></li>
+								<span>/</span>
+								<li><a href="product-single.html"><?php echo $detail['type']; ?></a></li>
+							</ul>
+						</div>
+						<input type="submit" value="Add To Cart" name="addToCart" class="btn btn-main mt-20">
+					</form>
 				</div>
 			</div>
 		</div>
@@ -395,42 +403,65 @@ if (isset($_GET['pid'])) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    $('#sizeSelect').change(function() {
-        var selectedSize = $(this).val();
-        var productId = '<?php echo $product_id; ?>';
+	$(document).ready(function() {
+		$('#sizeSelect').change(function() {
+			var selectedSize = $(this).val();
+			var productId = '<?php echo $product_id; ?>';
 
-        // AJAX call to fetch colors for selected size and product ID
-        $.ajax({
-            url: 'get_colors.php',
-            method: 'POST',
-            data: {
-                size: selectedSize,
-                product_id: productId
-            },
-            dataType: 'json',
-            success: function(response) {
-                $('#colorSelect').empty(); // Clear current options
+			// AJAX call to fetch colors for selected size and product ID
+			$.ajax({
+				url: 'get_colors.php',
+				method: 'POST',
+				data: {
+					size: selectedSize,
+					product_id: productId
+				},
+				dataType: 'json',
+				success: function(response) {
+					$('#colorSelect').empty(); // Clear current options
 
-                // Populate color options based on response
-                $.each(response, function(index, color) {
-                    // Append an option with value as color_id and text as color
-                    $('#colorSelect').append('<option value="' + color.color_id + '">' + color.color + '</option>');
-                    
-                    // Log color_id and color to console for verification
-                    console.log('Color ID: ' + color.color_id + ', Color Name: ' + color.color); 
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching colors:', error);
-                // Optionally handle errors
-            }
-        });
-    });
-});
+					// Populate color options based on response
+					$.each(response, function(index, color) {
+						// Append an option with value as color_id and text as color
+						$('#colorSelect').append('<option value="' + color.color_id + '">' + color.color + '</option>');
+						$('#d_id').val(color.d_id);
+						$('#qty').val(color.qty);
+						console.log(color.d_id);
+						console.log(color.qty);
+						console.log('Color ID: ' + color.color_id + ', Color Name: ' + color.color); 
 
+						$('#product-quantity').attr('max', color.qty);
 
+					});
+				},
+				error: function(xhr, status, error) {
+					console.error('Error fetching colors:', error);
+					// Optionally handle errors
+				}
+			});
+		});
+	});
 </script>
+
+<script>
+    function validateForm() {
+        var selectedQuantity = parseInt(document.getElementById('product-quantity').value);
+        var availableQuantity = parseInt(document.getElementById('qty').value);
+        
+        if (selectedQuantity === 0) {
+            alert('Please select at least 1 item.');
+            return false; // Prevent form submission
+        }
+
+        if (selectedQuantity > availableQuantity) {
+            alert('Only ' + availableQuantity + ' clothes left.');
+            return false; // Prevent form submission
+        }
+        
+        return true; // Allow form submission
+    }
+</script>
+
 
 
 <?php
