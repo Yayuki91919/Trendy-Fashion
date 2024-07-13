@@ -340,6 +340,7 @@
                             <li><a href="./banner.php">Banners</a></li>
                             <li><a href="./collaboration.php">Collabration</a></li>
                             <li><a href="./shopinfo.php">Shop Info</a></li>
+                            <li><a href="./social.php">Shop Social</a></li>
                         </ul>
                     </li>
                     <!-- <li class="nav-label">UI Components</li>

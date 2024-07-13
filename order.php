@@ -1,4 +1,7 @@
-<?php include_once 'layouts/header.php'; ?>
+<?php 
+include_once 'layouts/header.php'; 
+
+?>
 
 <section class="page-header">
 	<div class="container">

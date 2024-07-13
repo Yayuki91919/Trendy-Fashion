@@ -6,8 +6,14 @@ class LocationController extends Location{
         public function getLocationList(){
             return $this->getLocationInfo();
         }
+        public function getCityGroupBy(){
+            return $this->getCity();
+        }
         public function getLocationListById($id){
             return $this->getLocationById($id);
+        }
+        public function getLocationListByCity($city){
+            return $this->getLocationByCity($city);
         }
         public function getLocationExceptFromId($id){
             return $this->getLocationInfoExceptFromId($id);
