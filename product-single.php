@@ -16,12 +16,18 @@ if (isset($_POST['addToCart'])) {
 	$quantity = $_POST['product-quantity'];
 	$status = $cart_controller->addToCart($d_id, $cid, $quantity);
 	if ($status) {
-		echo '<script> location.href="shop-sidebar.php?status=' . $status . '"</script>';
+		// echo '<script> location.href="shop-sidebar.php?status=' . $status . '"</script>';
+		echo '<script> location.href="cart.php?status=' . $status . '"</script>';
 	} 
-	// else {
 
-	// 	echo '<script> location.href="shop-sidebar.php"</script>';
-	// }
+}
+if (isset($_POST['updateCart'])) {
+	$d_id = $_POST['d_id'];
+	$quantity = $_POST['product-quantity'];
+	$status = $cart_controller->updateCart($d_id, $cid, $quantity);
+	if ($status) {
+		echo '<script> location.href="cart.php?status=' . $status . '"</script>';
+	} 
 }
 
 ?>
@@ -121,36 +127,27 @@ if (isset($_POST['addToCart'])) {
 						$e = $cart_controller->getEditCart($cart_id);
 						
 						?>
-						<form action="<?php $_PHP_SELF ?>" method="post" onsubmit="return validateForm()">
+						<form action="<?php $_PHP_SELF ?>" method="post" onsubmit="return validateFormEdit()">
 							<div class="product-size">
 								<span>Size</span>
-								<select class="form-control" name="size" id="sizeSelect" required>
-									<option value="<?php echo $e['size_id'];?>"><?php echo $e['size']; ?></option>
-
-									<?php
-									$size = $product_controller->getSizeDistict($product_id);
-									foreach ($size as $s) {
-										echo '<option value="' . $s['size_id'] . '">' . $s['size'] . '</option>';
-									}
-									?>
-								</select>
+								
+								<p class="form-control"><?php echo $e['size']; ?></p>
+								
 							</div>
 							<div class="product-size">
 								<span>Color</span>
-								<select class="form-control" name="color" id="colorSelect" reqyired>
-									<option value="<?php echo $e['color_id'];?>"><?php echo $e['color']; ?></option>
+								
+								<p class="form-control"><?php echo $e['color']; ?></p>
 
-									<!-- Options will be populated dynamically via AJAX -->
-								</select>
 							</div>
 
-							<input type="hidden" name="d_id" id="d_id" value="<?php echo $e['d_id']; ?>">
-							<input type="hidden" name="avaliable_quantity" id="qty" value="<?php echo $e['max_qty']; ?>">
+							<input type="hidden" name="d_id" id="d_id" value="<?php echo $e['d_id'] ?>" >
+							<input type="hidden" name="avaliable_quantity" id="qty" value="<?php echo $e['max_qty'] ?>">
 
 							<div class="product-quantity">
 								<span>Quantity:</span>
 								<div class="product-quantity-slider">
-									<input id="product-quantity" type="text" name="product-quantity" min="1" required>
+									<input id="product-quantity" type="text" name="product-quantity" min="1" value="<?php echo $e['quantity'] ?>">
 								</div>
 							</div>
 
@@ -162,7 +159,7 @@ if (isset($_POST['addToCart'])) {
 									<li><a href="product-single.html"><?php echo $detail['type']; ?></a></li>
 								</ul>
 							</div>
-							<input type="submit" value="Add To Cart" name="addToCart" class="btn btn-main mt-20">
+							<input type="submit" value="Update Cart" name="updateCart" class="btn btn-main mt-20">
 							<a href="cart.php" class="btn btn-main mt-20 btn-solid-border">View Cart</a>
 
 						</form>
@@ -270,22 +267,50 @@ if (isset($_POST['addToCart'])) {
 </script>
 
 <script>
-	function validateForm() {
-		var selectedQuantity = parseInt(document.getElementById('product-quantity').value);
-		var availableQuantity = parseInt(document.getElementById('qty').value);
+function validateForm() {
+    var selectedQuantity = parseInt(document.getElementById('product-quantity').value);
+    var availableQuantity = parseInt(document.getElementById('qty').value);
+    var selectedSize = document.getElementById('sizeSelect').value;
 
-		if (selectedQuantity === 0) {
-			alert('Please select at least 1 item.');
-			return false; // Prevent form submission
-		}
+    // Validate selected quantity
+    if (selectedQuantity === 0) {
+        alert('Please select at least 1 item.');
+        return false; // Prevent form submission
+    }
 
-		if (selectedQuantity > availableQuantity) {
-			alert('Only ' + availableQuantity + ' clothes left.');
-			return false; // Prevent form submission
-		}
+    // Validate available quantity
+    if (selectedQuantity > availableQuantity) {
+        alert('Only ' + availableQuantity + ' clothes left.');
+        return false; // Prevent form submission
+    }
 
-		return true; // Allow form submission
-	}
+    // Validate selected size
+    if (selectedSize === "") {
+        alert('Please select size.');
+        return false; // Prevent form submission
+    }
+
+    return true; // Allow form submission
+}
+function validateFormEdit() {
+    var selectedQuantity = parseInt(document.getElementById('product-quantity').value);
+    var availableQuantity = parseInt(document.getElementById('qty').value);
+
+    // Validate selected quantity
+    if (selectedQuantity === 0) {
+        alert('Please select at least 1 item.');
+        return false; // Prevent form submission
+    }
+
+    // Validate available quantity
+    if (selectedQuantity > availableQuantity) {
+        alert('Only ' + availableQuantity + ' clothes left.');
+        return false; // Prevent form submission
+    }
+
+    return true; // Allow form submission
+}
+
 </script>
 
 

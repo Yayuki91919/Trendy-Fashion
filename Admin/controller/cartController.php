@@ -8,7 +8,7 @@ class cartController extends Cart
         return $this->getCart($e);
     }
     public function getEditCart($cart_id){
-        return $this->EditCart($cart_id);
+        return $this->getEditCartInfo($cart_id);
     }
     public function removeCart($cart_id)
     {
@@ -17,6 +17,10 @@ class cartController extends Cart
     public function addToCart($d_id,$cid,$quantity)
     {
         return $this->addCart($d_id,$cid,$quantity);
+    }
+    public function updateCart($d_id,$cid,$quantity)
+    {
+        return $this->updateCartQty($d_id,$cid,$quantity);
     }
 
     
