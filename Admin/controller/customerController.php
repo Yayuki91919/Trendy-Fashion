@@ -9,9 +9,9 @@ class CustomerController extends Customer{
         public function getCustomer($id){
             return $this->getCustomerById($id);
         }
-        public function editCustomer($id,$name,$email,$phone)
+        public function editCustomer($id,$name,$email,$phone,$password)
         {
-            return $this->updateCustomer($id,$name,$email,$phone);
+            return $this->updateCustomer($id,$name,$email,$phone,$password);
         }
         public function addCustomer($name)
         {

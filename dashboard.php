@@ -28,16 +28,6 @@
 					<li><a href="profile-details.php">Profile Details</a></li>
 				</ul>
 				<div class="dashboard-wrapper user-dashboard">
-					<div class="media">
-						<div class="pull-left">
-							<img class="media-object user-img" src="images/avater.jpg" alt="Image">
-						</div>
-						<div class="media-body">
-							<h2 class="media-heading">Welcome Adam Smith</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde, iure, est. Sit mollitia est maxime! Eos
-								cupiditate tempore, tempora omnis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, nihil. </p>
-						</div>
-					</div>
 					<div class="total-order mt-20">
 						<h4>Total Orders</h4>
 						<div class="table-responsive">

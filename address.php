@@ -1,5 +1,7 @@
-<?php include_once 'layouts/header.php'; ?>
-
+<?php
+ include_once 'layouts/header.php'; 
+ 
+?>
 <section class="page-header">
 	<div class="container">
 		<div class="row">
@@ -20,7 +22,6 @@
     <div class="row">
       <div class="col-md-12">
         <ul class="list-inline dashboard-menu text-center">
-          <li><a href="dashboard.php">Dashboard</a></li>
           <li><a href="order.php">Orders</a></li>
           <li><a class="active" href="address.php">Address</a></li>
           <li><a href="profile-details.php">Profile Details</a></li>
