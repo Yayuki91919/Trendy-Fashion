@@ -14,8 +14,8 @@ $categories = $cat_controller->getCategories();
 $sub_controller = new SubCategoryController();
 
 $product_controller = new productController();
-$products = $product_controller->getProduct();
-$product_id="";
+$products = $product_controller->getPublicProduct();
+$product_id = "";
 ?>
 
 <section class="page-header">
@@ -41,7 +41,7 @@ $product_id="";
                 <div class="widget">
                     <h4 class="widget-title">Type</h4>
                     <select id="productTypeSelect" class="form-control">
-						<option value="all">All Type</option>
+                        <option value="all">All Type</option>
 
                         <?php foreach ($types as $type) { ?>
                             <option value="<?php echo $type['type_id']; ?>"><?php echo $type['name']; ?></option>
@@ -79,51 +79,52 @@ $product_id="";
             </div>
             <div class="col-md-9">
                 <div class="row" id="productContainer">
-                    <?php foreach ($products as $p) { 
-						$product_id=$p['product_id'];
-						$images = $product_controller->getRandomImages($product_id); ?>
+                    <?php foreach ($products as $p) {
+                        $product_id = $p['product_id'];
+                        $images = $product_controller->getRandomImages($product_id); ?>
 
-						
-						
+
+
                         <div class="col-md-4">
-                <div class="product-item">
-                    <div class="product-thumb">
-						<?php if($p['state'] != 'None'){?>
+                            <div class="product-item">
+                                <div class="product-thumb">
+                                    <?php if ($p['state'] != 'None') { ?>
 
-							<span class="bage"><?php echo htmlspecialchars($p['state']); ?></span>
+                                        <span class="bage"><?php echo htmlspecialchars($p['state']); ?></span>
 
-							<?php } ?>
-                        <?php foreach ($images as $img) { ?>
-                            <img class="img-responsive" src="Admin/images/product/<?php echo htmlspecialchars($img['image_name']); ?>" alt="product-img" />
-                        <?php } ?>
-                        <div class="preview-meta">
-                            <ul>
-                                <!-- <li>
+                                    <?php } ?>
+                                    <?php foreach ($images as $img) { ?>
+                                        <img class="img-responsive" src="Admin/images/product/<?php echo htmlspecialchars($img['image_name']); ?>" alt="product-img" />
+                                    <?php } ?>
+                                    <div class="preview-meta">
+                                        <ul>
+                                            <!-- <li>
                                     
-                                    <a href="product-single.php?pid=<?php //echo $product_id; ?>">
+                                    <a href="product-single.php?pid=<?php //echo $product_id; 
+                                                                    ?>">
                                         <i class="tf-ion-ios-search-strong"></i>
                                     </a>
 
                                 </li> -->
-                                <!-- <li>
+                                            <!-- <li>
                                     <a href="#!"><i class="tf-ion-ios-heart"></i></a>
                                 </li> -->
-                                <li>
-                                    <a href="product-single.php?pid=<?php echo $product_id; ?>"><i class="tf-ion-android-cart"></i></a>
-                                </li>
-                            </ul>
+                                            <li>
+                                                <a href="product-single.php?pid=<?php echo $product_id; ?>"><i class="tf-ion-android-cart"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="product-content">
+                                    <h4><a><?php echo htmlspecialchars($p['product_name']); ?></a></h4>
+                                    <p class="price"><?php echo htmlspecialchars($p['price']) . " Ks"; ?></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="product-content">
-                        <h4><a><?php echo htmlspecialchars($p['product_name']); ?></a></h4>
-                        <p class="price"><?php echo htmlspecialchars($p['price']) . " Ks"; ?></p>
-                    </div>
-                </div>
-            </div>
                     <?php } ?>
                 </div>
 
-                
+
 
             </div>
         </div>
@@ -139,7 +140,9 @@ $product_id="";
                 $.ajax({
                     url: 'fetch_products.php',
                     method: 'POST',
-                    data: { typeId: typeId },
+                    data: {
+                        typeId: typeId
+                    },
                     success: function(response) {
                         $('#productContainer').html(response);
                     }
@@ -155,7 +158,9 @@ $product_id="";
                 $.ajax({
                     url: 'fetch_products.php',
                     method: 'POST',
-                    data: { subCategoryId: subCategoryId },
+                    data: {
+                        subCategoryId: subCategoryId
+                    },
                     success: function(response) {
                         $('#productContainer').html(response);
                     }
