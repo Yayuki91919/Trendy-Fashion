@@ -31,8 +31,7 @@
                   <thead>
                     <tr>
                       <th class="">Item Name</th>
-                      <th class="">Item Price</th>
-                      <th class="">Quantity</th>
+                      <th class="">Item Info</th>
                       <th class="">Amount</th>
                       <th class="">Actions</th>
                     </tr>
@@ -49,13 +48,36 @@
                         <td>
                           <div class="product-info">
                             <img width="80" src="Admin/images/product/<?php echo htmlspecialchars($c['random_image']); ?>" alt="" />
-                            <a href="#"><?php echo $c["product_name"]; ?></a>
+                            <a href="product-single.php?pid=<?php echo $c['product_id']; ?>">
+                              
+                              <?php echo $c["product_name"]; ?>
+                            </a>
+                            
+                          </div>
+                         
+                        </td>
+                        
+                        
+                        <td>
+                          <div class="product-info">
+                          <p><?php echo $c["size"] . " & " .$c["color"] ; ?>
+                          </p> 
+                          
                           </div>
                         </td>
-                        <td><?php echo $c["price"] . " Ks"; ?></td>
-                        <td><?php echo $c["quantity"] ; ?><a href=product-single.php?pid=<?php echo $c["product_id"] ;?>&edit_cart=<?php echo $c["cart_id"]?>> <i class="tf-ion-edit"></i></a></td>
-                        
-                        <td><?php echo $subtotal . " Ks"; ?></td>
+                        <td>
+                          <div class="product-info">
+                          <p>
+                          <?php echo $c["price"] . " Ks X ".$c["quantity"] ; ?><a href=product-single.php?pid=<?php echo $c["product_id"] ;?>&edit_cart=<?php echo $c["cart_id"]?>> <i class="tf-ion-edit"></i></a>
+                          
+                          </p>
+                          <p>
+                          <?php echo $subtotal. " Ks"; ?>
+                          </p>
+                          
+                          </div>
+                          
+                        </td>
                         <td>
                           <a class="product-remove" href="#" data-cart-id="<?php echo $c['cart_id']; ?>" onclick="return confirm('Are you sure to remove?');">Remove</a>
                         </td>
@@ -65,8 +87,8 @@
 
                 </table>
                 <a href="shop-sidebar.php" class="btn btn-main mt-20 btn-solid-border"><< Shopping</a>
-                <a class="btn pull-right mt-10 text-red"><?php echo "Total : ".$total." Ks"; ?></a>
                 <a href="checkout.php" class="btn mt-20 btn-main pull-right">Checkout</a>
+                <a class="btn pull-right mt-10 text-red"><?php echo "Total : ".$total." Ks"; ?></a>
 
               </form>
             </div>

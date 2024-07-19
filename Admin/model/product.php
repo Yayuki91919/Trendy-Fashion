@@ -85,7 +85,7 @@ class Product
             p.status=1
         ORDER BY p.product_id DESC
     ";
-    
+
 
 
         $statement = $con->prepare($sql);
@@ -98,7 +98,9 @@ class Product
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "select * from product_color";
+        $sql = "SELECT * 
+                FROM product_color
+                ORDER BY color_id DESC ";
 
         $statement = $con->prepare($sql);
         if ($statement->execute()) {
@@ -110,7 +112,9 @@ class Product
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "select * from product_size ";
+        $sql = "SELECT * 
+                FROM product_size
+                ORDER BY size_id DESC ";
         $statement = $con->prepare($sql);
         if ($statement->execute()) {
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -173,7 +177,7 @@ class Product
         }
     }
 
-    public function addNewProduct($filenames, $name, $price, $sub_id, $type_id, $des)
+    public function addNewProduct($name, $price, $sub_id, $type_id, $des)
     {
 
         // Connect to the database
@@ -196,40 +200,28 @@ class Product
 
         $product_id = $con->lastInsertId(); // Get the ID of the last inserted product
 
-        // 2. Insert into product_image table
-        $sql = "INSERT INTO product_image (image_name, product_id) VALUES (:image, :product_id)";
-        $statement = $con->prepare($sql);
-
-        // Multiple images
-        foreach ($filenames as $image) {
-            $statement->bindParam(':image', $image);
-            $statement->bindParam(':product_id', $product_id);
-
-            $statement->execute();
-        }
-
         // 3. Insert into product_detail table for each size and color
-        $sql = "SELECT * FROM temp_product";
-        $statement = $con->prepare($sql);
-        $statement->execute();
+        // $sql = "SELECT * FROM temp_product";
+        // $statement = $con->prepare($sql);
+        // $statement->execute();
 
-        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $color_id = $row['color_id'];
-            $size_id = $row['size_id'];
-            $qty = $row['qty'];
-            $sql = "INSERT INTO product_detail (product_id, color, size, qty)
-             VALUES (:product_id, :color, :size, :qty)";
-            $detail_statement = $con->prepare($sql);
-            $detail_statement->bindParam(':color', $color_id);
-            $detail_statement->bindParam(':size', $size_id);
-            $detail_statement->bindParam(':qty', $qty);
-            $detail_statement->bindParam(':product_id', $product_id);
-            $detail_statement->execute();
-        }
+        // while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        //     $color_id = $row['color_id'];
+        //     $size_id = $row['size_id'];
+        //     $qty = $row['qty'];
+        //     $sql = "INSERT INTO product_detail (product_id, color, size, qty)
+        //      VALUES (:product_id, :color, :size, :qty)";
+        //     $detail_statement = $con->prepare($sql);
+        //     $detail_statement->bindParam(':color', $color_id);
+        //     $detail_statement->bindParam(':size', $size_id);
+        //     $detail_statement->bindParam(':qty', $qty);
+        //     $detail_statement->bindParam(':product_id', $product_id);
+        //     $detail_statement->execute();
+        // }
 
-        $sql = "Delete FROM temp_product";
-        $statement = $con->prepare($sql);
-        $statement->execute();
+        // $sql = "Delete FROM temp_product";
+        // $statement = $con->prepare($sql);
+        // $statement->execute();
 
         return true;
     }
@@ -646,7 +638,7 @@ class Product
         }
     }
 
-    public function getColorsInfoBySize($size,$product_id)
+    public function getColorsInfoBySize($size, $product_id)
     {
         $con = Database::connect(); // Replace Database::connect() with your database connection method
 

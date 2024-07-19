@@ -49,7 +49,7 @@ class Cart
         }
         return $result;
     }
-    public function EditCart($cart_id)
+    public function getEditCartInfo($cart_id)
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -121,7 +121,7 @@ class Cart
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    
         // Retrieve available quantity from product_detail
         $sql_get_qty = 'SELECT qty FROM product_detail WHERE d_id = :d_id';
         $statement_get_qty = $con->prepare($sql_get_qty);
@@ -129,7 +129,7 @@ class Cart
         $statement_get_qty->execute();
         $product_detail = $statement_get_qty->fetch(PDO::FETCH_ASSOC);
         $available_qty = $product_detail['qty'];
-
+    
         // Check if quantity to be added exceeds available quantity in product_detail
         if ($quantity > $available_qty) {
             echo "Error: Quantity exceeds available stock.";
@@ -190,5 +190,4 @@ class Cart
             }
         }
     }
-
 }
