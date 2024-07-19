@@ -6,10 +6,22 @@ class ShopInfoController extends ShopInfo{
         public function getShopInfo(){
             return $this->getShopInfos();
         }
-        public function editShopInfo($id,$phone,$email,$address,$map_link,$fb,$twt,$insta)
-        {
-            return $this->updateShopInfo($id,$phone,$email,$address,$map_link,$fb,$twt,$insta);
+        public function getShopById($id){
+            return $this->getShopInfoById($id);
         }
+        public function addShopInfo($name,$phone,$viber,$address,$open,$close)
+        {
+            return $this->createShopInfo($name,$phone,$viber,$address,$open,$close);
+        }
+        public function editShopInfo($id,$name,$phone,$viber,$address,$open,$close)
+        {
+            return $this->updateShopInfo($id,$name,$phone,$viber,$address,$open,$close);
+        }
+        public function deleteShop($id)
+        {
+            return $this->deleteShopInfo($id);
+        }
+       
 
 
 }

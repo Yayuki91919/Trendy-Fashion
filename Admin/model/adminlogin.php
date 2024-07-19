@@ -3,17 +3,14 @@ include_once __DIR__. '../../vendor/db/db.php';
 
 class Admin{
     public function getAdminInfo(){
-        $id=1;
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql="select * from admin_login where id=:id";
+        $sql="select * from admin_login";
         $statement=$con->prepare($sql);
-        $statement->bindParam(':id',$id);
-        if($statement->execute())
-        {
-            $result=$statement->fetch(PDO::FETCH_ASSOC);
-            return $result ;
+        if($statement->execute()){
+            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
         }
+        return $result;
 
     }
 

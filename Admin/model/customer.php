@@ -26,15 +26,16 @@ class Customer{
         }
 
     }
-    public function updateCustomer($id,$name,$email,$phone)
+    public function updateCustomer($id,$name,$email,$phone,$password)
     {
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $sql='update customer_account set username=:name,email=:email,phone=:phone where customer_id=:id';
+        $sql='update customer_account set username=:name,email=:email,phone=:phone,password=:password where customer_id=:id';
         $statement=$con->prepare($sql);
         $statement->bindParam(':name',$name);
         $statement->bindParam(':email',$email);
         $statement->bindParam(':phone',$phone);
+        $statement->bindParam(':password',$password);
         $statement->bindParam(':id',$id);
         if($statement->execute())
         {

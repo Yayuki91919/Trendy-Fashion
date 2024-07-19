@@ -37,23 +37,27 @@ foreach($banners as $banner) {
     </div>
     <?php } ?>
 </div>
-<div class="wrapper">
-    <?php   $subid=$banner['sub_id'];
-		    $product=$product_controller->getProductsBySubCategory($subid);
-            if($product!=null){
-			$product_id=$product['product_id'];
-			$pimages=$product_controller->getImages($product_id); ?>
+<!-- <div class="wrapper">
+    <?php   
+            // $subid=$banner['sub_id'];
+		    // $product=$product_controller->getProductsBySubCategory($subid);
+            // if($product!=null){
+			// $product_id=$product['product_id'];
+			// $pimages=$product_controller->getImages($product_id);
+    ?>
     <h2 class="text-center">New Arrivals</h2>
     <div class="photobanner">
         <?php 
-				foreach($pimages as $pimage){
+				//foreach($pimages as $pimage){
 				?>
-        <a href="shop-sidebar.php"><img width="30%" src="Admin/images/product/<?php echo $pimage['image_name'] ?>"
+        <a href="shop-sidebar.php"><img width="30%" src="Admin/images/product/<?php //echo $pimage['image_name'] ?>"
                 alt="" /></a>
-        <?php }} ?>
+        <?php 
+        }
+        } ?>
     </div>
-</div>
-<?php }} ?>
+</div> -->
+<?php //}} ?>
 
 
 <section class="section instagram-feed">

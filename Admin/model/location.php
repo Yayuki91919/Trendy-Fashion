@@ -13,12 +13,32 @@ class Location{
             $result=$statement->fetch(PDO::FETCH_ASSOC);
             return $result;
         }
-
+    }
+    public function getLocationByCity($city){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="SELECT * FROM location WHERE city=:city";
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':city',$city);
+        if($statement->execute()){
+            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
     }
     public function getLocationInfo(){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         $sql="select * from location";
+        $statement=$con->prepare($sql);
+        if($statement->execute()){
+            $result=$statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+    }
+    public function getCity(){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="SELECT * FROM location GROUP BY city";
         $statement=$con->prepare($sql);
         if($statement->execute()){
             $result=$statement->fetchAll(PDO::FETCH_ASSOC);
