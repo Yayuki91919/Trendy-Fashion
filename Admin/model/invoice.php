@@ -22,6 +22,22 @@ class Invoice{
         return $result;
 
     }
+    public function getLastInvoiceNo()
+{
+    $con = Database::connect();
+    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Use MAX() to get the highest invoice number
+    $sql = "SELECT MAX(invoice_no) as last_invoice_no FROM invoice";
+    $statement = $con->prepare($sql);
+
+    if ($statement->execute()) {
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['last_invoice_no'] ?? null; // Return null if no result
+    } else {
+        return false; // Handle query execution failure
+    }
+}
     public function getInvoiceById($id){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -44,6 +60,26 @@ class Invoice{
             $result=$statement->fetchAll(PDO::FETCH_ASSOC);
         }
         return $result;
+    }
+    public function addInvoice($invoice_no,$cid,$d_info_id,$fee_id,$total,$invoice_date)
+    {
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="insert into invoice(invoice_no,customer_id,deli_info_id,fee_id,total,invoice_date) 
+        value (:invoice,:customer_id, :deli_info_id, :fee_id,:total,:invoice_date)";
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':invoice',$invoice_no);
+        $statement->bindParam(':customer_id',$cid);
+        $statement->bindParam(':deli_info_id',$d_info_id);
+        $statement->bindParam(':fee_id',$fee_id);
+        $statement->bindParam(':total',$total);
+        $statement->bindParam(':invoice_date',$invoice_date);
+        if ($statement->execute()) {
+            // Return the ID of the last inserted row
+            return $con->lastInsertId();
+        } else {
+            return false;
+        }
     }
     
 }

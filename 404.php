@@ -53,7 +53,7 @@
 					<h1>404</h1>
 					<h2>Page Not Found</h2>
 					<a href="index.html" class="btn btn-main"><i class="tf-ion-android-arrow-back"></i> Go Home</a>
-					<p class="copyright-text">© 2018 Themefisher All Rights Reserved</p>
+					<p class="copyright-text">Trendy Fashion For You</p>
 				</div>
 			</div>
 		</div>

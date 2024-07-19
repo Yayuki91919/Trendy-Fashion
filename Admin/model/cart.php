@@ -12,6 +12,7 @@ class Cart
         select 
             c.cart_id,
             d.product_id,
+            d.d_id,
             c.customer_id,
             c.quantity,
             ps.size,
@@ -189,4 +190,5 @@ class Cart
             }
         }
     }
+
 }

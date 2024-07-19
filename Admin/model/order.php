@@ -37,6 +37,27 @@ class Order{
         }
 
     }
+    public function createOrder($d_id,$qty,$invoice_id,$cus_status,$cid)
+    {
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="insert into place_order(product_detail_id,quantity,invoice_id,cus_status) 
+        value (:d_id,:quantity, :invoice_id, :cus_status)";
+        $statement=$con->prepare($sql);
+        $statement->bindParam(':d_id',$d_id);
+        $statement->bindParam(':quantity',$qty);
+        $statement->bindParam(':invoice_id',$invoice_id);
+        $statement->bindParam(':cus_status',$cus_status);
+        if ($statement->execute()) {
+        $sql = "Delete FROM cart where customer_id=:customer_id ";
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':customer_id',$cid);
+        $statement->execute();
+            return true;
+        } else {
+            return false;
+        }
+    }
    
    
     
