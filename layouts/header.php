@@ -134,7 +134,10 @@ if(isset($_GET['removeCartId']))
 											<?php //echo $c['random_image']; ?>
 
 											<div class="media-body">
-												<h4 class="media-heading"><a href="#!"><?php echo $c["product_name"]; ?></a></h4>
+												<h4 class="media-heading">
+													<a href="product-single.php?pid=<?php echo $c['product_id']; ?>&edit_cart=<?php echo $c['cart_id']; ?>"><?php echo $c["product_name"]; ?></a>
+												</h4>
+												<span><?php echo "Size: ".$c["size"]." & Color: ".$c["color"] ; ?></span>
 												<div class="cart-price">
 													<span><?php echo $c["quantity"]; ?></span>
 													<span>X</span>

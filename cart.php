@@ -32,12 +32,19 @@
                     <tr>
                       <th class="">Item Name</th>
                       <th class="">Item Price</th>
+                      <th class="">Quantity</th>
+                      <th class="">Amount</th>
                       <th class="">Actions</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    <?php foreach ($cart as $c) { ?>
+                    <?php
+                      $subtotal=$total=0;
+                    foreach ($cart as $c) { 
+                      $subtotal = $c["price"]*$c["quantity"];
+                      $total += $subtotal 
+                      ?>
                       <tr class="cart-item" data-cart-id="<?php echo $c['cart_id']; ?>">
                         <td>
                           <div class="product-info">
@@ -46,6 +53,9 @@
                           </div>
                         </td>
                         <td><?php echo $c["price"] . " Ks"; ?></td>
+                        <td><?php echo $c["quantity"] ; ?><a href=product-single.php?pid=<?php echo $c["product_id"] ;?>&edit_cart=<?php echo $c["cart_id"]?>> <i class="tf-ion-edit"></i></a></td>
+                        
+                        <td><?php echo $subtotal . " Ks"; ?></td>
                         <td>
                           <a class="product-remove" href="#" data-cart-id="<?php echo $c['cart_id']; ?>" onclick="return confirm('Are you sure to remove?');">Remove</a>
                         </td>
@@ -54,7 +64,10 @@
                   </tbody>
 
                 </table>
-                <a href="checkout.php" class="btn btn-main pull-right">Checkout</a>
+                <a href="shop-sidebar.php" class="btn btn-main mt-20 btn-solid-border"><< Shopping</a>
+                <a class="btn pull-right mt-10 text-red"><?php echo "Total : ".$total." Ks"; ?></a>
+                <a href="checkout.php" class="btn mt-20 btn-main pull-right">Checkout</a>
+
               </form>
             </div>
           </div>
