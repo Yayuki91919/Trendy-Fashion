@@ -175,12 +175,11 @@ if(isset($_GET['removeCartId']))
 
 						</ul>
 
-						<?php } else { ?>php
+						<?php } else { ?>
 						<ul class="top-menu text-right list-inline">
-							<li class="dropdown cart-nav dropdown-slide">
+							<!-- <li class="dropdown cart-nav dropdown-slide">
 								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-android-cart"></i>Cart</a>
 								<div class="dropdown-menu cart-dropdown">
-									<!-- Cart Item -->
 									<div class="media">
 										<a class="pull-left" href="#!">
 											<img class="media-object" src="images/shop/cart/cart-1.jpg" alt="image" />
@@ -194,22 +193,8 @@ if(isset($_GET['removeCartId']))
 											<h5><strong>$1200</strong></h5>
 										</div>
 										<a href="#!" class="remove"><i class="tf-ion-close"></i></a>
-									</div><!-- / Cart Item -->
-									<!-- Cart Item -->
-									<div class="media">
-										<a class="pull-left" href="#!">
-											<img class="media-object" src="images/shop/cart/cart-2.jpg" alt="image" />
-										</a>
-										<div class="media-body">
-											<h4 class="media-heading"><a href="#!">Ladies Bag</a></h4>
-											<div class="cart-price">
-												<span>1 x</span>
-												<span>1250.00</span>
-											</div>
-											<h5><strong>$1200</strong></h5>
-										</div>
-										<a href="#!" class="remove"><i class="tf-ion-close"></i></a>
-									</div><!-- / Cart Item -->
+									</div>
+									
 
 									<div class="cart-summary">
 										<span>Total</span>
@@ -221,7 +206,8 @@ if(isset($_GET['removeCartId']))
 									</ul>
 								</div>
 
-							</li><!-- / Cart -->
+							</li> -->
+							
 
 							<li class="dropdown dropdown-slide">
 								<a href="login.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span class="ep--avatar"> Sign In</span></a>

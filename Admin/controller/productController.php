@@ -8,6 +8,10 @@ class productController extends Product
     {
         return $this->getProductList();
     }
+    public function getPublicProduct()
+    {
+        return $this->getPublicProductList();
+    }
     public function getProductSize()
     {
         return $this->getProductSizeList();

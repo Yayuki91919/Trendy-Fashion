@@ -7,7 +7,7 @@ if (isset($_POST['typeId']) || isset($_POST['subCategoryId'])) {
     if (isset($_POST['typeId'])) {
         $typeId = $_POST['typeId'];
         if ($typeId == 'all') {
-            $products = $product_controller->getProduct();
+            $products = $product_controller->getPublicProduct();
         } else {
             $products = $product_controller->getProductsByType($typeId);
         }
@@ -25,7 +25,7 @@ if (isset($_POST['typeId']) || isset($_POST['subCategoryId'])) {
 
         foreach ($products as $p) {
             $product_id = $p['product_id'];
-            $images = $product_controller->getRamdomImages($product_id); ?>
+            $images = $product_controller->getRandomImages($product_id); ?>
 
             <div class="col-md-4">
                 <div class="product-item">

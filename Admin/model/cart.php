@@ -99,6 +99,9 @@ class Cart
         }
         return $result;
     }
+
+
+
     public function deleteCart($cart_id)
     {
         $con = Database::connect();
@@ -106,6 +109,7 @@ class Cart
         $sql = 'delete from cart where cart_id=:id';
         $statement = $con->prepare($sql);
         $statement->bindParam(':id', $cart_id);
+        $statement->bindParam('id', $cart_id);
         try {
             $statement->execute();
             return true;
