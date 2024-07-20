@@ -30,9 +30,9 @@ if (isset($_POST['addProduct'])) {
     $des = $_POST['des'];
     // $images = $_FILES['images'];
     $status = $product_controller->addProduct($name, $price, $sub_id, $type_id, $des);
-    if ($status) {
-        echo '<script> location.href="product.php?status=' . $status . '"</script>';
-    }
+    // if ($status) {
+        echo '<script> location.href="addedProduct.php?pid=' . $status . '"</script>';
+    // }
 }
 
 if (isset($_GET['size_color_delete'])) {

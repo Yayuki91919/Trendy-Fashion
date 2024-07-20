@@ -5,9 +5,10 @@ include_once __DIR__ . '../controller/categoryController.php';
 include_once __DIR__ . '../controller/subController.php';
 include_once __DIR__ . '../controller/typeController.php';
 
-//  Product Information Section
 $product_controller = new productController();
+$errors = [];
 $id = $_GET['pid'];
+
 $product = $product_controller->getProducts($id);
 $product_name = $product['product_name'];
 $description = $product['description'];
@@ -32,8 +33,6 @@ $type_controller = new typeController();
 $types = $type_controller->getTypes();
 
 
-
-
 // size and color of $id product
 $size_color = $product_controller->getSizeColorDetail($id);
 
@@ -43,15 +42,10 @@ $sizes = $product_controller->getSizes();
 $images = $product_controller->getImages($id);
 
 
-
-
-
 if (isset($_POST['addSize'])) {
     $size_id = $_POST['size_id'];
     $color_id = $_POST['color_id'];
     $qty = $_POST['qty'];
-
-    //  echo $size_id."<br>".$color_id."<br>".$qty."<br>".$id;
 
     $status = $product_controller->addMoreSizeColor($size_id, $color_id, $qty, $id);
     if ($status) {
@@ -60,19 +54,102 @@ if (isset($_POST['addSize'])) {
     }
 }
 
+// if (isset($_POST['addImage'])) {
+//     $product_id = $_POST['product_id'];
+//     $files = $_FILES['files'];
+
+//     if (empty($files['name'][0])) {
+//         $errors['files'] = "Please upload at least one image.";
+//     } else {
+//         foreach ($files['tmp_name'] as $key => $tmp_name) {
+//             $image_info = getimagesize($tmp_name);
+//             if ($image_info) {
+//                 $width = $image_info[0];
+//                 $height = $image_info[1];
+//                 if ($width != 500 || $height != 600) {
+//                     $errors['files'] = "Image {$files['name'][$key]} does not have the required dimensions of 500 x 600.
+//                     it is $width X $height";
+//                 }
+//             } else {
+//                 $errors['files'] = "File {$files['name'][$key]} is not a valid image.";
+//             }
+//         }
+//     }
+
+//     if (empty($errors)) {
+//         $upload_dir = __DIR__ . '/images/product/';
+//         if (!is_dir($upload_dir)) {
+//             mkdir($upload_dir, 0777, true);
+//         }
+
+//         foreach ($files['tmp_name'] as $key => $tmp_name) {
+//             $file_name = basename($files['name'][$key]);
+//             $target_file = $upload_dir . $file_name;
+//             move_uploaded_file($tmp_name, $target_file);
+//             $image =  $files['name'];
+
+//         }
+//         // $images = implode(',', $files['name']);
+//         $result = $product_controller->addMoreImage($id, $images);
+//         if ($result) {
+//             echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
+//         } else {
+//             $fail = "fail";
+//         }
+//     }
+// }
+
 if (isset($_POST['addImage'])) {
+    $product_id = $_POST['product_id'];
+    $files = $_FILES['files'];
 
-    $images = $_FILES['images'];
-    $status = $product_controller->addMoreImage($id, $images);
-    if ($status) {
-
-        echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
-        //header('Location: product_detail.php?pid=' . $id);
-
+    if (empty($files['name'][0])) {
+        $errors['files'] = "Please upload at least one image.";
     } else {
-        echo "Failed to add images.";
+        $upload_dir = __DIR__ . '/images/product/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
+        foreach ($files['tmp_name'] as $key => $tmp_name) {
+            $image_info = getimagesize($tmp_name);
+            if ($image_info) {
+                $width = $image_info[0];
+                $height = $image_info[1];
+                if ($width != 500 || $height != 600) {
+                    $errors['files'] = "Image {$files['name'][$key]} does not have the required dimensions of 500 x 600. It is $width X $height";
+                    break; // Stop further processing on dimension error
+                } else {
+                    // Generate unique file name to avoid overwriting
+                    $file_name = uniqid() . '_' . basename($files['name'][$key]);
+                    $target_file = $upload_dir . $file_name;
+                    if (move_uploaded_file($tmp_name, $target_file)) {
+                        // Successfully uploaded, now add to database or process further
+                        $result = $product_controller->addMoreImage($id, $file_name);
+                        if (!$result) {
+                            $fail = "Failed to add image '{$files['name'][$key]}' to the database.";
+                            break; // Exit loop on failure
+                        }
+                    } else {
+                        $errors['files'] = "Error uploading file {$files['name'][$key]}";
+                        break; // Exit loop on upload failure
+                    }
+                }
+            } else {
+                $errors['files'] = "File {$files['name'][$key]} is not a valid image.";
+                break; // Exit loop on invalid image
+            }
+        }
+    }
+
+    if (empty($errors)) {
+        echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
     }
 }
+
+
+
+
 
 
 
@@ -84,6 +161,7 @@ if (isset($_GET['size_color_delete'])) {
         echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
     }
 }
+
 if (isset($_GET['delete_image'])) {
     $delete_image = $_GET['delete_image'];
     $status = $product_controller->delete_image($delete_image);
@@ -92,7 +170,6 @@ if (isset($_GET['delete_image'])) {
         echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
     }
 }
-
 
 if (isset($_POST['editProduct'])) {
     $product_name = $_POST['product'];
@@ -103,9 +180,8 @@ if (isset($_POST['editProduct'])) {
     $des = $_POST['des'];
     $state = $_POST['state'];
 
-    $status=$product_controller->editProduct($id,$product_name,$sub_id,$type_id,$price,$des,$state);
-    if($status)
-    {
+    $status = $product_controller->editProduct($id, $product_name, $sub_id, $type_id, $price, $des, $state);
+    if ($status) {
         // $message=2;
         echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
     }
@@ -113,7 +189,12 @@ if (isset($_POST['editProduct'])) {
 
 
 ?>
-
+<style>
+    .error {
+        color: red;
+        font-size: 0.9em;
+    }
+</style>
 
 <!--**********************************
             Content body start
@@ -145,7 +226,7 @@ if (isset($_POST['editProduct'])) {
                 <div class="card bg-light">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class='card-title'><?php echo $product_name; ?> 
+                            <h5 class='card-title'><?php echo $product_name; ?>
                                 <span class="badge gradient-3"><?php echo $state; ?></span>
                             </h5>
                             <a href="#" class="edit-icon m-2">
@@ -166,7 +247,8 @@ if (isset($_POST['editProduct'])) {
                     <div class="card-footer bg-light d-flex justify-content-between align-items-center">
                         <span class="XRP">Created_date - <b><?php echo $date; ?></b></span>
                         <span class="float-right">
-                            <h5><span class="text-info"><?php echo $status; ?></span></h5>
+                            <h5><span class="text-info"><?php // echo $status; 
+                                                        ?></span></h5>
                         </span>
                     </div>
                 </div>
@@ -191,31 +273,31 @@ if (isset($_POST['editProduct'])) {
                                         <label for="editCategory">State</label>
 
                                         <select name="state" value="" class="custom-select mr-sm-2">
-                                            <?php if($state == "None") { ?>
+                                            <?php if ($state == "None") { ?>
                                                 <option value="None" selected>None</option>
                                             <?php } else { ?>
                                                 <option value="None">None</option>
                                             <?php } ?>
 
-                                            <?php if($state == "New Arrival") { ?>
+                                            <?php if ($state == "New Arrival") { ?>
                                                 <option value="New Arrival" selected>New Arrival</option>
                                             <?php } else { ?>
                                                 <option value="New Arrival">New Arrival</option>
                                             <?php } ?>
 
-                                            <?php if($state == "Best Seller") { ?>
+                                            <?php if ($state == "Best Seller") { ?>
                                                 <option value="Best Seller" selected>Best Seller</option>
                                             <?php } else { ?>
                                                 <option value="Best Seller">Best Seller</option>
                                             <?php } ?>
 
-                                            <?php if($state == "Popular") { ?>
+                                            <?php if ($state == "Popular") { ?>
                                                 <option value="Popular" selected>Popular</option>
                                             <?php } else { ?>
                                                 <option value="Popular">Popular</option>
                                             <?php } ?>
 
-                                            <?php if($state == "Limited Edition") { ?>
+                                            <?php if ($state == "Limited Edition") { ?>
                                                 <option value="Limited Edition" selected>Limited Edition</option>
                                             <?php } else { ?>
                                                 <option value="Limited Edition">Limited Edition</option>
@@ -224,7 +306,7 @@ if (isset($_POST['editProduct'])) {
                                         </select>
 
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label for="editCategory">Brand:</label>
 
@@ -377,43 +459,45 @@ if (isset($_POST['editProduct'])) {
                             <i class="fa fa-plus"></i> Add Image
                         </button> -->
                     </div>
-                    <div class="row mt-3">
-                        <?php $count = 1;
-                        foreach ($images as $i) : ?>
-                            <div class="col-6 col-md-4">
-                                <div class="card bg-light">
-                                    <div class="card-header">
-                                        <?php echo $product_name, $count++ ?>
 
-                                        <a href="product_detail.php?pid=<?php echo $id ?>&delete_image=<?php echo $i['image_id'] ?>" onclick="return confirm('Are you sure to delete?')" class="btn-lg float-right">
-                                            <i class="fa fa-trash text-danger"></i>
-                                        </a>
-
-                                    </div>
-                                    <img class="card-img-top" src="images/product/<?php echo $i['image_name'] ?>" alt="<?php echo $i['image_name'] ?>" style="width: 100%; height: 200px; object-fit: cover;" onclick="openModal('<?php echo $i['image_id'] ?>')">
-                                    <div class="card-body">
-                                        <!-- Additional content or details if needed -->
-                                    </div>
+                    <div class="row mt-1">
+                        <?php foreach ($images as $i) : ?>
+                            <div class="col-6 col-md-4 mb-3">
+                                <div class="position-relative">
+                                    <!-- Delete button -->
+                                    <a href="product_detail.php?pid=<?php echo $id ?>&delete_image=<?php echo $i['image_id'] ?>" onclick="return confirm('Are you sure to delete?')" class="btn btn-link position-absolute" style="top: 5px; right: 5px;">
+                                        <i class="fa fa-trash text-danger"></i>
+                                    </a>
+                                    <!-- Image -->
+                                    <img class="img-fluid" src="images/product/<?php echo $i['image_name'] ?>" alt="<?php echo $i['image_name'] ?>" style="width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain;">
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
+
+
+
+
 
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <form action="<?php $_PHP_SELF ?>" method="post" enctype="multipart/form-data">
                                     <div class="p-3 bg-light border rounded shadow-sm">
+                                        <input type="hidden" name="product_id" value="<?php echo $id; ?>">
                                         <label class="font-weight-bold">Add More Images:</label>
-                                        <input type="file" name="images[]" accept="image/*" multiple class="form-control" placeholder="Choose Images" required id="imageInput">
+                                        <input type="file" name="files[]" multiple class="form-control" placeholder="Choose Images" required id="imageInput">
 
                                         <div id="previewContainer" class="row mt-3">
                                             <!-- Previewed images will be added here -->
                                         </div>
+                                        <?php if (isset($errors['files'])) : ?>
+                                            <div class="error"><?php echo $errors['files']; ?></div>
+                                        <?php endif; ?>
                                     </div>
-                                    <input type="submit" value="Add Image" name="addImage" class="btn btn-success text-white">
+                                    <input type="submit" value="Add Image" name="addImage" class="btn btn-info mt-3 float-right text-white">
+                                </form>
                             </div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -444,7 +528,7 @@ if (isset($_POST['editProduct'])) {
 </script>
 
 <!-- ***************Image Preview********************** -->
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('imageInput').addEventListener('change', function(event) {
             const previewContainer = document.getElementById('previewContainer');
@@ -471,7 +555,65 @@ if (isset($_POST['editProduct'])) {
             }
         });
     });
+</script> -->
+
+<!-- *************** Image Preview and File Extension Validation ********************** -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Image preview function with file extension validation
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = ''; // Clear previous images
+            const files = event.target.files;
+
+            if (files.length === 0) {
+                console.log('No files selected'); // Debugging log
+                return;
+            }
+
+            const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            for (const file of files) {
+                const fileName = file.name;
+                const ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+
+                // Check if file extension is allowed
+                if (allowedExtensions.indexOf(ext) === -1) {
+                    alert('Error: Only JPG, JPEG, or PNG files are allowed.');
+                    continue; // Skip processing invalid file
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const colDiv = document.createElement('div');
+                    colDiv.classList.add('col-6', 'col-md-4', 'col-lg-3', 'mb-3'); // Adjust column size as needed
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('img-fluid'); // Bootstrap class for responsive images
+                    colDiv.appendChild(img);
+                    previewContainer.appendChild(colDiv);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form submission event listener for additional file extension validation
+        document.getElementById('addSizeColorForm').addEventListener('submit', function(event) {
+            var fileInput = document.getElementById('photo');
+            var fileName = fileInput.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+            var allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            // Check if a file is selected and it's an image with allowed extension
+            if (fileName && allowedExtensions.indexOf(ext) === -1) {
+                alert('Error: Only JPG, JPEG, or PNG files are allowed.');
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+    });
 </script>
+
+
 
 <!-- ******************edit product Modal********************** -->
 <script>

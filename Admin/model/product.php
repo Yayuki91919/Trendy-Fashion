@@ -223,31 +223,23 @@ class Product
         // $statement = $con->prepare($sql);
         // $statement->execute();
 
-        return true;
+        return $product_id;
     }
 
-    public function addNewMoreImage($filenames, $product_id)
+    public function addNewMoreImage($image, $product_id)
     {
-        // Connect to the database
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // 2. Insert into product_image table
         $sql = "INSERT INTO product_image (image_name, product_id) VALUES (:image, :product_id)";
         $statement = $con->prepare($sql);
+        $statement->bindParam(':image', $image);
+        $statement->bindParam(':product_id', $product_id);
 
-        // Multiple images
-        foreach ($filenames as $image) {
-            $statement->bindParam(':image', $image);
-            $statement->bindParam(':product_id', $product_id);
-
-            // Check execution for each image
-            if (!$statement->execute()) {
-                return false;
-            }
+        if ($statement->execute()) {
+            return true;
+        } else {
+            return false;
         }
-
-        return true;
     }
 
 

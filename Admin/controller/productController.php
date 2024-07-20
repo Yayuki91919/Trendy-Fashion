@@ -47,65 +47,54 @@ class productController extends Product
     
     public function addMoreImage($id, $images)
     {
-        $product_id = $id;
-        // Check if the image array is properly structured
-        if (!isset($images['error']) || !is_array($images['error'])) {
-            return "Invalid file upload structure.";
-        }
-   
-        $uploaded_filenames = [];
-    
-        // Ensure the target directory exists
-        $target_directory = '../images/product/';
-        if (!is_dir($target_directory)) {
-            mkdir($target_directory, 0755, true);
-        }
-    
-        foreach ($images['error'] as $key => $error) {
-            if ($error == 0) {
-                $filename = $images['name'][$key];
-                $extension = explode('.', $filename);
-                $filetype = end($extension);
-                $filesize = $images['size'][$key];
-                $allowed_types = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
-                $temp_file = $images['tmp_name'][$key];
-                $target_directory = './images/product/';
+        return $this->addNewMoreImage($images, $id);
 
-    
-                if (in_array($filetype, $allowed_types)) {
-                    if ($filesize <= 2000000) {
-                        $timestamp = time();
-                        $new_filename = $timestamp . '_' . $filename;
-    
-                        // Move uploaded file to target directory
-                        if (move_uploaded_file($temp_file, $target_directory . $new_filename)) {
-                            $uploaded_filenames[] = $new_filename;
-                        } else {
-                            echo "Failed to move file: $filename<br>";
-                        }
-                    } else {
-                        echo "File $filename exceeds size limit.<br>";
-                    }
-                } else {
-                    echo "File type $filetype not allowed for file $filename.<br>";
-                }
-            } else {
-                echo "Error uploading file:  Error code: $error<br>";
-            }
-        }
-    
-        if (!empty($uploaded_filenames)) {
-            // Return uploaded filenames or call a function to handle the next step
-            // return "Uploaded files: " . implode(', ', $uploaded_filenames);
-            
-            return $this->addNewMoreImage($uploaded_filenames, $product_id);
-
-
-        }
-    
-        // Optionally, handle cases where no files were uploaded successfully
-        return "No files were uploaded successfully.";
     }
+        // if (!isset($images['error']) || !is_array($images['error'])) {
+        //     return "Invalid file upload structure.";
+        // }
+        // $uploaded_filenames = [];
+        // $target_directory = '../images/product/';
+        // if (!is_dir($target_directory)) {
+        //     mkdir($target_directory, 0755, true);
+        // }
+    
+        // foreach ($images['error'] as $key => $error) {
+        //     if ($error == 0) {
+        //         $filename = $images['name'][$key];
+        //         $extension = explode('.', $filename);
+        //         $filetype = end($extension);
+        //         $filesize = $images['size'][$key];
+        //         $allowed_types = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
+        //         $temp_file = $images['tmp_name'][$key];
+        //         $target_directory = './images/product/';
+
+    
+        //         if (in_array($filetype, $allowed_types)) {
+        //             if ($filesize <= 2000000) {
+        //                 $timestamp = time();
+        //                 $new_filename = $timestamp . '_' . $filename;
+    
+        //                 // Move uploaded file to target directory
+        //                 if (move_uploaded_file($temp_file, $target_directory . $new_filename)) {
+        //                     $uploaded_filenames[] = $new_filename;
+        //                 } else {
+        //                     echo "Failed to move file: $filename<br>";
+        //                 }
+        //             } else {
+        //                 echo "File $filename exceeds size limit.<br>";
+        //             }
+        //         } else {
+        //             echo "File type $filetype not allowed for file $filename.<br>";
+        //         }
+        //     } else {
+        //         echo "Error uploading file:  Error code: $error<br>";
+        //     }
+        // }
+    
+        // if (!empty($uploaded_filenames)) {
+        //     return $this->addNewMoreImage($uploaded_filenames, $product_id);
+        // }
 
     
     public function addSize_Color($color_id,$color,$size_id,$size,$qty)
