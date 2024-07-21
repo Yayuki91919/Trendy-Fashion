@@ -133,8 +133,8 @@ class Cart
     
         // Check if quantity to be added exceeds available quantity in product_detail
         if ($quantity > $available_qty) {
-            echo "Error: Quantity exceeds available stock.";
-            return false;
+            $error = "Quantity exceeds available stock.";
+            return $error;
         }
     
         // Check if d_id already exists in cart for this customer
@@ -151,8 +151,8 @@ class Cart
     
             // Check if updated quantity exceeds available stock
             if ($new_quantity > $available_qty) {
-                echo "Error: Quantity exceeds available stock.";
-                return false;
+                 $error = "Quantity exceeds available stock. ";
+                return $error;
             }
     
             $sql_update = 'UPDATE cart SET quantity = :quantity WHERE d_id = :d_id AND customer_id = :cid';

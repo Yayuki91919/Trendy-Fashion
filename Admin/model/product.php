@@ -409,7 +409,7 @@ class Product
             product_size AS pz ON pd.size = pz.size_id
         WHERE 
             pd.product_id = :id
-    ";
+        ";
         $statement = $con->prepare($sql);
         $statement->bindParam(':id', $id);
         if ($statement->execute()) {
@@ -591,9 +591,6 @@ class Product
         } 
     }
  
-
-
-
     public function deleteTempInfo($id)
     {
         $con = Database::connect();
@@ -668,14 +665,18 @@ class Product
             return $result;
         }
     }
-    public function getSizeDistictInfo($product_id)
+    public function getSizeDistinctInfo($product_id)
     {
         $con = Database::connect(); // Replace Database::connect() with your database connection method
 
-        $sql = "SELECT DISTINCT ps.size_id, ps.size
+        // $sql = "SELECT DISTINCT ps.size_id, ps.size
+        //         FROM product_detail pd
+        //         JOIN product_size ps ON pd.size = ps.size_id
+        //         WHERE pd.product_id = :id";
+        $sql = "SELECT ps.size_id, ps.size
                 FROM product_detail pd
                 JOIN product_size ps ON pd.size = ps.size_id
-                WHERE pd.product_id = :id";
+                WHERE pd.product_id = :id AND pd.qty > 0";
         $statement = $con->prepare($sql);
         $statement->bindParam(':id', $product_id);
 
@@ -684,7 +685,6 @@ class Product
             return $result;
         }
     }
-
     public function getColorsInfoBySize($size, $product_id)
     {
         $con = Database::connect(); // Replace Database::connect() with your database connection method
@@ -703,8 +703,6 @@ class Product
             return $result;
         }
     }
-
-
     public function getRandomImageList($id)
     {
         $con = Database::connect();
@@ -714,17 +712,28 @@ class Product
 
         $statement = $con->prepare($sql);
         $statement->bindParam(':id', $id);
-        // if ($statement->execute()) {
-        //     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        //     return $result;
-        // } else {
-        //     return []; // Return an empty array if execution fails
-        // }
+  
         if ($statement->execute()) {
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } else {
             return []; // Return an empty array if execution fails
         }
+    }
+    public function soldOut($product_id)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT product_id, SUM(qty) AS total_quantity 
+        FROM product_detail 
+        WHERE product_id = :pid 
+        GROUP BY product_id";
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':pid', $product_id);
+  
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } 
     }
 }

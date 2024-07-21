@@ -11,21 +11,16 @@ if (isset($_GET['pid'])) {
 }
 
 $cid = $_SESSION['user_login']['customer_id'];
-
 if (isset($_POST['addToCart'])) {
-    $d_id = $_POST['d_id'];
-    $quantity = $_POST['product-quantity'];
-    $status = $cart_controller->addToCart($d_id, $cid, $quantity);
-    
-    if ($status === true) {
-        echo '<script> location.href="cart.php?status=' . $status . '"</script>';
-    } else {
+	$d_id = $_POST['d_id'];
+	$quantity = $_POST['product-quantity'];
+	$status = $cart_controller->addToCart($d_id, $cid, $quantity);
+	if ($status) {
+		// echo '<script> location.href="shop-sidebar.php?status=' . $status . '"</script>';
+		echo '<script> location.href="cart.php?status=' . $status . '"</script>';
+	} 
 
-		echo '<script>alert("' . $status . '");</script>';
-
-    }
 }
-
 if (isset($_POST['updateCart'])) {
 	$d_id = $_POST['d_id'];
 	$quantity = $_POST['product-quantity'];
@@ -49,12 +44,12 @@ if (isset($_POST['updateCart'])) {
 					<li class="active">Single Product</li>
 				</ol>
 			</div>
-			<!-- <div class="col-md-6">
+			<div class="col-md-6">
 				<ol class="product-pagination text-right">
 					<li><a href="blog-left-sidebar.html"><i class="tf-ion-ios-arrow-left"></i> Next </a></li>
 					<li><a href="blog-left-sidebar.html">Preview <i class="tf-ion-ios-arrow-right"></i></a></li>
 				</ol>
-			</div> -->
+			</div>
 		</div>
 		<div class="row mt-20">
 			<div class="col-md-4">
@@ -152,7 +147,7 @@ if (isset($_POST['updateCart'])) {
 							<div class="product-quantity">
 								<span>Quantity:</span>
 								<div class="product-quantity-slider">
-									<input id="product-quantity" type="number" name="product-quantity" min="1" value="<?php echo $e['quantity'] ?>">
+									<input id="product-quantity" type="text" name="product-quantity" min="1" value="<?php echo $e['quantity'] ?>">
 								</div>
 							</div>
 
@@ -193,11 +188,12 @@ if (isset($_POST['updateCart'])) {
 
 							<input type="hidden" name="d_id" id="d_id">
 							<input type="hidden" name="avaliable_quantity" id="qty">
+							<input type="text" name="cart_quantity" id="cart_qty">
 
 							<div class="product-quantity">
 								<span>Quantity:</span>
 								<div class="product-quantity-slider">
-									<input id="product-quantity" type="number" name="product-quantity" min="1" class="form-control">
+									<input id="product-quantity" type="text" name="product-quantity" min="1">
 								</div>
 							</div>
 
@@ -254,8 +250,10 @@ if (isset($_POST['updateCart'])) {
 						$('#colorSelect').append('<option value="' + color.color_id + '">' + color.color + '</option>');
 						$('#d_id').val(color.d_id);
 						$('#qty').val(color.qty);
+						$('#cart_qty').val(color.cart_quantity);
 						console.log(color.d_id);
 						console.log(color.qty);
+						console.log(color.cart_quantity);
 						console.log('Color ID: ' + color.color_id + ', Color Name: ' + color.color);
 
 						$('#product-quantity').attr('max', color.qty);

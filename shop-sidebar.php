@@ -83,8 +83,6 @@ $product_id = "";
                         $product_id = $p['product_id'];
                         $images = $product_controller->getRandomImages($product_id); ?>
 
-
-
                         <div class="col-md-4">
                             <div class="product-item">
                                 <div class="product-thumb">
@@ -92,28 +90,39 @@ $product_id = "";
 
                                         <span class="bage"><?php echo htmlspecialchars($p['state']); ?></span>
 
-                                    <?php } ?>
-                                    <?php foreach ($images as $img) { ?>
-                                        <img class="img-responsive" src="Admin/images/product/<?php echo htmlspecialchars($img['image_name']); ?>" alt="product-img" />
-                                    <?php } ?>
-                                    <div class="preview-meta">
-                                        <ul>
-                                            <!-- <li>
-                                    
-                                    <a href="product-single.php?pid=<?php //echo $product_id; 
-                                                                    ?>">
-                                        <i class="tf-ion-ios-search-strong"></i>
-                                    </a>
+                                    <?php }
 
-                                </li> -->
-                                            <!-- <li>
-                                    <a href="#!"><i class="tf-ion-ios-heart"></i></a>
-                                </li> -->
-                                            <li>
-                                                <a href="product-single.php?pid=<?php echo $product_id; ?>"><i class="tf-ion-android-cart"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    foreach ($images as $img) { ?>
+
+                                        <img class="img-responsive" src="Admin/images/product/<?php echo htmlspecialchars($img['image_name']); ?>" alt="product-img" />
+
+                                    <?php }
+
+                                    $check = $product_controller->checkSoldOut($product_id);
+                                    foreach ($check as $c) {
+                                        $qty = $c['total_quantity'];
+                                    }
+                                    if ($qty > 0) { ?>
+                                        <div class="preview-meta">
+                                            <ul>
+                                                <li>
+                                                    <a href="product-single.php?pid=<?php echo $product_id; ?>">
+                                                        <i class="tf-ion-android-cart"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    <?php
+                                    } else { ?>
+                                        <div class="preview-meta">
+                                            <ul class="">
+                                                <a href="#!" class="btn btn-danger">
+                                                    Sold Out
+                                                </a>
+                                            </ul>
+                                        </div>
+                                    <?php
+                                    } ?>
                                 </div>
                                 <div class="product-content">
                                     <h4><a><?php echo htmlspecialchars($p['product_name']); ?></a></h4>

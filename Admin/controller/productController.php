@@ -180,9 +180,13 @@ class productController extends Product
     {
         return $this->getRandomImageList($id);
     }
-    public function getSizeDistict($product_id)
+    public function getSizeDistinct($product_id)
     {
-        return $this->getSizeDistictInfo($product_id);
+        return $this->getSizeDistinctInfo($product_id);
+    }
+    public function checkSoldOut($product_id)
+    {
+        return $this->soldOut($product_id);
     }
 
 }
