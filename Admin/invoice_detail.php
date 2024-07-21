@@ -89,7 +89,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="col-lg-6">
                 <div class="card">
@@ -97,7 +96,7 @@
                         <h4 class="card-title">Orders</h4>
                         <div class="custom-media-object-2">
                             <?php foreach($orders as $order){ 
-                                 $pid=$order['product_id'];
+                                 $pid=$order['product_detail_id'];
                                  $product= $order_controller->getProductListByInvoice($pid);
                                 ?>
                             <div class="media border-bottom-1 p-t-15">
@@ -106,8 +105,8 @@
                                     <div class="row">
                                         <div class="col-lg-5">
                                             <h5><?php echo $product['product_name'] ?></h5>
-                                            <p class="m-0"><b>Size : </b><?php echo $order['size'] ?></p>
-                                            <p class="m-0"><b>Color : </b><?php echo $order['color'] ?></p>
+                                            <p class="m-0"><b>Size : </b><?php echo $product['psize'] ?></p>
+                                            <p class="m-0"><b>Color : </b><?php echo $product['pcolor'] ?></p>
                                             <p class="m-0"><b>Qty : </b><?php echo $order['quantity'] ?></p>
                                         </div>
                                         <div class="col-lg-4">

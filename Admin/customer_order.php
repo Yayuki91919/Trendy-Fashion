@@ -45,7 +45,6 @@
                             <table class="table table-bordered zero-configuration table-hover">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
                                         <th>Invoice_No</th>
                                         <th>Customer Information</th>
                                         <th>Delivery_Information</th>
@@ -68,8 +67,7 @@
                                                 
                                              ?>
                                     <tr>
-                                        <td><?php echo $count; ?></td>
-                                        <td><?php echo $invoice['invoice_no'] ?></td>
+                                        <td>#<?php echo $invoice['invoice_no'] ?></td>
                                         <td>
                                             <p class="m-0"><b>Name : </b><?php echo $delis['name'] ?></p><br>
                                             <p class="m-0"><b>Email : </b><?php echo $delis['email'] ?></p><br>
@@ -107,7 +105,7 @@
                                                 <div class="order-list-content">
                                                     <ol>
                                                         <?php foreach($orders as $order){ 
-                                                        $pid=$order['product_id'];
+                                                        $pid=$order['product_detail_id'];
                                                         $product= $order_controller->getProductListByInvoice($pid);
                                                     ?>
                                                         <li class="shadow bg-body-tertiary rounded">
@@ -125,17 +123,19 @@
                                                                                 </h5>
                                                                                 <p>
                                                                                     <b>Size: </b>
-                                                                                    <?php echo $order['size'] ?>,
+                                                                                    <?php echo $product['psize'] ?>,
                                                                                     <b>Color: </b>
-                                                                                    <?php echo $order['color'] ?>,
+                                                                                    <?php echo $product['pcolor'] ?>,
                                                                                     <b>Qty:</b>
                                                                                     <?php echo $order['quantity'] ?> Pcs
                                                                                 </p>
                                                                             </div>
                                                                             <div class="col-md-2">
                                                                                 <h5 class="mt-0">
-                                                                                    <?php echo $order['amount'] ?>
-                                                                                    <b>MMK</b>
+                                                                                    <?php 
+                                                                                    $subtotal=$product['price']*$order['quantity'];
+                                                                                    echo $subtotal ?>
+                                                                                    <b>Ks</b>
                                                                                 </h5>
                                                                             </div>
                                                                         </div>

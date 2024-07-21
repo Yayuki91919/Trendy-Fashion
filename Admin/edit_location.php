@@ -32,7 +32,12 @@ if(isset($_POST['submit'])){
         }
         if($flag){
             $Result=$location_controller->editLocation($lid,$city_name,$town_name);
-            $result_fee=$fee_controller->editFee($lid,$fee_value);
+            $fee=$fee_controller->getFeeInfoByLocationId($lid);
+            if(empty($fee)){
+                $result_fee=$fee_controller->createNewFee($lid,$fee_value);
+            }else{
+                $result_fee=$fee_controller->editFee($lid,$fee_value);
+            }
             if($Result && $result_fee)
             {
                 $message = 2;

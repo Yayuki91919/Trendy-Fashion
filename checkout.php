@@ -5,6 +5,8 @@
     include_once __DIR__. '/Admin/controller/invoiceController.php';
     include_once __DIR__. '/Admin/controller/orderController.php';
     include_once __DIR__. '/Admin/controller/feeController.php';
+    include_once __DIR__. '/Admin/controller/deliveryController.php';
+    $delivery_controller=new DeliveryController();
     $location_controller = new LocationController();
     $deliinfo_controller=new DeliInfoController();
     $invoice_controller=new InvoiceController();
@@ -36,13 +38,14 @@
             $total += $subtotal;
         }
         $invoice_id=$invoice_controller->createInvoice($invoice_no,$cid,$d_info_id,$fee_id,$total,$invoice_date);
+        $deli_status=$delivery_controller->createDelivery($invoice_id);
         foreach ($cart as $c) {
             $d_id=$c['d_id'];
             $qty=$c['quantity'];
             $cus_status="order";
             $orderAdd=$order_controller->addOrder($d_id,$qty,$invoice_id,$cus_status,$cid);
         }
-        if($orderAdd){
+        if($orderAdd && $deli_status){
              echo '<script>location.href="confirmation.php"</script>';
         }else{
             echo '<script>location.href="404.php"</script>';
@@ -106,7 +109,14 @@
                                 <label for="user_address">Address</label>
                                 <input type="text" class="form-control" id="user_address" placeholder="" name="address" required>
                             </div>
+                            <?php $cart = $cartController->getUserCart($cid);
+                            if(empty($cart)){ ?>
+                            <p class="text-danger m-0">You need to choice sale item first!</p>
+                            <a href="shop-sidebar.php" class="btn btn-main mt-10 btn-solid-border"><< Shopping</a>
+                           <?php }else{
+                            ?>
                             <input type="submit" value="Place Order" name="submit" class="btn btn-main mt-20">
+                            <?php } ?>
                         </form>
                     </div>
                 </div>
