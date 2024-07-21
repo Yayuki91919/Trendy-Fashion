@@ -91,44 +91,46 @@ if (isset($_GET['pid']) && isset($_GET['edit_status'])) {
                                         echo "<tr>";
                                         echo "<td>" . $count++ . "</td>";
                                         echo "<td class='row'>
-                                            <div class='card h-100 w-100 bg-light'>
-                                                <div class='row no-gutters'>
-                                                    <div class='col-md-4'>
-                                                        <img class='card-img img-fluid' src='images/product/" . $p['random_image'] . "' alt='' style='width: 200px; height: 200px; object-fit: cover;'>
-                                                    </div>
-                                                    <div class='col-md-8'>
-                                                        <div class='card-body'>
-                                                            <h5 class='card-title'>" . $p['product_name'] . "<span class='badge gradient-2'>" . $p['state'] . "</span></h5>
-                                                            <p class='small'>
-                                                                <span class='NEO'>" . $p['brand_name'] . " </span> |
-                                                                <span class='BTC'>" . $p['category_name'] . "</span>
-                                                                <span class='BTC'>" . $p['status'] . "</span>
-                                                            </p>
-                                                            <p class='card-text'>" . $p['description'] . "</p>
-                                                            <small class='text-muted'>create_date - " . $p['date'] . "</small>
-                                                        </div>
-                                                        <div class='card-footer bg-light'>
-                                                            <a href='product_detail.php?pid=" . $p['product_id'] . "' class='btn m-2 gradient-1'><i class='fa fa-eye'></i> Detail </a>
-                                                            <a href='product.php?delete_pid=" . $p['product_id'] . "' onclick='return confirm(\"Are you sure to delete?\")' class='m-2 btn btn-danger'>
-                                                                <i class='fa fa-trash'></i> Delete
-                                                            </a>";
-                                                            
-                                                            if ($p['status'] == 1) { // Use strict comparison to ensure both value and type match
-                                                                echo "<a href='product.php?pid=" . $p['product_id']. "&edit_status=" . $p['status'] . "' onclick='return confirm(\"Are you sure want to change Private?\")' class='btn btn-success m-2 text-white'>
-                                                                            <i class='fa fa-check'></i>Public
-                                                                        </a>";
-                                                            }else{
-                                                                echo "<a href='product.php?pid=" . $p['product_id'] . "&edit_status=" . $p['status'] . "' onclick='return confirm(\"Are you sure want to change Public?\")' class='btn btn-warning m-2 text-white'>
-                                                                    <i class='fa fa-lock'></i>Private
-                                                                </a>";
-
-                                                            }
-                                                         
-                                                        echo "</div>
+                                        <div class='card bg-light'>
+                                            <div class='row no-gutters'>
+                                                <div class='col-md-4'>
+                                                    <div class='card-img-wrapper'>
+                                                        <img class='card-img img-fluid' src='images/product/" . $p['random_image'] . "' alt='" . $p['product_name'] . "' style='object-fit: cover; width: 100%; height: 100%;'>
                                                     </div>
                                                 </div>
+                                                <div class='col-md-8'>
+                                                    <div class='card-body'>
+                                                        <h5 class='card-title'>" . $p['product_name'] . "<span class='badge gradient-2'>" . $p['state'] . "</span></h5>
+                                                        <p class='small'>
+                                                            <span class='NEO'>" . $p['brand_name'] . "</span> |
+                                                            <span class='BTC'>" . $p['category_name'] . "</span>
+                                                            <span class='BTC'>" . $p['status'] . "</span>
+                                                        </p>
+                                                        <p class='card-text'>" . $p['description'] . "</p>
+                                                        <small class='text-muted'>create_date - " . $p['date'] . "</small>
+                                                    </div>
+                                                    <div class='card-footer bg-light'>
+                                                        <a href='product_detail.php?pid=" . $p['product_id'] . "' class='btn m-2 gradient-1'><i class='fa fa-eye'></i> Detail </a>
+                                                        <a href='product.php?delete_pid=" . $p['product_id'] . "' onclick='return confirm(\"Are you sure to delete?\")' class='m-2 btn btn-danger'>
+                                                            <i class='fa fa-trash'></i> Delete
+                                                        </a>";
+                                    
+                                                        if ($p['status'] == 1) { // Use strict comparison to ensure both value and type match
+                                                            echo "<a href='product.php?pid=" . $p['product_id'] . "&edit_status=" . $p['status'] . "' onclick='return confirm(\"Are you sure want to change Private?\")' class='btn btn-success m-2 text-white'>
+                                                                        <i class='fa fa-check'></i> Public
+                                                                    </a>";
+                                                        } else {
+                                                            echo "<a href='product.php?pid=" . $p['product_id'] . "&edit_status=" . $p['status'] . "' onclick='return confirm(\"Are you sure want to change Public?\")' class='btn btn-warning m-2 text-white'>
+                                                                <i class='fa fa-lock'></i> Private
+                                                            </a>";
+                                                        }
+                                    
+                                                    echo "</div>
+                                                </div>
                                             </div>
-                                        </td>";
+                                        </div>
+                                    </td>";
+                                    
                                         echo "</tr>";
                                          }
                                             ?>

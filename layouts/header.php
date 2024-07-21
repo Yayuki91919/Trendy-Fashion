@@ -21,17 +21,14 @@ if (file_exists($cartControllerPath)) {
 $cartController = new cartController;
 
 
-if(isset($_GET['removeCartId']))
-{
+if (isset($_GET['removeCartId'])) {
 	$cart_id = $_GET['removeCartId'];
 	$name = $_GET['name'];
-	$status=$cartController->removeCart($cart_id);
+	$status = $cartController->removeCart($cart_id);
 
-	if($status)
-	{
+	if ($status) {
 		// echo '<script> location.href="sub_category.php?status='.$status.'"</script>';
-		$_SESSION['info'] = $name." is Removed! ";
-
+		$_SESSION['info'] = $name . " is Removed! ";
 	}
 }
 
@@ -106,108 +103,91 @@ if(isset($_GET['removeCartId']))
 							<img class="m-0 p-0" width='150' height='100' src="./Admin/icons/trendy-icon/android-chrome-512x512.png" alt="">
 						</a>
 					</div>
-				</div>				
+				</div>
 				<div class="col-md-4 col-xs-12 col-sm-4">
-				<?php //include "noti.php";?>
+					<?php //include "noti.php";
+					?>
 
 					<?php if (isset($_SESSION['user_login'])) { ?>
 						<ul class="top-menu text-right list-inline">
+							<?php
+							$cid = $_SESSION['user_login']['customer_id'];
+							$cart = $cartController->getUserCart($cid);
+							//  var_dump($cart);
+							$subtotal = $total = 0;
+							$count = 0;
+							foreach ($cart as $c) {
+								$count++;
+							} ?>
 							<li class="dropdown cart-nav dropdown-slide">
 								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-android-cart"></i>Cart</a>
-								<div class="dropdown-menu cart-dropdown">
-									<!-- Cart Item -->
-									<?php
+								<?php
+								// if there is no cart don't show
+								if ($count > 0) { ?>
+									<div class="dropdown-menu cart-dropdown">
+										<!-- Cart Item -->
+										<?php
+										foreach ($cart as $c) {
+											$subtotal = $c["quantity"] * $c["price"];
+											$total += $subtotal;
+										?>
+											<div class="media">
+												<a class="pull-left" href="#!">
+													<img class="media-object" src="./Admin/images/product/<?php echo htmlspecialchars($c['random_image']); ?>" alt="image" />
+												</a>
+												<?php //echo $c['random_image']; 
+												?>
 
-	
-									$cid = $_SESSION['user_login']['customer_id'];
-									$cart = $cartController->getUserCart($cid);
-									//  var_dump($cart);
-									$subtotal=$total=0;
-									foreach ($cart as $c) {
-										$subtotal = $c["quantity"] * $c["price"];
-										$total += $subtotal;
-									?>
-										<div class="media">
-											<a class="pull-left" href="#!">
-												<img class="media-object" src="./Admin/images/product/<?php echo htmlspecialchars($c['random_image']); ?>" alt="image" />
-											</a>
-											<?php //echo $c['random_image']; ?>
-
-											<div class="media-body">
-												<h4 class="media-heading">
-													<a href="product-single.php?pid=<?php echo $c['product_id']; ?>&edit_cart=<?php echo $c['cart_id']; ?>"><?php echo $c["product_name"]; ?></a>
-												</h4>
-												<span><?php echo "Size: ".$c["size"]." & Color: ".$c["color"] ; ?></span>
-												<div class="cart-price">
-													<span><?php echo $c["quantity"]; ?></span>
-													<span>X</span>
-													<span><?php echo $c["price"] . " Ks"; ?></span>
+												<div class="media-body">
+													<h4 class="media-heading">
+														<a href="product-single.php?pid=<?php echo $c['product_id']; ?>&edit_cart=<?php echo $c['cart_id']; ?>"><?php echo $c["product_name"]; ?></a>
+													</h4>
+													<span><?php echo "Size: " . $c["size"] . " & Color: " . $c["color"]; ?></span>
+													<div class="cart-price">
+														<span><?php echo $c["quantity"]; ?></span>
+														<span>X</span>
+														<span><?php echo $c["price"] . " Ks"; ?></span>
+													</div>
+													<h5><strong><?php echo $subtotal . " Ks"; ?></strong></h5>
 												</div>
-												<h5><strong><?php echo $subtotal . " Ks"; ?></strong></h5>
+												<a href="shop-sidebar.php?removeCartId=<?php echo $c['cart_id'] ?>&name=<?php echo $c['product_name'] ?>" class="remove" onclick="return confirm('Are you sure to remove?');"><i class="tf-ion-close"></i></a>
 											</div>
-											<a href="shop-sidebar.php?removeCartId=<?php echo $c['cart_id']?>&name=<?php echo $c['product_name']?>" class="remove" onclick="return confirm('Are you sure to remove?');"><i class="tf-ion-close"></i></a>
+
+										<?php } ?>
+										<div class="cart-summary">
+											<span>Total</span>
+											<span class="total-price"><?php echo $total . " Ks"; ?></span>
 										</div>
-									<?php }
-									?>
-									
-
-
-									<div class="cart-summary">
-										<span>Total</span>
-										<span class="total-price"><?php echo $total . " Ks"; ?></span>
+										<ul class="text-center cart-buttons">
+											<li><a href="cart.php" class="btn btn-small">View Cart</a></li>
+											<li><a href="checkout.php" class="btn btn-small btn-solid-border">Checkout</a></li>
+										</ul>
 									</div>
-									<ul class="text-center cart-buttons">
-										<li><a href="cart.php" class="btn btn-small">View Cart</a></li>
-										<li><a href="checkout.php" class="btn btn-small btn-solid-border">Checkout</a></li>
-									</ul>
-								</div>
+								<?php  } else { ?>
+									<div class="dropdown-menu cart-dropdown">
+										<div class="cart-summary">
+											<div class="block text-center">
+												<p><i class="tf-ion-ios-cart-outline"></i>&nbsp;Your cart is currently empty.</p>
+												<a href="shop-sidebar.php" class="btn btn-main mt-20">Return to shop</a>
+											</div>
+										</div>
+
+									</div>
+								<?php } ?>
 
 							</li><!-- / Cart -->
-
 							<li class="dropdown dropdown-slide">
 								<a href="login.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span class="ep--avatar"><?php echo $_SESSION['user_login']['username']; ?></span></a>
 								<ul class="dropdown-menu">
-									<!-- <li class="text-center"><a href="register.php
-						">Create Account</a></li> -->
+
 									<li class="text-center"><a href="logout.php">Logout</a></li>
 								</ul>
 							</li>
 
 						</ul>
 
-						<?php } else { ?>
+					<?php } else { ?>
 						<ul class="top-menu text-right list-inline">
-							<!-- <li class="dropdown cart-nav dropdown-slide">
-								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-android-cart"></i>Cart</a>
-								<div class="dropdown-menu cart-dropdown">
-									<div class="media">
-										<a class="pull-left" href="#!">
-											<img class="media-object" src="images/shop/cart/cart-1.jpg" alt="image" />
-										</a>
-										<div class="media-body">
-											<h4 class="media-heading"><a href="#!">Ladies Bag</a></h4>
-											<div class="cart-price">
-												<span>1 x</span>
-												<span>1250.00</span>
-											</div>
-											<h5><strong>$1200</strong></h5>
-										</div>
-										<a href="#!" class="remove"><i class="tf-ion-close"></i></a>
-									</div>
-									
-
-									<div class="cart-summary">
-										<span>Total</span>
-										<span class="total-price">$1799.00</span>
-									</div>
-									<ul class="text-center cart-buttons">
-										<li><a href="cart.php" class="btn btn-small">View Cart</a></li>
-										<li><a href="checkout.php" class="btn btn-small btn-solid-border">Checkout</a></li>
-									</ul>
-								</div>
-
-							</li> -->
-							
 
 							<li class="dropdown dropdown-slide">
 								<a href="login.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span class="ep--avatar"> Sign In</span></a>
