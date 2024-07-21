@@ -54,50 +54,6 @@ if (isset($_POST['addSize'])) {
     }
 }
 
-// if (isset($_POST['addImage'])) {
-//     $product_id = $_POST['product_id'];
-//     $files = $_FILES['files'];
-
-//     if (empty($files['name'][0])) {
-//         $errors['files'] = "Please upload at least one image.";
-//     } else {
-//         foreach ($files['tmp_name'] as $key => $tmp_name) {
-//             $image_info = getimagesize($tmp_name);
-//             if ($image_info) {
-//                 $width = $image_info[0];
-//                 $height = $image_info[1];
-//                 if ($width != 500 || $height != 600) {
-//                     $errors['files'] = "Image {$files['name'][$key]} does not have the required dimensions of 500 x 600.
-//                     it is $width X $height";
-//                 }
-//             } else {
-//                 $errors['files'] = "File {$files['name'][$key]} is not a valid image.";
-//             }
-//         }
-//     }
-
-//     if (empty($errors)) {
-//         $upload_dir = __DIR__ . '/images/product/';
-//         if (!is_dir($upload_dir)) {
-//             mkdir($upload_dir, 0777, true);
-//         }
-
-//         foreach ($files['tmp_name'] as $key => $tmp_name) {
-//             $file_name = basename($files['name'][$key]);
-//             $target_file = $upload_dir . $file_name;
-//             move_uploaded_file($tmp_name, $target_file);
-//             $image =  $files['name'];
-
-//         }
-//         // $images = implode(',', $files['name']);
-//         $result = $product_controller->addMoreImage($id, $images);
-//         if ($result) {
-//             echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
-//         } else {
-//             $fail = "fail";
-//         }
-//     }
-// }
 
 if (isset($_POST['addImage'])) {
     $product_id = $_POST['product_id'];
@@ -148,23 +104,52 @@ if (isset($_POST['addImage'])) {
 }
 
 
+if (isset($_GET['delete_image'])) {
+    $delete_image = $_GET['delete_image'];
+    $name = $product_controller->getImageName($delete_image);
+
+    foreach ($name as $a) {
+        $image_name = $a;
+    }
+    $status = $product_controller->delete_image($delete_image);
+
+    if ($status) {
+        $upload_dir = 'images/product/';
+        $image_path = $upload_dir . $image_name;
+
+        echo 'upload Directory: ' . $image_path;
 
 
+        if (file_exists($image_path)) {
+            $delete_success = unlink($image_path);
 
+            if ($delete_success) {
+
+                if (isset($_GET['pid'])) {
+                    $id = $_GET['pid'];
+                    echo '<script>location.href="product_detail.php?pid=' . $id . '"</script>';
+                    exit;
+                } else {
+                    echo '<script>alert("Product ID (pid) not provided.");</script>';
+                }
+            } else {
+                // Failed to delete file
+                echo '<script>alert("Failed to delete the image file.");</script>';
+            }
+        } else {
+            // File does not exist
+            echo '<script>alert("Image file does not exist. Image Path: ' . $image_path . '");</script>';
+        }
+    } else {
+        // Deletion status was false
+        echo '<script>alert("Failed to delete image from database.");</script>';
+    }
+}
 
 
 if (isset($_GET['size_color_delete'])) {
     $product_detail_id = $_GET['size_color_delete'];
     $status = $product_controller->delete_product_detail($product_detail_id);
-    if ($status) {
-        //var_dump($status);
-        echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
-    }
-}
-
-if (isset($_GET['delete_image'])) {
-    $delete_image = $_GET['delete_image'];
-    $status = $product_controller->delete_image($delete_image);
     if ($status) {
         //var_dump($status);
         echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
@@ -185,6 +170,29 @@ if (isset($_POST['editProduct'])) {
         // $message=2;
         echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
     }
+}
+
+
+if (isset($_POST['qtyIncrease'])) {
+    $d_id = $_POST['d_id'];
+    $increaseQty = $_POST['quantity'];
+
+    $status = $product_controller->increaseQty($d_id,$increaseQty);
+    if ($status) {
+        echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
+    }
+
+}
+
+if (isset($_POST['qtyDecrease'])) {
+    $d_id = $_POST['d_id'];
+    $decreaseQty = $_POST['quantity'];
+
+    $status = $product_controller->decreaseQty($d_id,$decreaseQty);
+    if ($status) {
+        echo '<script> location.href="product_detail.php?pid=' . $id . '"</script>';
+    }
+
 }
 
 
@@ -351,7 +359,6 @@ if (isset($_POST['editProduct'])) {
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">Close</button>
                                 <input type="submit" class="btn btn-primary" name="editProduct" value="Save changes">
                             </div>
                             </form>
@@ -365,7 +372,7 @@ if (isset($_POST['editProduct'])) {
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title">Size and Color</h4>
-                            <button class="btn btn-success text-white" data-toggle="modal" data-target="#addSizeColorModal">
+                            <button class="btn btn-primary text-white" data-toggle="modal" data-target="#addSizeColorModal">
                                 <i class="fa fa-plus"></i> Add
                             </button>
                         </div>
@@ -382,26 +389,84 @@ if (isset($_POST['editProduct'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                $count = 1;
+    <?php
+    $count = 1;
+    foreach ($size_color as $sc) {
+        $d_id = $sc['d_id'];
+    ?>
 
-                                foreach ($size_color as $sc) {
-                                ?>
+        <tr>
+            <th><?php echo $count++ ?></th>
+            <td><?php echo $sc['size'] ?></td>
+            <td><?php echo $sc['color'] ?></td>
+            <td>
+                <span class="px-2"><?php echo $sc['qty'] ?></span>
+                <span class="badge badge-success px-2" data-toggle="modal" data-target="#quantityModal<?php echo $d_id ?>"><i class="fa fa-plus text-white"></i></span>
+                <span class="badge badge-warning px-2" data-toggle="modal" data-target="#quantityDecreaseModal<?php echo $d_id ?>"><i class="fa fa-minus text-white"></i></span>
+            </td>
+            <td><a href="product_detail.php?pid=<?php echo $id ?>&size_color_delete=<?php echo $d_id ?>" onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash text-danger"></i></a></td>
+        </tr>
 
-                                    <tr>
-                                        <th><?php echo $count++ ?></th>
-                                        <td><?php echo $sc['size'] ?></td>
-                                        <td><?php echo $sc['color'] ?> </td>
-                                        <td><span class="badge badge-primary px-2"></span>
-                                            <?php echo $sc['qty'] ?></td>
-                                        <td><a href="product_detail.php?pid=<?php echo $id ?>&size_color_delete=<?php echo $sc['d_id'] ?>" onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash text-danger"></i></a></td>
+        <!-- Modal for increase quantity input -->
+        <div class="modal fade" id="quantityModal<?php echo $d_id ?>" tabindex="-1" aria-labelledby="quantityModalLabel<?php echo $d_id ?>" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="quantityModalLabel<?php echo $d_id ?>"><br>Size : <?php echo " " . $sc['size'] ?> and Color : <?php echo " " . $sc['color'] ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="quantityForm<?php echo $d_id ?>" action="<?php $_PHP_SELF ?>" method="post">
+                            <input type="hidden" name="d_id" value="<?php echo $d_id ?>">
+                            <input type="hidden" name="pid" value="<?php echo $id ?>">
+                            <div class="form-group">
+                                <label for="quantityInput<?php echo $d_id ?>">Quantity Increment:</label>
+                                <input type="number" class="form-control" id="quantityInput<?php echo $d_id ?>" name="quantity">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" name="qtyIncrease" value="Increase" class="btn btn-success text-white save-quantity-btn" data-d-id="<?php echo $d_id ?>">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                    </tr>
-                                <?php
-                                }
-                                ?>
+        <!-- Modal for decrease quantity input -->
+        <div class="modal fade" id="quantityDecreaseModal<?php echo $d_id ?>" tabindex="-1" aria-labelledby="quantityDecreaseModalLabel<?php echo $d_id ?>" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="quantityDecreaseModalLabel<?php echo $d_id ?>"><br>Size : <?php echo " " . $sc['size'] ?> and Color : <?php echo " " . $sc['color'] ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="quantityDecreaseForm<?php echo $d_id ?>" action="<?php $_PHP_SELF ?>" method="post">
+                            <input type="hidden" name="d_id" value="<?php echo $d_id ?>">
+                            <input type="hidden" name="pid" value="<?php echo $id ?>">
+                            <div class="form-group">
+                                <label for="quantityDecreaseInput<?php echo $d_id ?>">Quantity Decrease:</label>
+                                <input type="number" class="form-control" id="quantityDecreaseInput<?php echo $d_id ?>" name="quantity">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" name="qtyDecrease" value="Decrease" class="btn btn-warning text-white save-quantity-btn" data-d-id="<?php echo $d_id ?>">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                            </tbody>
+    <?php
+    }
+    ?>
+</tbody>
+
+
                         </table>
                     </div>
                 </div>
@@ -495,6 +560,8 @@ if (isset($_POST['editProduct'])) {
                                             <div class="error"><?php echo $errors['files']; ?></div>
                                         <?php endif; ?>
                                     </div>
+                                    <a href="product.php" class="btn btn-info text-white mt-3"><i class="fa fa-arrow-left"></i>
+                                    Back</a>
                                     <input type="submit" value="Add Image" name="addImage" class="btn btn-info mt-3 float-right text-white">
                                 </form>
                             </div>

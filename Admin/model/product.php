@@ -199,30 +199,6 @@ class Product
         $statement->execute();
 
         $product_id = $con->lastInsertId(); // Get the ID of the last inserted product
-
-        // 3. Insert into product_detail table for each size and color
-        // $sql = "SELECT * FROM temp_product";
-        // $statement = $con->prepare($sql);
-        // $statement->execute();
-
-        // while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-        //     $color_id = $row['color_id'];
-        //     $size_id = $row['size_id'];
-        //     $qty = $row['qty'];
-        //     $sql = "INSERT INTO product_detail (product_id, color, size, qty)
-        //      VALUES (:product_id, :color, :size, :qty)";
-        //     $detail_statement = $con->prepare($sql);
-        //     $detail_statement->bindParam(':color', $color_id);
-        //     $detail_statement->bindParam(':size', $size_id);
-        //     $detail_statement->bindParam(':qty', $qty);
-        //     $detail_statement->bindParam(':product_id', $product_id);
-        //     $detail_statement->execute();
-        // }
-
-        // $sql = "Delete FROM temp_product";
-        // $statement = $con->prepare($sql);
-        // $statement->execute();
-
         return $product_id;
     }
 
@@ -242,7 +218,69 @@ class Product
         }
     }
 
+    public function increaseProductQty($d_id, $increaseQty)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+        // Retrieve quantity from product_detail
+        $sql_get_qty = 'SELECT qty FROM product_detail WHERE d_id = :d_id';
+        $statement_get_qty = $con->prepare($sql_get_qty);
+        $statement_get_qty->bindParam(':d_id', $d_id);
+        $statement_get_qty->execute();
+        $product_detail = $statement_get_qty->fetch(PDO::FETCH_ASSOC);
+        $old_qty = $product_detail['qty'];
+    
+        $new_qty = $old_qty + $increaseQty;
+    
+            $sql_update = 'UPDATE product_detail SET qty = :quantity WHERE d_id = :d_id';
+            $statement_update = $con->prepare($sql_update);
+            $statement_update->bindParam(':quantity', $new_qty, PDO::PARAM_INT);
+            $statement_update->bindParam(':d_id', $d_id);
+            
+        if ($statement_update->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    
+ 
+    }
+    public function decreaseProductQty($d_id, $decreaseQty)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+        // Retrieve quantity from product_detail
+        $sql_get_qty = 'SELECT qty FROM product_detail WHERE d_id = :d_id';
+        $statement_get_qty = $con->prepare($sql_get_qty);
+        $statement_get_qty->bindParam(':d_id', $d_id);
+        $statement_get_qty->execute();
+        $product_detail = $statement_get_qty->fetch(PDO::FETCH_ASSOC);
+        $old_qty = $product_detail['qty'];
 
+        if($old_qty > $decreaseQty){
+            $new_qty = $old_qty - $decreaseQty;
+    
+            $sql_update = 'UPDATE product_detail SET qty = :quantity WHERE d_id = :d_id';
+            $statement_update = $con->prepare($sql_update);
+            $statement_update->bindParam(':quantity', $new_qty, PDO::PARAM_INT);
+            $statement_update->bindParam(':d_id', $d_id);
+            
+            if ($statement_update->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        }else{
+            return false;
+        }
+    
+
+    
+ 
+    }
     public function addSizeColorlist($color_id, $color, $size_id, $size, $qty)
     {
         $con = Database::connect();
@@ -287,7 +325,7 @@ class Product
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "select color from product_color where color_id='$color_id'";
+        $sql = "select color from product_color where color_id='$color_id' ORDER BY color_id DESC";
         $statement = $con->prepare($sql);
         if ($statement->execute()) {
             $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -300,7 +338,7 @@ class Product
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "select size from product_size where size_id='$size_id'";
+        $sql = "select size from product_size where size_id='$size_id' ORDER BY size_id DESC";
         $statement = $con->prepare($sql);
         if ($statement->execute()) {
             $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -312,7 +350,7 @@ class Product
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "select * from category";
+        $sql = "select * from category ORDER BY category_id DESC";
         $statement = $con->prepare($sql);
         if ($statement->execute()) {
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -323,7 +361,7 @@ class Product
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "select * from product_color";
+        $sql = "select * from product_color ORDER BY color_id DESC";
         $statement = $con->prepare($sql);
         if ($statement->execute()) {
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -334,7 +372,7 @@ class Product
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "select * from product_size";
+        $sql = "select * from product_size ORDER BY size_id DESC";
         $statement = $con->prepare($sql);
         if ($statement->execute()) {
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -525,6 +563,7 @@ class Product
             return false;
         }
     }
+    
     public function deleteImageInfo($delete_image)
     {
         $con = Database::connect();
@@ -539,6 +578,22 @@ class Product
             return false;
         }
     }
+    public function getDeleteImageName($image_id)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "select image_name from product_image where image_id=:image_id";
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':image_id', $image_id);
+        if ($statement->execute()) {
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } 
+    }
+ 
+
+
+
     public function deleteTempInfo($id)
     {
         $con = Database::connect();

@@ -9,38 +9,38 @@ class Cart
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "
-    SELECT 
-        c.cart_id,
-        d.product_id,
-        c.customer_id,
-        c.quantity,
-        ps.size,
-        pc.color, 
-        p.product_name,
-        p.description,
-        p.price,
-        p.status,
-        p.type_id,
-        p.sub_id,
-        p.state,
-        (SELECT image_name 
-         FROM product_image 
-         WHERE product_id = d.product_id 
-         ORDER BY RAND() 
-         LIMIT 1) AS random_image
-    FROM 
-        cart AS c
-    JOIN 
-        product_detail AS d ON c.d_id = d.d_id
-    JOIN 
-        product AS p ON p.product_id = d.product_id
-    JOIN 
-        product_size AS ps ON ps.size_id = d.size
-    JOIN 
-        product_color AS pc ON pc.color_id = d.color
-    WHERE 
-        c.customer_id = :cid
-";
+            SELECT 
+                c.cart_id,
+                d.product_id,
+                c.customer_id,
+                c.quantity,
+                ps.size,
+                pc.color, 
+                p.product_name,
+                p.description,
+                p.price,
+                p.status,
+                p.type_id,
+                p.sub_id,
+                p.state,
+                (SELECT image_name 
+                FROM product_image 
+                WHERE product_id = d.product_id 
+                ORDER BY RAND() 
+                LIMIT 1) AS random_image
+            FROM 
+                cart AS c
+            JOIN 
+                product_detail AS d ON c.d_id = d.d_id
+            JOIN 
+                product AS p ON p.product_id = d.product_id
+            JOIN 
+                product_size AS ps ON ps.size_id = d.size
+            JOIN 
+                product_color AS pc ON pc.color_id = d.color
+            WHERE 
+                c.customer_id = :cid
+        ";
 
 
         $statement = $con->prepare($sql);

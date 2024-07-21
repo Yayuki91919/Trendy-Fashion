@@ -50,53 +50,12 @@ class productController extends Product
         return $this->addNewMoreImage($images, $id);
 
     }
-        // if (!isset($images['error']) || !is_array($images['error'])) {
-        //     return "Invalid file upload structure.";
-        // }
-        // $uploaded_filenames = [];
-        // $target_directory = '../images/product/';
-        // if (!is_dir($target_directory)) {
-        //     mkdir($target_directory, 0755, true);
-        // }
-    
-        // foreach ($images['error'] as $key => $error) {
-        //     if ($error == 0) {
-        //         $filename = $images['name'][$key];
-        //         $extension = explode('.', $filename);
-        //         $filetype = end($extension);
-        //         $filesize = $images['size'][$key];
-        //         $allowed_types = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
-        //         $temp_file = $images['tmp_name'][$key];
-        //         $target_directory = './images/product/';
+    public function getImageName($image_id)
+    {
+        return $this->getDeleteImageName($image_id);
 
-    
-        //         if (in_array($filetype, $allowed_types)) {
-        //             if ($filesize <= 2000000) {
-        //                 $timestamp = time();
-        //                 $new_filename = $timestamp . '_' . $filename;
-    
-        //                 // Move uploaded file to target directory
-        //                 if (move_uploaded_file($temp_file, $target_directory . $new_filename)) {
-        //                     $uploaded_filenames[] = $new_filename;
-        //                 } else {
-        //                     echo "Failed to move file: $filename<br>";
-        //                 }
-        //             } else {
-        //                 echo "File $filename exceeds size limit.<br>";
-        //             }
-        //         } else {
-        //             echo "File type $filetype not allowed for file $filename.<br>";
-        //         }
-        //     } else {
-        //         echo "Error uploading file:  Error code: $error<br>";
-        //     }
-        // }
-    
-        // if (!empty($uploaded_filenames)) {
-        //     return $this->addNewMoreImage($uploaded_filenames, $product_id);
-        // }
-
-    
+    }
+   
     public function addSize_Color($color_id,$color,$size_id,$size,$qty)
     {
          return $this->addSizeColorlist($color_id,$color,$size_id,$size,$qty);
@@ -108,6 +67,16 @@ class productController extends Product
     {
 
          return $this->addMoreSizeColorlist($size_id,$color_id,$qty,$id);
+
+    }
+    public function increaseQty($d_id, $increaseQty)
+    {
+        return $this->increaseProductQty($d_id, $increaseQty);
+
+    }
+    public function decreaseQty($d_id, $decreaseQty)
+    {
+        return $this->decreaseProductQty($d_id, $decreaseQty);
 
     }
 
