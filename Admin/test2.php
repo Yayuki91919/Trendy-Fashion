@@ -1,176 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banner and Product Slider</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
+<?php
+include_once 'layouts/header.php';
+include_once __DIR__ . '/Admin/controller/bannerController.php';
+include_once __DIR__ . '/Admin/controller/subController.php';
+include_once __DIR__ . '/Admin/controller/productController.php';
 
-        .slider-container {
-            width: 100%;
-            overflow: hidden;
-            margin: 20px 0;
-        }
+$sub_controller = new SubCategoryController();
+$banner_controller = new BannerController();
+$product_controller= new productController();
+$banners = $banner_controller->getbanners();
 
-        /* Banner Slider */
-        .banner-slider {
-            position: relative;
-            height: 500px;
-        }
-
-        .banner-slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-        }
-
-        .banner-slide {
-            min-width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .banner-content {
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        /* Product Slider */
-        .product-slider {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .product-slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            overflow: hidden;
-            width: calc(100% - 60px);
-        }
-
-        .product-slide {
-            min-width: 25%;
-            padding: 20px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .product-slide img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-        .product-prev, .product-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 10px;
-            z-index: 1;
-        }
-
-        .product-prev {
-            left: 10px;
-        }
-
-        .product-next {
-            right: 10px;
-            background-color: pink;
-        }
-    </style>
-</head>
-<body>
-    <!-- Banner Slider -->
-    <div class="slider-container">
-        <div class="banner-slider">
-            <div class="banner-slides">
-                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
-                    <div class="banner-content">
-                        <h1>Banner 1</h1>
-                    </div>
-                </div>
-                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
-                    <div class="banner-content">
-                        <h1>Banner 2</h1>
-                    </div>
-                </div>
-                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
-                    <div class="banner-content">
-                        <h1>Banner 3</h1>
-                    </div>
-                </div>
-                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
-                    <div class="banner-content">
-                        <h1>Banner 4</h1>
-                    </div>
+?>
+<link rel="stylesheet" href="css/index.css">
+<?php if($banners!=null){
+foreach($banners as $banner) { 
+        $images = explode(',', $banner['image']);
+    ?>
+<div class="hero-slider">
+    <?php  foreach($images as $image) { ?>
+    <div class="slider-item th-fullpage hero-area"
+        style="background-image: url(Admin/images/banner_photo/<?php echo htmlspecialchars($image); ?>);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 text-left">
+                    <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">
+                        <?php echo $banner['title'] ?></p>
+                    <?php 
+					$sub_id=$banner['sub_id'];
+					$sub=$sub_controller->getSubCategory($sub_id) ?>
+                    <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">
+                        <?php echo $sub['brand_name'] ?></h1>
+                    <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn"
+                        href="shop-sidebar.php?sub_id=<?php echo $banner['sub_id'] ?>">Shop Now</a>
                 </div>
             </div>
         </div>
     </div>
+    <?php } ?>
+</div>
 
-    <!-- Product Slider -->
-    <div class="slider-container">
-        <div class="product-slider">
-            <button class="product-prev">&#10094;</button>
-            <div class="product-slides">
-                <div class="product-slide">
-                    <img src="images/big/card-1.png" alt="Product 1">
-                    <p>Product 1</p>
-                </div>
-                <div class="product-slide">
-                    <img src="images/big/card-1.png" alt="Product 2">
-                    <p>Product 2</p>
-                </div>
-                <div class="product-slide">
-                    <img src="images/big/card-1.png" alt="Product 3">
-                    <p>Product 3</p>
-                </div>
-                <div class="product-slide">
-                    <img src="images/big/card-1.png" alt="Product 4">
-                    <p>Product 4</p>
-                </div>
-                <div class="product-slide">
-                    <img src="images/big/card-1.png" alt="Product 5">
-                    <p>Product 5</p>
-                </div>
-                <div class="product-slide">
-                    <img src="images/big/card-1.png" alt="Product 6">
-                    <p>Product 6</p>
-                </div>
-                <div class="product-slide">
-                    <img src="images/big/card-1.png" alt="Product 7">
-                    <p>Product 7</p>
-                </div>
-                <div class="product-slide">
-                    <img src="images/big/card-1.png" alt="Product 8">
-                    <p>Product 8</p>
+
+<div class="wrapper">
+    <?php   
+            $subid=$banner['sub_id'];
+		    $products=$product_controller->getProductsBySubCategory($subid);
+            var_dump($products);
+            echo $subid;
+            if($products!=null){
+                foreach($products as $product){
+			$product_id=$product['product_id'];
+			$pimages=$product_controller->getImages($product_id);
+    ?>
+    <h2 class="text-center">New Arrivals</h2>
+    <div class="photobanner">
+        <?php 
+				foreach($pimages as $pimage){
+				?>
+        <a href="shop-sidebar.php"><img width="30%" src="Admin/images/product/<?php echo $pimage['image_name'] ?>"
+                alt="" /></a>
+        <?php 
+        }}
+        } ?>
+    </div>
+</div>
+<?php  }} ?>
+
+
+
+<section class="section instagram-feed">
+    <div class="container">
+        <div class="row">
+            <div class="title">
+                <h2>Shopping With Us</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="instagram-slider" id="instafeed"
+                    data-accessToken="IGQVJYeUk4YWNIY1h4OWZANeS1wRHZARdjJ5QmdueXN2RFR6NF9iYUtfcGp1NmpxZA3RTbnU1MXpDNVBHTzZAMOFlxcGlkVHBKdjhqSnUybERhNWdQSE5hVmtXT013MEhOQVJJRGJBRURn">
                 </div>
             </div>
-            <button class="product-next">&#10095;</button>
         </div>
     </div>
+</section>
 
-    <script>
+<script>
         // Banner Slider
         let bannerIndex = 0;
         const bannerSlides = document.querySelectorAll('.banner-slide');
@@ -193,30 +106,41 @@
         }
 
         // Product Slider
-        let productIndex = 0;
-        const productSlides = document.querySelectorAll('.product-slide');
-        const totalProductSlides = productSlides.length;
-        const slidesToShow = 4;
+        let currentSlide = 0;
 
-        function showProductSlide(n) {
-            if (n >= totalProductSlides - slidesToShow) productIndex = 0;
-            else if (n < 0) productIndex = totalProductSlides - slidesToShow;
-            else productIndex = n;
-            const offset = -productIndex * (100 / slidesToShow);
-            document.querySelector('.product-slides').style.transform = `translateX(${offset}%)`;
-        }
+function moveSlide(direction) {
+    const slides = document.querySelector('.slides');
+    const totalSlides = document.querySelectorAll('.slide').length;
+    const slidesPerPage = 4;
+    const maxSlide = Math.ceil(totalSlides / slidesPerPage) - 1;
 
-        document.querySelector('.product-next').addEventListener('click', () => {
-            showProductSlide(productIndex + 1);
-        });
-
-        document.querySelector('.product-prev').addEventListener('click', () => {
-            showProductSlide(productIndex - 1);
-        });
-
-        // Initialize the product slider
-        showProductSlide(0);
+    currentSlide = (currentSlide + direction + maxSlide + 1) % (maxSlide + 1);
+    slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
 
     </script>
-</body>
-</html>
+<?php
+include_once 'layouts/footer.php';
+?>
+<!-- Product Slider -->
+<div class="slider">
+    <div class="slides">
+        <!-- Add your images here -->
+        <?php
+        foreach ($banners as $banner) {
+            $subid = $banner['sub_id'];
+            $products = $product_controller->getProductsBySubCategory($subid);
+            if ($products != null) {
+                foreach ($products as $product) {
+                    $product_id = $product['product_id'];
+                    $pimages = $product_controller->getImages($product_id);
+                    foreach ($pimages as $pimage) { ?>
+                        <div class="slide" style="background-image: url('Admin/images/product/<?php echo $pimage['image_name']; ?>');"></div>
+                    <?php }
+                }
+            }
+        } ?>
+    </div>
+    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="next" onclick="moveSlide(1)">&#10095;</button>
+</div>
