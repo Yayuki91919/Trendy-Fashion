@@ -9,8 +9,8 @@ class FeeController extends Fee{
         public function getFeeInfoByLocationId($id){
             return $this->getFeeListByLocationId($id);
         }
-        public function createNewFee($fee,$location_id){
-            return $this->addNewFee($fee,$location_id);
+        public function createNewFee($lid,$fee_value){
+            return $this->addNewFee($lid,$fee_value);
         }
         public function editFee($id,$fee)
         {

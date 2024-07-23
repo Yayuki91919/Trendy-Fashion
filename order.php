@@ -23,8 +23,88 @@ include_once 'layouts/header.php';
     $location_controller=new LocationController();
     $location=$location_controller->getLocationListById($location_id);
 	}
+    if(isset($_GET['delete'])){
+        $invoice_id=$_GET['delete'];
+        $result=$invoice_controller->deleteOrder($invoice_id);
+        if($result){
+            echo '<script>location.href="order.php"</script>';
+       }else{
+           echo '<script>location.href="404.php"</script>';
+       }
+    }
 ?>
+<script>
+function confirmDelete() {
+    return confirm("Are you sure you want to cancel order?");
+}
+</script>
+<style>
+/* Fullscreen Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
 
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 700px;
+}
+
+#imageName {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+        /* Make modal image responsive */
+    }
+
+    .close {
+        font-size: 30px;
+        /* Adjust close button size */
+        right: 15px;
+    }
+
+    #imageName {
+        font-size: 16px;
+        /* Adjust font size for smaller screens */
+    }
+}
+
+
+</style>
 <section class="page-header">
     <div class="container">
         <div class="row">
@@ -65,29 +145,31 @@ include_once 'layouts/header.php';
                                                         <p class="m-0 "><b>Name : </b><?php echo $delis['name'] ?></p>
                                                         <p class="m-0"><b>Email : </b><?php echo $delis['email'] ?></p>
                                                         <p class="m-0"><b>Phone : </b><?php echo $delis['phone'] ?></p>
+                                                        <?php if($delivery['status']=='processing'){ ?>
+                                                        <p class="f-s-13 text-danger">
+                                                            <?php echo "Processing"; ?></p>
+                                                        <?php }elseif($delivery['status']=='shipped'){?>
+                                                        <span
+                                                            class="m-0 text-warning"><?php echo "Shipped at "; ?></span><span
+                                                            class="text-muted"><?php echo $delivery['shipping_date'] ?></span>
+                                                        <?php }elseif($delivery['status']=='delivered'){?>
+                                                        <span
+                                                            class="m-0 text-info"><?php echo "Delivered at"; ?></span><br><span
+                                                            class="text-muted"><?php echo $delivery['delivered_date'] ?></span>
+                                                        <?php } ?>
                                                         <br>
                                                     </div>
                                                     <div class="col-lg-6 text-right">
                                                         <h5 class="">Delivery Location</h5>
-                                                        <p class="m-0 text-info font-weight-bold">
+                                                        <p class="m-0 ">
                                                             <?php echo $location['city'] ?>
                                                         </p>
-                                                        <p class="m-0 text-info font-weight-bold">
+                                                        <p class="m-0 text-info">
                                                             <?php echo $location['township'] ?></p>
-                                                        <p class="m-0"><b><?php echo $delis['address_details'] ?></b>
+                                                        <p class="m-0 text-secondary">
+                                                            <b><?php echo $delis['address_details'] ?></b>
                                                         </p>
-                                                        <?php if($delivery['status']=='processing'){ ?>
-                                                        <p class="f-s-13 text-danger font-weight-bold">
-                                                            <?php echo "Processing"; ?></p>
-                                                        <?php }elseif($delivery['status']=='shipped'){?>
-                                                        <span
-                                                            class="m-0 text-warning font-weight-bold"><?php echo "Shipped at "; ?></span><span
-                                                            class="text-muted"><?php echo $delivery['shipping_date'] ?></span>
-                                                        <?php }elseif($delivery['status']=='delivered'){?>
-                                                        <span
-                                                            class="m-0 text-green font-weight-bold"><?php echo "Delivered at"; ?></span><span
-                                                            class="text-muted"><?php echo $delivery['delivered_date'] ?></span>
-                                                        <?php } ?>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,33 +184,38 @@ include_once 'layouts/header.php';
                                     <h4 class="card-title">Orders</h4>
                                     <div class="custom-media-object-2">
                                         <?php foreach($orders as $order){ 
-                                 $pid=$order['product_id'];
+                                 $pid=$order['product_detail_id'];
                                  $product= $order_controller->getProductListByInvoice($pid);
                                 ?>
                                         <div class="media border-bottom-1 p-t-15">
                                             <div class="media-body">
                                                 <div class="row">
-                                                    <div class="col-lg-2"><img class="m-2"
+                                                    <div class="col-lg-2"><img class="m-2 thumbnail"
                                                             src="Admin/images/product/<?php echo $product['random_image'] ?>"
-                                                            width="80" height="80" alt=""></div>
+                                                            width="80" height="80" alt=""
+                                                            data-name="<?php echo $product['product_name'] ?>">
+                                                        <div id="fullscreenModal" class="modal">
+                                                            <span class="close">&times;</span>
+                                                            <img class="modal-content" id="fullImage">
+                                                            <div id="imageName"></div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-6">
                                                         <h5><?php echo $product['product_name'] ?></h5>
-                                                        <b>Size : </b><?php echo $order['size'] ?><br>
-                                                        <b>Color : </b><?php echo $order['color'] ?><br>
+                                                        <b>Size : </b><?php echo $product['psize'] ?><br>
+                                                        <b>Color : </b><?php echo $product['pcolor'] ?><br>
                                                         <b>Qty : </b><?php echo $order['quantity'] ?> x
                                                         <?php echo $product['price'] ?> <span
                                                             class="XRP m-l-10">KS</span>
                                                     </div>
                                                     <div class="col-lg-4 text-right">
-                                                        <?php if($order['cus_status']=="ordered"){ ?>
+                                                        <?php if($order['cus_status']=="order"){ ?>
                                                         <span
                                                             class="label label-info "><?php echo $order['cus_status'] ?></span>
                                                         <?php }elseif($order['cus_status']=="cancel"){ ?>
                                                         <span
                                                             class="label label-danger "><?php echo $order['cus_status'] ?></span>
                                                         <?php } ?>
-                                                        <i class="tf-ion-trash-a"
-                                                            style="color: #ec5582; font-size: 16px; margin-left:20px"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -139,7 +226,8 @@ include_once 'layouts/header.php';
                             </div>
                         </div>
                     </div>
-                    <?php }else{ ?>
+                    <?php }else{ 
+                       if(!empty($invoices)){ ?>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -149,19 +237,19 @@ include_once 'layouts/header.php';
                                     <th>Delivery Fee</th>
                                     <th>Total Price</th>
                                     <th>Shipping Status</th>
+                                    <th>Details</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php  
-                            	if(isset($invoices)){
                                     foreach($invoices as $invoice){
                             	?>
                                 <tr>
                                     <td>#<?php echo $invoice['invoice_no'] ?></td>
                                     <td><?php echo $invoice['invoice_date'] ?></td>
-                                    <td><?php echo $invoice['fee'] ?> MMK</td>
-                                    <td><?php echo $invoice['total'] ?> MMK</td>
+                                    <td><?php echo $invoice['fee'] ?> Ks</td>
+                                    <td><?php echo $invoice['total'] ?> Ks</td>
                                     <?php 
 										    $in_id=$invoice['invoice_id']; 
 											$delivery=$delivery_controller->getDeliveryListByInvoiceId($in_id); ?>
@@ -175,18 +263,54 @@ include_once 'layouts/header.php';
                                         <?php } ?>
                                     </td>
                                     <td><a href="order.php?invoice_id=<?php echo $invoice['invoice_id'] ?>"
-                                            class="btn btn-small">View</a></td>
+                                            class="btn btn-default">View</a></td>
+                                    <td>
+                                        <?php if($delivery['status']=='processing'){ ?>
+                                        <a href="order.php?delete=<?php echo $invoice['invoice_id'] ?>"
+                                            class="tn btn-main btn-small btn-round-full"
+                                            onclick="return confirmDelete()">Cancel Order</a>
+                                        <?php }?>
+                                    </td>
                                 </tr>
-                                <?php }} ?>
+                                <?php 
+                            } ?>
                             </tbody>
                         </table>
                     </div>
-                    <?php } ?>
+                    <?php }else{ ?>
+                    <p class="text-center"> <?php echo "There is no order yet."; ?></p>
+                    <?php  }} ?>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script>
+var modal = document.getElementById("fullscreenModal");
+var modalImg = document.getElementById("fullImage");
+var captionText = document.getElementById("imageName");
+var thumbnails = document.getElementsByClassName("thumbnail");
+
+for (let i = 0; i < thumbnails.length; i++) {
+    thumbnails[i].onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.getAttribute("data-name");
+    }
+}
+
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+modal.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
 <?php
 include_once 'layouts/footer.php';
 ?>

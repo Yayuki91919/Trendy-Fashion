@@ -21,6 +21,71 @@ function confirmDelete() {
     return confirm("Are you sure you want to delete?");
 }
 </script>
+<style>
+/* Fullscreen Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 700px;
+}
+
+#imageName {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+        /* Make modal image responsive */
+    }
+
+    .close {
+        font-size: 30px;
+        /* Adjust close button size */
+        right: 15px;
+    }
+
+    #imageName {
+        font-size: 16px;
+        /* Adjust font size for smaller screens */
+    }
+}
+</style>
 <!--**********************************
             Content body start
         ***********************************-->
@@ -90,8 +155,14 @@ function confirmDelete() {
                                             $random_value = $my_array[$random_key];
                                         ?>
 
-                                        <td><img src="images/banner_photo/<?php echo $random_value ?>" width="100"
-                                                alt=""></td>
+                                        <td><img class="thumbnail" src="images/banner_photo/<?php echo $random_value ?>"
+                                                width="100" alt="" data-name="<?php echo $random_value ?>">
+                                            <div id="fullscreenModal" class="modal">
+                                                <span class="close">&times;</span>
+                                                <img class="modal-content" id="fullImage">
+                                                <div id="imageName"></div>
+                                            </div>
+                                        </td>
                                         <td><?php echo $banner['title'] ?></td>
                                         <td><?php echo $sub['brand_name'] ?></td>
                                         <td><a href="edit_banner.php?banner_id=<?php echo $banner['banner_id']?>"
@@ -130,5 +201,29 @@ function confirmDelete() {
             Content body end
         ***********************************-->
 
+<script>
+var modal = document.getElementById("fullscreenModal");
+var modalImg = document.getElementById("fullImage");
+var captionText = document.getElementById("imageName");
+var thumbnails = document.getElementsByClassName("thumbnail");
 
+for (let i = 0; i < thumbnails.length; i++) {
+    thumbnails[i].onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.getAttribute("data-name");
+    }
+}
+
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+modal.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 <?php include('layouts/footer.php'); ?>

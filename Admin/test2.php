@@ -1,66 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form with Summernote Editor</title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <!-- Summernote CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner and Product Slider</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        /* Banner Slider */
+        .banner-slider {
+            position: relative;
+            height: 500px;
+        }
+
+        .banner-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .banner-slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .banner-content {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* Product Slider */
+        .product-slider {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            overflow: hidden;
+            width: calc(100% - 60px);
+        }
+
+        .product-slide {
+            min-width: 25%;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .product-slide img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .product-prev, .product-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1;
+        }
+
+        .product-prev {
+            left: 10px;
+        }
+
+        .product-next {
+            right: 10px;
+            background-color: pink;
+        }
+    </style>
 </head>
 <body>
-  <div class="container mt-5">
-    <h2>Contact Form</h2>
-    <form id="contactForm">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" class="form-control" id="name" name="name" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="message">Message:</label>
-        <textarea id="summernote" name="message"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
+    <!-- Banner Slider -->
+    <div class="slider-container">
+        <div class="banner-slider">
+            <div class="banner-slides">
+                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
+                    <div class="banner-content">
+                        <h1>Banner 1</h1>
+                    </div>
+                </div>
+                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
+                    <div class="banner-content">
+                        <h1>Banner 2</h1>
+                    </div>
+                </div>
+                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
+                    <div class="banner-content">
+                        <h1>Banner 3</h1>
+                    </div>
+                </div>
+                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
+                    <div class="banner-content">
+                        <h1>Banner 4</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <!-- Bootstrap 5 JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb1H7y4BKE6p3AoSr0f6aeZ9onkTkxFZC7514e0pF5G1R6K4t" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYe6LYclmtdX1a81h4y5mg4I1+7wW0E4YqElj3/Jr62xUHrP6X/19BKlQKe7zZ2" crossorigin="anonymous"></script>
-  <!-- Summernote JS -->
-  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('#summernote').summernote({
-        placeholder: 'Write your message here...',
-        tabsize: 2,
-        height: 200
-      });
+    <!-- Product Slider -->
+    <div class="slider-container">
+        <div class="product-slider">
+            <button class="product-prev">&#10094;</button>
+            <div class="product-slides">
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 1">
+                    <p>Product 1</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 2">
+                    <p>Product 2</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 3">
+                    <p>Product 3</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 4">
+                    <p>Product 4</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 5">
+                    <p>Product 5</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 6">
+                    <p>Product 6</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 7">
+                    <p>Product 7</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 8">
+                    <p>Product 8</p>
+                </div>
+            </div>
+            <button class="product-next">&#10095;</button>
+        </div>
+    </div>
 
-      $('#contactForm').on('submit', function(e) {
-        e.preventDefault();
+    <script>
+        // Banner Slider
+        let bannerIndex = 0;
+        const bannerSlides = document.querySelectorAll('.banner-slide');
+        const totalBannerSlides = bannerSlides.length;
 
-        // Collect form data
-        var formData = $(this).serializeArray();
+        function showBannerSlide(n) {
+            if (n >= totalBannerSlides) bannerIndex = 0;
+            else if (n < 0) bannerIndex = totalBannerSlides - 1;
+            else bannerIndex = n;
+            const offset = -bannerIndex * 100;
+            document.querySelector('.banner-slides').style.transform = `translateX(${offset}%)`;
+        }
 
-        // Log form data to console (for demonstration purposes)
-        console.log(formData);
+        function nextBannerSlide() {
+            showBannerSlide(bannerIndex + 1);
+        }
 
-        // Here you can handle the form submission, e.g., send data to server
-        // $.post('your-server-endpoint', formData, function(response) {
-        //   // Handle server response here
-        // });
+        if (totalBannerSlides > 1) {
+            setInterval(nextBannerSlide, 3000); // Change banner slide every 3 seconds only if more than one slide
+        }
 
-        alert('Form submitted successfully!');
-      });
-    });
-  </script>
+        // Product Slider
+        let productIndex = 0;
+        const productSlides = document.querySelectorAll('.product-slide');
+        const totalProductSlides = productSlides.length;
+        const slidesToShow = 4;
+
+        function showProductSlide(n) {
+            if (n >= totalProductSlides - slidesToShow) productIndex = 0;
+            else if (n < 0) productIndex = totalProductSlides - slidesToShow;
+            else productIndex = n;
+            const offset = -productIndex * (100 / slidesToShow);
+            document.querySelector('.product-slides').style.transform = `translateX(${offset}%)`;
+        }
+
+        document.querySelector('.product-next').addEventListener('click', () => {
+            showProductSlide(productIndex + 1);
+        });
+
+        document.querySelector('.product-prev').addEventListener('click', () => {
+            showProductSlide(productIndex - 1);
+        });
+
+        // Initialize the product slider
+        showProductSlide(0);
+
+    </script>
 </body>
 </html>

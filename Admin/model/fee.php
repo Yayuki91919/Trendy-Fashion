@@ -26,15 +26,15 @@ class Fee{
             return $result;
         }
     }
-    public function addNewFee($fee,$location_id)
+    public function addNewFee($lid,$fee_value)
     {
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         $sql="insert into deli_fee(fee,location_id) 
         value (:fee,:location_id)";
         $statement=$con->prepare($sql);
-        $statement->bindParam(':fee',$fee);
-        $statement->bindParam(':location_id',$location_id);
+        $statement->bindParam(':fee',$fee_value);
+        $statement->bindParam(':location_id',$lid);
         if($statement->execute())
         {
             return true;

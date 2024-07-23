@@ -7,9 +7,13 @@ class DeliveryController extends Delivery{
         public function getDeliveryListByInvoiceId($id){
             return $this->getDeliveryByInvoiceId($id);
         }
-        public function editDelivery($id,$shipped_date,$delivered_date,$status)
+        public function editDelivery($id, $shipped_date, $delivered_date, $status)
         {
-            return $this->updateDelivery($id,$shipped_date,$delivered_date,$status);
+            return $this->updateDelivery($id, $shipped_date, $delivered_date, $status);
+        }
+        public function createDelivery($invoice_id)
+        {
+            return $this->addDelivery($invoice_id);
         }
 }
 ?>

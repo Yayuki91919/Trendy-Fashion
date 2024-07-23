@@ -8,9 +8,9 @@ if (isset($_GET['f'])) {
 
     if ($fee === false) {
         // Handle the error, e.g., by outputting an error message
-        echo "Unknown";
+        echo " ";
     } else {
-        echo $fee['fee']." MMK";
+        echo $fee['fee']." Ks";
     }
 } else {
     echo "No location ID provided.";

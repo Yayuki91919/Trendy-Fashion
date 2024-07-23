@@ -28,7 +28,7 @@ if(isset($_POST['submit'])){
         $result = $location_controller->createNewLocation($city, $town);
         $lastId = $location_controller->getLastInsertId();
         
-        $result_fee = $fee_controller->createNewFee($fee, $lastId['last_id']);
+        $result_fee = $fee_controller->createNewFee($lastId['last_id'],$fee );
         
         if($result && $result_fee){
             $message = 1;
