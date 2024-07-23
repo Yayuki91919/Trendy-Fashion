@@ -1,258 +1,222 @@
-<?php 
-    include('layouts/header.php');
-    include_once __DIR__ . '../controller/invoiceController.php';
-    include_once __DIR__ . '../controller/orderController.php';
-    include_once __DIR__ . '../controller/deli_infoController.php';
-    include_once __DIR__ . '../controller/locationController.php';
-    include_once __DIR__ . '../controller/deliveryController.php';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner and Product Slider</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
 
-    $delivery_controller = new DeliveryController();
-    
-    if (isset($_GET['invoice_id'])) {
-        $id = $_GET['invoice_id'];
-    }
-    
-    $order_controller = new OrderController();
-    $orders = $order_controller->getOrderListByInvoice($id);
-    
-    $invoice_controller = new InvoiceController();
-    $invoice = $invoice_controller->getInvoice($id);
-    $in_id = $invoice['deli_info_id'];
-    
-    $deli_controller = new DeliInfoController();
-    $delis = $deli_controller->getDeliInfoListById($in_id);
-    
-    $delivery = $delivery_controller->getDeliveryListByInvoiceId($id);
-    $location_id = $delis['location_id'];
-    
-    $location_controller = new LocationController();
-    $location = $location_controller->getLocationListById($location_id);
-?>
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            margin: 20px 0;
+        }
 
-<!--**********************************
-    Content body start
-***********************************-->
-<style>
-    .image-container {
-    display: inline;
-    
-}
+        /* Banner Slider */
+        .banner-slider {
+            position: relative;
+            height: 500px;
+        }
 
-.thumbnail {
-    width: 100%;
-    height: auto;
-}
+        .banner-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
 
-.delete-icon {
-    text-align: right;
-    background-color: #ff5c5c;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 3px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    text-decoration: none;
-}
+        .banner-slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.delete-icon:hover {
-    background-color: #e14c4c;
-}
+        .banner-content {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
 
-/* Fullscreen Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 100;
-    padding-top: 60px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9);
-}
+        /* Product Slider */
+        .product-slider {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
-.modal-content {
-    margin: auto;
-    display: block;
-    width: 90%;
-    max-width: 700px;
-}
+        .product-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            overflow: hidden;
+            width: calc(100% - 60px);
+        }
 
-#imageName {
-    color: white;
-    font-size: 18px;
-    text-align: center;
-    padding: 10px 0;
-}
+        .product-slide {
+            min-width: 25%;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
 
-/* Close Button */
-.close {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        .product-slide img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
 
-.close:hover,
-.close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
+        .product-prev, .product-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1;
+        }
 
-@media screen and (max-width: 700px) {
-    .modal-content {
-        width: 100%;
-    }
+        .product-prev {
+            left: 10px;
+        }
 
-    .close {
-        font-size: 30px;
-        right: 15px;
-    }
-
-    #imageName {
-        font-size: 16px;
-    }
-}
-
-
-
-.error {
-    color: red;
-    font-size: 0.9em;
-}
-
-</style>
-<div class="content-body">
-    <?php if (isset($_GET['result']) && $_GET['result'] == 2) {
-        echo "<div class='alert alert-success text-success'>Delivery Status Changed Successfully!</div>";
-    } ?>
-
-    <div class="row page-titles mx-0">
-        <div class="col p-md-0">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Order Detail</a></li>
-            </ol>
-        </div>
-    </div>
-    <!-- row -->
-
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Delivery Information -->
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Delivery Information</h4>
-                        <div class="custom-media-object-1">
-                            <div class="media border-bottom-1 p-t-15"><i class="align-self-start mr-3 cc NEO f-s-30"></i>
-                                <div class="media-body">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <h5>Customer</h5>
-                                            <p class="m-0"><b>Name: </b><?php echo $delis['name'] ?></p>
-                                            <p class="m-0"><b>Email: </b><?php echo $delis['email'] ?></p>
-                                            <p class="m-0"><b>Phone: </b><?php echo $delis['phone'] ?></p><br>
-                                            <a href="editDelivery.php?invoice_id=<?php echo $id ?>" class="btn btn-primary"><i class="fa fa-pencil"></i> Status</a>
-                                        </div>
-                                        <div class="col-lg-6 text-right">
-                                            <h5>Delivery Location</h5>
-                                            <p class="m-0 text-info font-weight-bold"><?php echo $location['city'] ?></p>
-                                            <p class="m-0 text-info font-weight-bold"><?php echo $location['township'] ?></p>
-                                            <p class="m-0"><b><?php echo $delis['address_details'] ?></b></p>
-                                            <?php if ($delivery['status'] == 'processing') { ?>
-                                                <p class="f-s-13 text-danger font-italic font-weight-bold">Processing</p>
-                                            <?php } elseif ($delivery['status'] == 'shipped') { ?>
-                                                <span class="m-0 f-s-13 text-warning font-italic font-weight-bold">Shipped at</span><br>
-                                                <span class="text-muted"><?php echo $delivery['shipping_date'] ?></span>
-                                            <?php } elseif ($delivery['status'] == 'delivered') { ?>
-                                                <span class="m-0 f-s-13 text-green font-italic font-weight-bold">Delivered at</span><br>
-                                                <span class="text-muted"><?php echo $delivery['delivered_date'] ?></span>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        .product-next {
+            right: 10px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner Slider -->
+    <div class="slider-container">
+        <div class="banner-slider">
+            <div class="banner-slides">
+                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
+                    <div class="banner-content">
+                        <h1>Banner 1</h1>
                     </div>
                 </div>
-            </div>
-            <!-- Orders -->
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Orders</h4>
-                        <div class="custom-media-object-2">
-                            <?php foreach ($orders as $order) { 
-                                $pid = $order['product_detail_id'];
-                                $product = $order_controller->getProductListByInvoice($pid);
-                            ?>
-                            <div class="media border-bottom-1 p-t-15 image-container">
-                                <img class="thumbnail" src="images/product/<?php echo $product['random_image'] ?>" data-name="<?php echo $product['random_image'] ?>">
-                                <div class="media-body">
-                                    <div class="row">
-                                        <div class="col-lg-5">
-                                            <h5><?php echo $product['product_name'] ?></h5>
-                                            <p class="m-0"><b>Size: </b><?php echo $product['psize'] ?></p>
-                                            <p class="m-0"><b>Color: </b><?php echo $product['pcolor'] ?></p>
-                                            <p class="m-0"><b>Qty: </b><?php echo $order['quantity'] ?></p>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <p class="text-muted"><i class="color-danger ti-minus m-r-5"></i><?php echo $product['price'] ?> <span class="XRP m-l-10">KS</span></p>
-                                        </div>
-                                        <div class="col-lg-3 text-right">
-                                            <h5 class="text-muted"></h5>
-                                            <span class="badge badge-success"><?php echo $order['cus_status'] ?></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php } ?>
-                        </div>
+                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
+                    <div class="banner-content">
+                        <h1>Banner 2</h1>
+                    </div>
+                </div>
+                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
+                    <div class="banner-content">
+                        <h1>Banner 3</h1>
+                    </div>
+                </div>
+                <div class="banner-slide" style="background-image: url('images/big/card-1.png');">
+                    <div class="banner-content">
+                        <h1>Banner 4</h1>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- #/ container -->
-</div>
-<!--**********************************
-    Content body end
-***********************************-->
-<div id="fullscreenModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="fullImage">
-    <div id="imageName"></div>
-</div>
-<script>
-    var modal = document.getElementById("fullscreenModal");
-    var modalImg = document.getElementById("fullImage");
-    var captionText = document.getElementById("imageName");
-    var thumbnails = document.getElementsByClassName("thumbnail");
 
-    for (let i = 0; i < thumbnails.length; i++) {
-        thumbnails[i].onclick = function() {
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            captionText.innerHTML = this.getAttribute("data-name");
+    <!-- Product Slider -->
+    <div class="slider-container">
+        <div class="product-slider">
+            <button class="product-prev">&#10094;</button>
+            <div class="product-slides">
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 1">
+                    <p>Product 1</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 2">
+                    <p>Product 2</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 3">
+                    <p>Product 3</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 4">
+                    <p>Product 4</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 5">
+                    <p>Product 5</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 6">
+                    <p>Product 6</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 7">
+                    <p>Product 7</p>
+                </div>
+                <div class="product-slide">
+                    <img src="images/big/card-1.png" alt="Product 8">
+                    <p>Product 8</p>
+                </div>
+            </div>
+            <button class="product-next">&#10095;</button>
+        </div>
+    </div>
+
+    <script>
+        // Banner Slider
+        let bannerIndex = 0;
+        const bannerSlides = document.querySelectorAll('.banner-slide');
+        const totalBannerSlides = bannerSlides.length;
+
+        function showBannerSlide(n) {
+            if (n >= totalBannerSlides) bannerIndex = 0;
+            else if (n < 0) bannerIndex = totalBannerSlides - 1;
+            else bannerIndex = n;
+            const offset = -bannerIndex * 100;
+            document.querySelector('.banner-slides').style.transform = `translateX(${offset}%)`;
         }
-    }
 
-    var span = document.getElementsByClassName("close")[0];
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    modal.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        function nextBannerSlide() {
+            showBannerSlide(bannerIndex + 1);
         }
-    }
-</script>
-<?php include('layouts/footer.php'); ?>
+
+        if (totalBannerSlides > 1) {
+            setInterval(nextBannerSlide, 3000); // Change banner slide every 3 seconds only if more than one slide
+        }
+
+        // Product Slider
+        let productIndex = 0;
+        const productSlides = document.querySelectorAll('.product-slide');
+        const totalProductSlides = productSlides.length;
+        const slidesToShow = 4;
+
+        function showProductSlide(n) {
+            if (n >= totalProductSlides - slidesToShow) productIndex = 0;
+            else if (n < 0) productIndex = totalProductSlides - slidesToShow;
+            else productIndex = n;
+            const offset = -productIndex * (100 / slidesToShow);
+            document.querySelector('.product-slides').style.transform = `translateX(${offset}%)`;
+        }
+
+        document.querySelector('.product-next').addEventListener('click', () => {
+            showProductSlide(productIndex + 1);
+        });
+
+        document.querySelector('.product-prev').addEventListener('click', () => {
+            showProductSlide(productIndex - 1);
+        });
+
+        // Initialize the product slider
+        showProductSlide(0);
+
+    </script>
+</body>
+</html>

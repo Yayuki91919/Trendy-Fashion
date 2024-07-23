@@ -38,6 +38,73 @@ function confirmDelete() {
     return confirm("Are you sure you want to cancel order?");
 }
 </script>
+<style>
+/* Fullscreen Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 700px;
+}
+
+#imageName {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+        /* Make modal image responsive */
+    }
+
+    .close {
+        font-size: 30px;
+        /* Adjust close button size */
+        right: 15px;
+    }
+
+    #imageName {
+        font-size: 16px;
+        /* Adjust font size for smaller screens */
+    }
+}
+
+
+</style>
 <section class="page-header">
     <div class="container">
         <div class="row">
@@ -99,9 +166,10 @@ function confirmDelete() {
                                                         </p>
                                                         <p class="m-0 text-info">
                                                             <?php echo $location['township'] ?></p>
-                                                        <p class="m-0 text-secondary"><b><?php echo $delis['address_details'] ?></b>
+                                                        <p class="m-0 text-secondary">
+                                                            <b><?php echo $delis['address_details'] ?></b>
                                                         </p>
-                                                       
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -122,9 +190,16 @@ function confirmDelete() {
                                         <div class="media border-bottom-1 p-t-15">
                                             <div class="media-body">
                                                 <div class="row">
-                                                    <div class="col-lg-2"><img class="m-2"
+                                                    <div class="col-lg-2"><img class="m-2 thumbnail"
                                                             src="Admin/images/product/<?php echo $product['random_image'] ?>"
-                                                            width="80" height="80" alt=""></div>
+                                                            width="80" height="80" alt=""
+                                                            data-name="<?php echo $product['product_name'] ?>">
+                                                        <div id="fullscreenModal" class="modal">
+                                                            <span class="close">&times;</span>
+                                                            <img class="modal-content" id="fullImage">
+                                                            <div id="imageName"></div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-6">
                                                         <h5><?php echo $product['product_name'] ?></h5>
                                                         <b>Size : </b><?php echo $product['psize'] ?><br>
@@ -189,8 +264,13 @@ function confirmDelete() {
                                     </td>
                                     <td><a href="order.php?invoice_id=<?php echo $invoice['invoice_id'] ?>"
                                             class="btn btn-default">View</a></td>
-                                            <td><a href="order.php?delete=<?php echo $invoice['invoice_id'] ?>"
-                                            class="tn btn-main btn-small btn-round-full" onclick="return confirmDelete()">Cancel Order</a></td>
+                                    <td>
+                                        <?php if($delivery['status']=='processing'){ ?>
+                                        <a href="order.php?delete=<?php echo $invoice['invoice_id'] ?>"
+                                            class="tn btn-main btn-small btn-round-full"
+                                            onclick="return confirmDelete()">Cancel Order</a>
+                                        <?php }?>
+                                    </td>
                                 </tr>
                                 <?php 
                             } ?>
@@ -198,13 +278,39 @@ function confirmDelete() {
                         </table>
                     </div>
                     <?php }else{ ?>
-                        <p class="text-center"> <?php echo "There is no order yet."; ?></p> 
-                     <?php  }} ?>
+                    <p class="text-center"> <?php echo "There is no order yet."; ?></p>
+                    <?php  }} ?>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script>
+var modal = document.getElementById("fullscreenModal");
+var modalImg = document.getElementById("fullImage");
+var captionText = document.getElementById("imageName");
+var thumbnails = document.getElementsByClassName("thumbnail");
+
+for (let i = 0; i < thumbnails.length; i++) {
+    thumbnails[i].onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.getAttribute("data-name");
+    }
+}
+
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+modal.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
 <?php
 include_once 'layouts/footer.php';
 ?>

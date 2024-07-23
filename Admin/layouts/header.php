@@ -3,6 +3,16 @@
 // if(isset($_SESSION['username'])){
 //     echo '<script>window.location.href = "index.php";</script>';
 //    }
+include_once __DIR__ . '/../controller/profileController.php'; 
+$profile_controller = new ProfileController();
+$profiles = $profile_controller->getProfile();
+
+if (!empty($profiles)) {
+    foreach ($profiles as $profile) {
+        $image = $profile['image'];
+        $password = $profile['password'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,8 +59,7 @@
     <link href="css/style.css" rel="stylesheet">
      <!-- Custom Stylesheet -->
      <link href="./plugins/summernote/dist/summernote.css" rel="stylesheet">
-   
-   
+    
 
 </head>
 
@@ -247,9 +256,9 @@
                             </div>
                         </li> -->
                         <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
+                            <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="images/user/1.png" height="40" width="40" alt="">
+                                <img src="images/profile/<?php echo $image; ?>" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">

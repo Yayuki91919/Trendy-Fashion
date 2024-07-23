@@ -156,7 +156,6 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>No</th>
                                         <th>Invoice_No</th>
                                         <th>Customer Information</th>
                                         <th>Delivery_Information</th>

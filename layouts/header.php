@@ -2,6 +2,18 @@
 if (!isset($_SESSION)) {
 	session_start();
 }
+include_once __DIR__ . '/../Admin/controller/socialController.php'; // Fixed the path
+$social_controller = new SocialController();
+$fb = $tiktok = $insta = "";
+$social = $social_controller->getSocial();
+if (!empty($social)) {
+    foreach ($social as $so) {
+        $fb = $so['fb'];
+        $tiktok = $so['tiktok'];
+        $insta = $so['insta'];
+        $phone=$so['phone'];
+    }
+}
 // include_once __DIR__ . '/Admin/controller/cartController.php';
 //echo "Current directory: " . __DIR__ . "<br>";
 
@@ -83,7 +95,7 @@ if(isset($_GET['removeCartId']))
 
 	<!-- Main Stylesheet -->
 	<link rel="stylesheet" href="css/style.css">
-
+</head>
 </head>
 
 <body id="body">
@@ -96,7 +108,9 @@ if(isset($_GET['removeCartId']))
 				<div class="col-md-4 col-xs-12 col-sm-4">
 					<div class="contact-number">
 						<i class="tf-ion-ios-telephone"></i>
-						<span>0XX- XXX-XXXXXXX</span>
+						<?php if(!empty($phone)){ ?>
+						<span><?php echo $phone ?></span>
+						<?php } ?>
 					</div>
 				</div>
 				<div class="col-md-4 col-xs-12 col-sm-4">

@@ -23,7 +23,73 @@
     $location=$location_controller->getLocationListById($location_id);
 
 ?>
+<style>
+/* Fullscreen Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
 
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 700px;
+}
+
+#imageName {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+        /* Make modal image responsive */
+    }
+
+    .close {
+        font-size: 30px;
+        /* Adjust close button size */
+        right: 15px;
+    }
+
+    #imageName {
+        font-size: 16px;
+        /* Adjust font size for smaller screens */
+    }
+}
+
+
+</style>
 <!--**********************************
             Content body start
         ***********************************-->
@@ -61,7 +127,8 @@
                                             <p class="m-0 "><b>Name : </b><?php echo $delis['name'] ?></p>
                                             <p class="m-0"><b>Email : </b><?php echo $delis['email'] ?></p>
                                             <p class="m-0"><b>Phone : </b><?php echo $delis['phone'] ?></p><br>
-                                            <a href="editDelivery.php?invoice_id=<?php echo $id ?>" class="btn btn-primary"><i class="fa fa-pencil"></i> Status</a>
+                                            <a href="editDelivery.php?invoice_id=<?php echo $id ?>"
+                                                class="btn btn-primary"><i class="fa fa-pencil"></i> Status</a>
                                         </div>
                                         <div class="col-lg-6 text-right">
                                             <h5 class="">Delivery Location</h5>
@@ -100,7 +167,13 @@
                                  $product= $order_controller->getProductListByInvoice($pid);
                                 ?>
                             <div class="media border-bottom-1 p-t-15">
-                                <img class="m-2" src="images/product/<?php echo $product['random_image'] ?>"  width="80" height="80" alt="">
+                                <img class="m-2 thumbnail" src="images/product/<?php echo $product['random_image'] ?>"
+                                    width="80" height="80" alt="" data-name="<?php echo $product['random_image'] ?>">
+                                <div id="fullscreenModal" class="modal">
+                                    <span class="close">&times;</span>
+                                    <img class="modal-content" id="fullImage">
+                                    <div id="imageName"></div>
+                                </div>
                                 <div class="media-body">
                                     <div class="row">
                                         <div class="col-lg-5">
@@ -132,4 +205,30 @@
 <!--**********************************
             Content body end
         ***********************************-->
+<script>
+var modal = document.getElementById("fullscreenModal");
+var modalImg = document.getElementById("fullImage");
+var captionText = document.getElementById("imageName");
+var thumbnails = document.getElementsByClassName("thumbnail");
+
+for (let i = 0; i < thumbnails.length; i++) {
+    thumbnails[i].onclick = function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.getAttribute("data-name");
+    }
+}
+
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+modal.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
 <?php include('layouts/footer.php'); ?>
