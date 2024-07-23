@@ -22,6 +22,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = test_input($_POST["password"]);
   }
   $user = $userController->userLogin($email,$password);
+  if($user)
+  {
+    if (($email == $user['email']) && ($password == $user['password']))
+    {
+       // $_SESSION['username'] = $u['username'];
+       $_SESSION['user_login']=$user;
+       header('Location:index.php');
+     }
+  } else {
+    $_SESSION['error'] = "Incorrect username or password!";
+  }
     
   //  $_SESSION['user_login']=$user;
   //  echo $_SESSION['user_login']['username'];
@@ -29,14 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // foreach($user as $u)
   // {
-      if (($email == $user['email']) && ($password == $user['password']))
-       {
-          // $_SESSION['username'] = $u['username'];
-          $_SESSION['user_login']=$user;
-          header('Location:index.php');
-        } else {
-          $_SESSION['error'] = "Login failed.";
-        }
+      // if (($email == $user['email']) && ($password == $user['password']))
+      //  {
+      //     // $_SESSION['username'] = $u['username'];
+      //     $_SESSION['user_login']=$user;
+      //     header('Location:index.php');
+      //   } else {
+      //     $_SESSION['error'] = "Login failed.";
+      //   }
   // }
 
 
