@@ -3,10 +3,13 @@ include_once 'layouts/header.php';
 include_once __DIR__ . '/Admin/controller/bannerController.php';
 include_once __DIR__ . '/Admin/controller/subController.php';
 include_once __DIR__ . '/Admin/controller/productController.php';
+include_once __DIR__ . '/Admin/controller/ShopInfoController.php';
 
 $sub_controller = new SubCategoryController();
 $banner_controller = new BannerController();
-$product_controller = new productController();
+$product_controller  = new productController();
+$shop_controller = new ShopInfoController();
+
 $banners = $banner_controller->getbanners();
 ?>
 

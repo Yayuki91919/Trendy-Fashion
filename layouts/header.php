@@ -2,7 +2,8 @@
 if (!isset($_SESSION)) {
 	session_start();
 }
-include_once __DIR__ . '/../Admin/controller/socialController.php'; // Fixed the path
+include_once __DIR__ . '/../Admin/controller/socialController.php'; 
+include_once __DIR__ . '/../Admin/controller/categoryController.php'; 
 $social_controller = new SocialController();
 $fb = $tiktok = $insta = "";
 $social = $social_controller->getSocial();
@@ -33,17 +34,14 @@ if (file_exists($cartControllerPath)) {
 $cartController = new cartController;
 
 
-if(isset($_GET['removeCartId']))
-{
+if (isset($_GET['removeCartId'])) {
 	$cart_id = $_GET['removeCartId'];
 	$name = $_GET['name'];
-	$status=$cartController->removeCart($cart_id);
+	$status = $cartController->removeCart($cart_id);
 
-	if($status)
-	{
+	if ($status) {
 		// echo '<script> location.href="sub_category.php?status='.$status.'"</script>';
-		$_SESSION['info'] = $name." is Removed! ";
-
+		$_SESSION['info'] = $name . " is Removed! ";
 	}
 }
 
@@ -120,108 +118,91 @@ if(isset($_GET['removeCartId']))
 							<img class="m-0 p-0" width='150' height='100' src="./Admin/icons/trendy-icon/android-chrome-512x512.png" alt="">
 						</a>
 					</div>
-				</div>				
+				</div>
 				<div class="col-md-4 col-xs-12 col-sm-4">
-				<?php //include "noti.php";?>
+					<?php //include "noti.php";
+					?>
 
 					<?php if (isset($_SESSION['user_login'])) { ?>
 						<ul class="top-menu text-right list-inline">
+							<?php
+							$cid = $_SESSION['user_login']['customer_id'];
+							$cart = $cartController->getUserCart($cid);
+							//  var_dump($cart);
+							$subtotal = $total = 0;
+							$count = 0;
+							foreach ($cart as $c) {
+								$count++;
+							} ?>
 							<li class="dropdown cart-nav dropdown-slide">
 								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-android-cart"></i>Cart</a>
-								<div class="dropdown-menu cart-dropdown">
-									<!-- Cart Item -->
-									<?php
+								<?php
+								// if there is no cart don't show
+								if ($count > 0) { ?>
+									<div class="dropdown-menu cart-dropdown">
+										<!-- Cart Item -->
+										<?php
+										foreach ($cart as $c) {
+											$subtotal = $c["quantity"] * $c["price"];
+											$total += $subtotal;
+										?>
+											<div class="media">
+												<a class="pull-left" href="#!">
+													<img class="media-object" src="./Admin/images/product/<?php echo htmlspecialchars($c['random_image']); ?>" alt="image" />
+												</a>
+												<?php //echo $c['random_image']; 
+												?>
 
-	
-									$cid = $_SESSION['user_login']['customer_id'];
-									$cart = $cartController->getUserCart($cid);
-									//  var_dump($cart);
-									$subtotal=$total=0;
-									foreach ($cart as $c) {
-										$subtotal = $c["quantity"] * $c["price"];
-										$total += $subtotal;
-									?>
-										<div class="media">
-											<a class="pull-left" href="#!">
-												<img class="media-object" src="./Admin/images/product/<?php echo htmlspecialchars($c['random_image']); ?>" alt="image" />
-											</a>
-											<?php //echo $c['random_image']; ?>
-
-											<div class="media-body">
-												<h4 class="media-heading">
-													<a href="product-single.php?pid=<?php echo $c['product_id']; ?>&edit_cart=<?php echo $c['cart_id']; ?>"><?php echo $c["product_name"]; ?></a>
-												</h4>
-												<span><?php echo "Size: ".$c["size"]." & Color: ".$c["color"] ; ?></span>
-												<div class="cart-price">
-													<span><?php echo $c["quantity"]; ?></span>
-													<span>X</span>
-													<span><?php echo $c["price"] . " Ks"; ?></span>
+												<div class="media-body">
+													<h4 class="media-heading">
+														<a href="product-single.php?pid=<?php echo $c['product_id']; ?>&edit_cart=<?php echo $c['cart_id']; ?>"><?php echo $c["product_name"]; ?></a>
+													</h4>
+													<span><?php echo "Size: " . $c["size"] . " & Color: " . $c["color"]; ?></span>
+													<div class="cart-price">
+														<span><?php echo $c["quantity"]; ?></span>
+														<span>X</span>
+														<span><?php echo $c["price"] . " Ks"; ?></span>
+													</div>
+													<h5><strong><?php echo $subtotal . " Ks"; ?></strong></h5>
 												</div>
-												<h5><strong><?php echo $subtotal . " Ks"; ?></strong></h5>
+												<a href="shop-sidebar.php?removeCartId=<?php echo $c['cart_id'] ?>&name=<?php echo $c['product_name'] ?>" class="remove" onclick="return confirm('Are you sure to remove?');"><i class="tf-ion-close"></i></a>
 											</div>
-											<a href="shop-sidebar.php?removeCartId=<?php echo $c['cart_id']?>&name=<?php echo $c['product_name']?>" class="remove" onclick="return confirm('Are you sure to remove?');"><i class="tf-ion-close"></i></a>
+
+										<?php } ?>
+										<div class="cart-summary">
+											<span>Total</span>
+											<span class="total-price"><?php echo $total . " Ks"; ?></span>
 										</div>
-									<?php }
-									?>
-									
-
-
-									<div class="cart-summary">
-										<span>Total</span>
-										<span class="total-price"><?php echo $total . " Ks"; ?></span>
+										<ul class="text-center cart-buttons">
+											<li><a href="cart.php" class="btn btn-small">View Cart</a></li>
+											<li><a href="checkout.php" class="btn btn-small btn-solid-border">Checkout</a></li>
+										</ul>
 									</div>
-									<ul class="text-center cart-buttons">
-										<li><a href="cart.php" class="btn btn-small">View Cart</a></li>
-										<li><a href="checkout.php" class="btn btn-small btn-solid-border">Checkout</a></li>
-									</ul>
-								</div>
+								<?php  } else { ?>
+									<div class="dropdown-menu cart-dropdown">
+										<div class="cart-summary">
+											<div class="block text-center">
+												<p><i class="tf-ion-ios-cart-outline"></i>&nbsp;Your cart is currently empty.</p>
+												<a href="shop-sidebar.php" class="btn btn-main mt-20">Return to shop</a>
+											</div>
+										</div>
+
+									</div>
+								<?php } ?>
 
 							</li><!-- / Cart -->
-
 							<li class="dropdown dropdown-slide">
 								<a href="login.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span class="ep--avatar"><?php echo $_SESSION['user_login']['username']; ?></span></a>
 								<ul class="dropdown-menu">
-									<!-- <li class="text-center"><a href="register.php
-						">Create Account</a></li> -->
+
 									<li class="text-center"><a href="logout.php">Logout</a></li>
 								</ul>
 							</li>
 
 						</ul>
 
-						<?php } else { ?>
+					<?php } else { ?>
 						<ul class="top-menu text-right list-inline">
-							<!-- <li class="dropdown cart-nav dropdown-slide">
-								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-android-cart"></i>Cart</a>
-								<div class="dropdown-menu cart-dropdown">
-									<div class="media">
-										<a class="pull-left" href="#!">
-											<img class="media-object" src="images/shop/cart/cart-1.jpg" alt="image" />
-										</a>
-										<div class="media-body">
-											<h4 class="media-heading"><a href="#!">Ladies Bag</a></h4>
-											<div class="cart-price">
-												<span>1 x</span>
-												<span>1250.00</span>
-											</div>
-											<h5><strong>$1200</strong></h5>
-										</div>
-										<a href="#!" class="remove"><i class="tf-ion-close"></i></a>
-									</div>
-									
-
-									<div class="cart-summary">
-										<span>Total</span>
-										<span class="total-price">$1799.00</span>
-									</div>
-									<ul class="text-center cart-buttons">
-										<li><a href="cart.php" class="btn btn-small">View Cart</a></li>
-										<li><a href="checkout.php" class="btn btn-small btn-solid-border">Checkout</a></li>
-									</ul>
-								</div>
-
-							</li> -->
-							
 
 							<li class="dropdown dropdown-slide">
 								<a href="login.php" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span class="ep--avatar"> Sign In</span></a>
@@ -276,82 +257,87 @@ if(isset($_GET['removeCartId']))
 									<!-- Basic -->
 									<div class="col-lg-12 col-md-12 mb-sm-3">
 										<ul>
-											<li class="dropdown-header">Pages</li>
+											<li class="dropdown-header">Product</li>
 											<li role="separator" class="divider"></li>
 											<li><a href="shop-sidebar.php">All Product</a></li>
-											<li><a href="checkout.php">Checkout</a></li>
-											<li><a href="cart.php">Cart</a></li>
-											<!-- <li><a href="pricing.html">Pricing</a></li> -->
-											<!-- <li><a href="confirmation.html">Confirmation</a></li> -->
+											<?php 
+											    $cat_controller=new CategoryController();
+												$categories=$cat_controller->getCategories();
+											foreach($categories as $c)
+											{ ?>
+												<li><a href="product_category.php?cid=<?php echo $c['category_id'];?>"><?php echo $c['category_name']; ?></a></li>
+											<?php
+											}
+											?>
+
 
 										</ul>
 									</div>
 
-									<!-- Layout -->
-									<!-- <div class="col-lg-6 col-md-6 mb-sm-3">
-									<ul>
-										<li class="dropdown-header">Layout</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="product-single.html">Product Details</a></li>
-										<li><a href="shop-sidebar.html">Shop With Sidebar</a></li>
-									</ul>
-								</div> -->
 
 								</div><!-- / .row -->
 							</div><!-- / .dropdown-menu -->
 						</li><!-- / Elements -->
 
+						<?php if (isset($_SESSION['user_login'])) { ?>
+							<!-- Pages -->
+							<li class="dropdown  dropdown-slide">
+								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="tf-ion-ios-arrow-down"></span></a>
+								<div class="dropdown-menu">
+									<div class="row">
 
-						<!-- Pages -->
-						<li class="dropdown  dropdown-slide">
-							<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="tf-ion-ios-arrow-down"></span></a>
-							<div class="dropdown-menu">
-								<div class="row">
+										<!-- Contact -->
+										<div class="col-sm-6 col-xs-12">
+											<ul>
+												<li class="dropdown-header">Profile</li>
+												<li role="separator" class="divider"></li>
+												<li><a href="dashboard.php">User Interface</a></li>
+												<!-- <li><a href="order.php">Orders</a></li> -->
+												<!-- <li><a href="address.php">Address</a></li> -->
+											</ul>
+										</div>
 
-									<!-- Introduction -->
-									<!-- <div class="col-sm-3 col-xs-12">
-									<ul>
-										<li class="dropdown-header">Introduction</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="contact.html">Contact Us</a></li>
-										<li><a href="about.html">About Us</a></li>
-										<li><a href="404.html">404 Page</a></li>
-										<li><a href="coming-soon.html">Coming Soon</a></li>
-										<li><a href="faq.html">FAQ</a></li>
-									</ul>
-								</div> -->
 
-									<!-- Contact -->
-									<div class="col-sm-6 col-xs-12">
-										<ul>
-											<li class="dropdown-header">Dashboard</li>
-											<li role="separator" class="divider"></li>
-											<li><a href="dashboard.php">User Interface</a></li>
-											<li><a href="order.php">Orders</a></li>
-											<li><a href="address.php">Address</a></li>
-										</ul>
-									</div>
 
-									<!-- Utility -->
-									<!-- <div class="col-sm-3 col-xs-12"> -->
-									<!-- <ul>
-										<li class="dropdown-header">Utility</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="login.html">Login Page</a></li>
-										<li><a href="signin.html">Signin Page</a></li>
-										<li><a href="forget-password.html">Forget Password</a></li>
-									</ul> -->
-									<!-- </div> -->
+										<!-- Mega Menu -->
+										<div class="col-sm-6 col-xs-12">
+											<a href="shop.html">
+												<img class="img-responsive" src="images/shop/header-img.jpg" alt="menu image" />
+											</a>
+										</div>
+									</div><!-- / .row -->
+								</div><!-- / .dropdown-menu -->
+							</li><!-- / Pages -->
 
-									<!-- Mega Menu -->
-									<div class="col-sm-6 col-xs-12">
-										<a href="shop.html">
-											<img class="img-responsive" src="images/shop/header-img.jpg" alt="menu image" />
-										</a>
-									</div>
-								</div><!-- / .row -->
-							</div><!-- / .dropdown-menu -->
-						</li><!-- / Pages -->
+							<!-- Elements -->
+							<li class="dropdown dropdown-slide">
+								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Order <span class="tf-ion-ios-arrow-down"></span></a>
+								<div class="dropdown-menu">
+									<div class="row">
+
+										<!-- Basic -->
+										<div class="col-lg-12 col-md-12 mb-sm-3">
+											<ul>
+												<li class="dropdown-header">Order</li>
+												<li role="separator" class="divider"></li>
+												<li><a href="cart.php">Cart</a></li>
+												<li><a href="checkout.php">Checkout</a></li>
+												<li><a href="shop-sidebar.php">Order</a></li>
+
+											</ul>
+										</div>
+
+
+									</div><!-- / .row -->
+								</div><!-- / .dropdown-menu -->
+							</li><!-- / Elements -->
+						<?php
+						}
+						?>
+
+						<li class="dropdown ">
+							<a href="index.php">Collaboration</a>
+						</li>
 
 						<!-- <li class="dropdown ">
 							<a href="dashboard.php">Profile</a>

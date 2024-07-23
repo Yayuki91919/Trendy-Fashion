@@ -6,7 +6,6 @@ include_once __DIR__ . '../controller/subController.php';
 include_once __DIR__ . '../controller/typeController.php';
 include_once __DIR__ . '../controller/productController.php';
 
-
 $cat_controller = new CategoryController();
 $categories = $cat_controller->getCategoriesWithSub();
 
