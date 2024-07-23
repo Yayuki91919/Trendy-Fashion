@@ -121,7 +121,7 @@
                 </div> -->
                 <div class="header-right">
                     <ul class="clearfix">
-                        <!-- <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-email-outline"></i>
                                 <span class="badge badge-pill gradient-1">3</span>
                             </a>
@@ -178,7 +178,7 @@
 
                                 </div>
                             </div>
-                        </li> -->
+                        </li>
                         <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-bell-outline"></i>
                                 <span class="badge badge-pill gradient-2">3</span>

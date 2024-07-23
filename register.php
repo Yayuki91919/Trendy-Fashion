@@ -121,6 +121,8 @@ if (isset($_POST["signin"])) {
             </form>
             <p class="mt-20">Already hava an account ?<a href="login.php"> Login</a></p>
             <p><a href="forget-password.php"> Forgot your password?</a></p>
+            <a href="shop-sidebar.php" class="btn btn-main btn-solid-border">&larr;Back</a>
+
           </div>
         </div>
       </div>

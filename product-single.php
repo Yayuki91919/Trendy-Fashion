@@ -10,20 +10,23 @@ if (isset($_GET['pid'])) {
 	$product_id = $_GET['pid'];
 }
 
-$cid = $_SESSION['user_login']['customer_id'];
+if (isset($_SESSION['user_login'])) {
+	$cid = $_SESSION['user_login']['customer_id'];
+} else {
+	$cid = 0;
+}
 
 if (isset($_POST['addToCart'])) {
-    $d_id = $_POST['d_id'];
-    $quantity = $_POST['product-quantity'];
-    $status = $cart_controller->addToCart($d_id, $cid, $quantity);
-    
-    if ($status === true) {
-        echo '<script> location.href="cart.php?status=' . $status . '"</script>';
-    } else {
+	$d_id = $_POST['d_id'];
+	$quantity = $_POST['product-quantity'];
+	$status = $cart_controller->addToCart($d_id, $cid, $quantity);
+
+	if ($status === true) {
+		echo '<script> location.href="cart.php?status=' . $status . '"</script>';
+	} else {
 
 		echo '<script>alert("' . $status . '");</script>';
-
-    }
+	}
 }
 
 if (isset($_POST['updateCart'])) {
@@ -32,7 +35,7 @@ if (isset($_POST['updateCart'])) {
 	$status = $cart_controller->updateCart($d_id, $cid, $quantity);
 	if ($status) {
 		echo '<script> location.href="cart.php?status=' . $status . '"</script>';
-	} 
+	}
 }
 
 ?>
@@ -125,28 +128,28 @@ if (isset($_POST['updateCart'])) {
 					<p class="product-price"><?php echo $detail['price'] . " Ks"; ?></p>
 
 					<p class="product-description mt-20">
-						<?php echo $detail['description']; ?>	
+						<?php echo $detail['description']; ?>
 					</p>
-					<?php if (isset($_GET['edit_cart'])) { 
+					<?php if (isset($_GET['edit_cart'])) {
 						$cart_id = $_GET['edit_cart'];
 						$e = $cart_controller->getEditCart($cart_id);
-						
-						?>
+
+					?>
 						<form action="<?php $_PHP_SELF ?>" method="post" onsubmit="return validateFormEdit()">
 							<div class="product-size">
 								<span>Size</span>
-								
+
 								<p class="form-control"><?php echo $e['size']; ?></p>
-								
+
 							</div>
 							<div class="product-size">
 								<span>Color</span>
-								
+
 								<p class="form-control"><?php echo $e['color']; ?></p>
 
 							</div>
 
-							<input type="hidden" name="d_id" id="d_id" value="<?php echo $e['d_id'] ?>" >
+							<input type="hidden" name="d_id" id="d_id" value="<?php echo $e['d_id'] ?>">
 							<input type="hidden" name="avaliable_quantity" id="qty" value="<?php echo $e['max_qty'] ?>">
 
 							<div class="product-quantity">
@@ -209,8 +212,21 @@ if (isset($_POST['updateCart'])) {
 									<li><a href="product-single.html"><?php echo $detail['type']; ?></a></li>
 								</ul>
 							</div>
-							<input type="submit" value="Add To Cart" name="addToCart" class="btn btn-main mt-20">
-							<a href="cart.php" class="btn btn-main mt-20 btn-solid-border">View Cart</a>
+							<?php
+							if (isset($_SESSION['user_login'])) {
+							?>
+								<input type="submit" value="Add To Cart" name="addToCart" class="btn btn-main mt-20">
+								<a href="cart.php" class="btn btn-main mt-20 btn-solid-border">View Cart</a>
+							<?php
+							} else {
+							?>
+								<a href="login.php" class="btn btn-main mt-20">Add To Cart</a>
+								<a href="login.php" class="btn btn-main mt-20 btn-solid-border">View Cart</a>
+
+							<?php
+							}
+							?>
+
 
 						</form>
 
@@ -272,50 +288,50 @@ if (isset($_POST['updateCart'])) {
 </script>
 
 <script>
-function validateForm() {
-    var selectedQuantity = parseInt(document.getElementById('product-quantity').value);
-    var availableQuantity = parseInt(document.getElementById('qty').value);
-    var selectedSize = document.getElementById('sizeSelect').value;
+	function validateForm() {
+		var selectedQuantity = parseInt(document.getElementById('product-quantity').value);
+		var availableQuantity = parseInt(document.getElementById('qty').value);
+		var selectedSize = document.getElementById('sizeSelect').value;
 
-    // Validate selected quantity
-    if (selectedQuantity === 0) {
-        alert('Please select at least 1 item.');
-        return false; // Prevent form submission
-    }
+		// Validate selected quantity
+		if (selectedQuantity === 0) {
+			alert('Please select at least 1 item.');
+			return false; // Prevent form submission
+		}
 
-    // Validate available quantity
-    if (selectedQuantity > availableQuantity) {
-        alert('Only ' + availableQuantity + ' clothes left.');
-        return false; // Prevent form submission
-    }
+		// Validate available quantity
+		if (selectedQuantity > availableQuantity) {
+			alert('Only ' + availableQuantity + ' clothes left.');
+			return false; // Prevent form submission
+		}
 
-    // Validate selected size
-    if (selectedSize === "") {
-        alert('Please select size.');
-        return false; // Prevent form submission
-    }
+		// Validate selected size
+		if (selectedSize === "") {
+			alert('Please select size.');
+			return false; // Prevent form submission
+		}
 
-    return true; // Allow form submission
-}
-function validateFormEdit() {
-    var selectedQuantity = parseInt(document.getElementById('product-quantity').value);
-    var availableQuantity = parseInt(document.getElementById('qty').value);
+		return true; // Allow form submission
+	}
 
-    // Validate selected quantity
-    if (selectedQuantity === 0) {
-        alert('Please select at least 1 item.');
-        return false; // Prevent form submission
-    }
+	function validateFormEdit() {
+		var selectedQuantity = parseInt(document.getElementById('product-quantity').value);
+		var availableQuantity = parseInt(document.getElementById('qty').value);
 
-    // Validate available quantity
-    if (selectedQuantity > availableQuantity) {
-        alert('Only ' + availableQuantity + ' clothes left.');
-        return false; // Prevent form submission
-    }
+		// Validate selected quantity
+		if (selectedQuantity === 0) {
+			alert('Please select at least 1 item.');
+			return false; // Prevent form submission
+		}
 
-    return true; // Allow form submission
-}
+		// Validate available quantity
+		if (selectedQuantity > availableQuantity) {
+			alert('Only ' + availableQuantity + ' clothes left.');
+			return false; // Prevent form submission
+		}
 
+		return true; // Allow form submission
+	}
 </script>
 
 

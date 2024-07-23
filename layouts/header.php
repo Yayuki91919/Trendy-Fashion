@@ -242,82 +242,80 @@ if (isset($_GET['removeCartId'])) {
 									<!-- Basic -->
 									<div class="col-lg-12 col-md-12 mb-sm-3">
 										<ul>
-											<li class="dropdown-header">Pages</li>
+											<li class="dropdown-header">Product</li>
 											<li role="separator" class="divider"></li>
 											<li><a href="shop-sidebar.php">All Product</a></li>
-											<li><a href="checkout.php">Checkout</a></li>
-											<li><a href="cart.php">Cart</a></li>
-											<!-- <li><a href="pricing.html">Pricing</a></li> -->
-											<!-- <li><a href="confirmation.html">Confirmation</a></li> -->
+											<!-- <li><a href="checkout.php">Checkout</a></li>
+											<li><a href="cart.php">Cart</a></li> -->
+
 
 										</ul>
 									</div>
 
-									<!-- Layout -->
-									<!-- <div class="col-lg-6 col-md-6 mb-sm-3">
-									<ul>
-										<li class="dropdown-header">Layout</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="product-single.html">Product Details</a></li>
-										<li><a href="shop-sidebar.html">Shop With Sidebar</a></li>
-									</ul>
-								</div> -->
 
 								</div><!-- / .row -->
 							</div><!-- / .dropdown-menu -->
 						</li><!-- / Elements -->
 
+						<?php if (isset($_SESSION['user_login'])) { ?>
+							<!-- Pages -->
+							<li class="dropdown  dropdown-slide">
+								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="tf-ion-ios-arrow-down"></span></a>
+								<div class="dropdown-menu">
+									<div class="row">
 
-						<!-- Pages -->
-						<li class="dropdown  dropdown-slide">
-							<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="tf-ion-ios-arrow-down"></span></a>
-							<div class="dropdown-menu">
-								<div class="row">
+										<!-- Contact -->
+										<div class="col-sm-6 col-xs-12">
+											<ul>
+												<li class="dropdown-header">Profile</li>
+												<li role="separator" class="divider"></li>
+												<li><a href="dashboard.php">User Interface</a></li>
+												<!-- <li><a href="order.php">Orders</a></li> -->
+												<!-- <li><a href="address.php">Address</a></li> -->
+											</ul>
+										</div>
 
-									<!-- Introduction -->
-									<!-- <div class="col-sm-3 col-xs-12">
-									<ul>
-										<li class="dropdown-header">Introduction</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="contact.html">Contact Us</a></li>
-										<li><a href="about.html">About Us</a></li>
-										<li><a href="404.html">404 Page</a></li>
-										<li><a href="coming-soon.html">Coming Soon</a></li>
-										<li><a href="faq.html">FAQ</a></li>
-									</ul>
-								</div> -->
 
-									<!-- Contact -->
-									<div class="col-sm-6 col-xs-12">
-										<ul>
-											<li class="dropdown-header">Dashboard</li>
-											<li role="separator" class="divider"></li>
-											<li><a href="dashboard.php">User Interface</a></li>
-											<li><a href="order.php">Orders</a></li>
-											<li><a href="address.php">Address</a></li>
-										</ul>
-									</div>
 
-									<!-- Utility -->
-									<!-- <div class="col-sm-3 col-xs-12"> -->
-									<!-- <ul>
-										<li class="dropdown-header">Utility</li>
-										<li role="separator" class="divider"></li>
-										<li><a href="login.html">Login Page</a></li>
-										<li><a href="signin.html">Signin Page</a></li>
-										<li><a href="forget-password.html">Forget Password</a></li>
-									</ul> -->
-									<!-- </div> -->
+										<!-- Mega Menu -->
+										<div class="col-sm-6 col-xs-12">
+											<a href="shop.html">
+												<img class="img-responsive" src="images/shop/header-img.jpg" alt="menu image" />
+											</a>
+										</div>
+									</div><!-- / .row -->
+								</div><!-- / .dropdown-menu -->
+							</li><!-- / Pages -->
 
-									<!-- Mega Menu -->
-									<div class="col-sm-6 col-xs-12">
-										<a href="shop.html">
-											<img class="img-responsive" src="images/shop/header-img.jpg" alt="menu image" />
-										</a>
-									</div>
-								</div><!-- / .row -->
-							</div><!-- / .dropdown-menu -->
-						</li><!-- / Pages -->
+							<!-- Elements -->
+							<li class="dropdown dropdown-slide">
+								<a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350" role="button" aria-haspopup="true" aria-expanded="false">Order <span class="tf-ion-ios-arrow-down"></span></a>
+								<div class="dropdown-menu">
+									<div class="row">
+
+										<!-- Basic -->
+										<div class="col-lg-12 col-md-12 mb-sm-3">
+											<ul>
+												<li class="dropdown-header">Order</li>
+												<li role="separator" class="divider"></li>
+												<li><a href="cart.php">Cart</a></li>
+												<li><a href="checkout.php">Checkout</a></li>
+												<li><a href="shop-sidebar.php">Order</a></li>
+
+											</ul>
+										</div>
+
+
+									</div><!-- / .row -->
+								</div><!-- / .dropdown-menu -->
+							</li><!-- / Elements -->
+						<?php
+						}
+						?>
+
+						<li class="dropdown ">
+							<a href="index.php">Collaboration</a>
+						</li>
 
 						<!-- <li class="dropdown ">
 							<a href="dashboard.php">Profile</a>

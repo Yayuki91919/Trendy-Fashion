@@ -116,9 +116,11 @@ function test_input($data)
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-main text-center">Login</button>
+
               </div>
             </form>
             <p class="mt-20">New in this site ?<a href="register.php"> Create New Account</a></p>
+            <a href="shop-sidebar.php" class="btn btn-main btn-solid-border">&larr;Back</a>
           </div>
         </div>
       </div>
