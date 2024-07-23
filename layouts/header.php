@@ -287,24 +287,19 @@ if (isset($_GET['removeCartId'])) {
 									<div class="row">
 
 										<!-- Contact -->
-										<div class="col-sm-6 col-xs-12">
+										<div class="col-lg-12 col-md-12 mb-sm-3">
 											<ul>
 												<li class="dropdown-header">Profile</li>
 												<li role="separator" class="divider"></li>
 												<li><a href="dashboard.php">User Interface</a></li>
-												<!-- <li><a href="order.php">Orders</a></li> -->
-												<!-- <li><a href="address.php">Address</a></li> -->
+											
 											</ul>
 										</div>
 
 
 
 										<!-- Mega Menu -->
-										<div class="col-sm-6 col-xs-12">
-											<a href="shop.html">
-												<img class="img-responsive" src="images/shop/header-img.jpg" alt="menu image" />
-											</a>
-										</div>
+										
 									</div><!-- / .row -->
 								</div><!-- / .dropdown-menu -->
 							</li><!-- / Pages -->
@@ -316,15 +311,21 @@ if (isset($_GET['removeCartId'])) {
 									<div class="row">
 
 										<!-- Basic -->
-										<div class="col-lg-12 col-md-12 mb-sm-3">
+										<div class="col-sm-6 col-xs-12">
+
 											<ul>
 												<li class="dropdown-header">Order</li>
 												<li role="separator" class="divider"></li>
 												<li><a href="cart.php">Cart</a></li>
 												<li><a href="checkout.php">Checkout</a></li>
-												<li><a href="shop-sidebar.php">Order</a></li>
+												<li><a href="order.php">Order</a></li>
 
 											</ul>
+										</div>
+										<div class="col-sm-6 col-xs-12">
+											<a href="shop.html">
+												<img class="img-responsive" src="images/shop/header-img.jpg" alt="menu image" />
+											</a>
 										</div>
 
 
