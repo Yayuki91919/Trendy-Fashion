@@ -59,8 +59,9 @@ body {
 }
 .slide {
     position: relative;
-    width: 300px; /* Set your desired width */
-    height: 200px; /* Set your desired height */
+    /* width: 300px; 
+    height: 200px;  */
+    height: auto;
     background-size: cover;
     background-position: center;
 }

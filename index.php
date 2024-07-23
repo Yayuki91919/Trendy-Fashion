@@ -45,7 +45,7 @@ $subid = $banner['sub_id'];
 $products = $product_controller->getProductsBySubCategory($subid);
 if ($products != null) {
     foreach ($products as $product) {
-        if($product['state']=='new_arrival'){    
+        if($product['state']=='New Arrival'){    
         $product_id = $product['product_id'];
         $pimages = $product_controller->getImages($product_id);
 ?>
