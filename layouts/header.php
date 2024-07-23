@@ -2,7 +2,8 @@
 if (!isset($_SESSION)) {
 	session_start();
 }
-include_once __DIR__ . '/../Admin/controller/socialController.php'; // Fixed the path
+include_once __DIR__ . '/../Admin/controller/socialController.php'; 
+include_once __DIR__ . '/../Admin/controller/categoryController.php'; 
 $social_controller = new SocialController();
 $fb = $tiktok = $insta = "";
 $social = $social_controller->getSocial();
@@ -259,8 +260,15 @@ if (isset($_GET['removeCartId'])) {
 											<li class="dropdown-header">Product</li>
 											<li role="separator" class="divider"></li>
 											<li><a href="shop-sidebar.php">All Product</a></li>
-											<!-- <li><a href="checkout.php">Checkout</a></li>
-											<li><a href="cart.php">Cart</a></li> -->
+											<?php 
+											    $cat_controller=new CategoryController();
+												$categories=$cat_controller->getCategories();
+											foreach($categories as $c)
+											{ ?>
+												<li><a href="product_category.php?cid=<?php echo $c['category_id'];?>"><?php echo $c['category_name']; ?></a></li>
+											<?php
+											}
+											?>
 
 
 										</ul>

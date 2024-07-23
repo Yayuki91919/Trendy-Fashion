@@ -94,6 +94,54 @@ class Product
         }
         return $result;
     }
+    public function getProductByCategory($cid)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "
+        SELECT 
+            p.product_id,
+            p.product_name,
+            p.description,
+            p.price,
+            p.sub_id,
+            p.type_id,
+            p.status,
+            p.state,
+            p.date,
+            t.name AS type_name,
+            t.type_id,
+            sc.category_id,
+            sc.brand_name,
+            c.category_name,
+            (SELECT image_name 
+             FROM product_image 
+             WHERE product_id = p.product_id 
+             ORDER BY RAND() 
+             LIMIT 1) AS random_image
+        FROM 
+            product AS p
+        JOIN 
+            type AS t ON t.type_id = p.type_id
+        JOIN
+            sub_category AS sc ON p.sub_id = sc.sub_id
+        JOIN 
+            category AS c ON sc.category_id = c.category_id
+        WHERE 
+            p.status=1 AND c.category_id = :cid
+        ORDER BY p.product_id DESC
+    ";
+
+
+
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':cid', $cid);
+
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+    }
     public function getProductColorList()
     {
         $con = Database::connect();

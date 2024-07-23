@@ -104,7 +104,6 @@ if (isset($_GET['pid']) && isset($_GET['edit_status'])) {
                                                         <p class='small'>
                                                             <span class='NEO'>" . $p['brand_name'] . "</span> |
                                                             <span class='BTC'>" . $p['category_name'] . "</span>
-                                                            <span class='BTC'>" . $p['status'] . "</span>
                                                         </p>
                                                         <p class='card-text'>" . $p['description'] . "</p>
                                                         <small class='text-muted'>create_date - " . $p['date'] . "</small>

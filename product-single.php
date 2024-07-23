@@ -233,12 +233,11 @@ if (isset($_POST['updateCart'])) {
 					<?php } ?>
 
 
-
-
 				</div>
+				
 			</div>
 		</div>
-
+		<a href="shop-sidebar.php" class="btn btn-main btn-solid-border mt-20">&larr;Back</a>
 	</div>
 </section>
 
