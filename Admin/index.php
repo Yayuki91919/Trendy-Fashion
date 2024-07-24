@@ -95,7 +95,7 @@ function test_input($data) {
                                     <div class="form-group">
                                         <input type="password" class="form-control" name="password" placeholder="Password" required>
                                     </div>
-                                    <button class="btn gradient-2 login-form__btn submit w-100" name="submit">Login In</button>
+                                    <button class="btn gradient-2 login-form__btn submit w-100" name="submit">Login</button>
                                 </form>
                                 <!-- <p class="mt-5 login-form__footer"><a href="forget_password.php" class="text-primary">Forget Password?</a></p> -->
                             </div>
