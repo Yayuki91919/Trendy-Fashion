@@ -1,64 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toggle Example</title>
-    <style>
-        .order-list {
-            display: none;
-        }
-        .show-order-list .order-list {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <div class="toggle-section">
-        <button class="toggle-button">Show</button>
-        <div class="order-list">
-            <p>Order List 1</p>
-            <button class="close-button">Close</button>
+<?php
+$subid = $banner['sub_id'];
+$products = $product_controller->getProductsBySubCategory($subid);
+if ($products != null) {
+    
+?>
+<div class="slider">
+    <div class="slides">
+        <?php
+        foreach ($products as $product) {
+            if($product['state']=='New Arrival'){    
+            $product_id = $product['product_id'];
+            $pimages = $product_controller->getImageBannerList($product_id);
+        foreach ($pimages as $pimage) { 
+        ?>
+        <a href="product-single.php?pid=<?php echo $product_id ?>">
+        <div class="slide" style="background-image: url('Admin/images/product/<?php echo htmlspecialchars($pimage['image_name']); ?>');">
+        <div class="badge">New</div>
         </div>
+        </a>
+        <?php }}} ?>
     </div>
-    <div class="toggle-section">
-        <button class="toggle-button">Show</button>
-        <div class="order-list">
-            <p>Order List 2</p>
-            <button class="close-button">Close</button>
-        </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleButtons = document.querySelectorAll('.toggle-button');
-            const closeButtons = document.querySelectorAll('.close-button');
-
-            toggleButtons.forEach((button) => {
-                button.addEventListener('click', () => {
-                    const section = button.closest('.toggle-section');
-                    const orderList = section.querySelector('.order-list');
-
-                    if (orderList.style.display === 'block') {
-                        orderList.style.display = 'none';
-                        button.textContent = 'Show';
-                    } else {
-                        orderList.style.display = 'block';
-                        button.textContent = 'Hide';
-                    }
-                });
-            });
-
-            closeButtons.forEach((button) => {
-                button.addEventListener('click', () => {
-                    const section = button.closest('.toggle-section');
-                    const orderList = section.querySelector('.order-list');
-                    const toggleButton = section.querySelector('.toggle-button');
-
-                    orderList.style.display = 'none';
-                    toggleButton.textContent = 'Show';
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+    <button class="prev" onclick="moveSlide(this, -1)">&#10094;</button>
+    <button class="next" onclick="moveSlide(this, 1)">&#10095;</button>
+</div>
+<?php 
+} else { ?>
+<h2 class="text-center"><?php echo $sub['brand_name']; ?></h2>
+<?php }
+ ?>

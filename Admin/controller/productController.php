@@ -67,6 +67,12 @@ class productController extends Product
         return $this->getDeleteImageName($image_id);
 
     }
+    public function getImageBannerList($id)
+    {
+        return $this->getImageBanner($id);
+
+    }
+    
    
     public function addSize_Color($color_id,$color,$size_id,$size,$qty)
     {

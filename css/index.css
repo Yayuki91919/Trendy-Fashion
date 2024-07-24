@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,13 +9,13 @@ body {
 .slider-container {
     width: 100%;
     overflow: hidden;
-    margin: 20px 0;
+    margin: 0px 0;
 }
 
 /* Banner Slider */
 .banner-slider {
     position: relative;
-    height: 600px;
+    height: 600px; /* Adjust height as needed */
 }
 
 .banner-slides {
@@ -56,11 +57,14 @@ body {
     transition: transform 0.5s ease-in-out;
     gap: 10px; /* Adjust the gap between slides */
     padding: 10px; /* Adjust the padding inside the slider */
+    width: 100%; /* Full width for seamless sliding */
 }
+
+
 .slide {
     position: relative;
-    width: 300px; 
-    height: 300px;  
+    width: 290px; 
+    height: 250px;  
     background-size: cover;
     background-position: center;
 }
@@ -76,30 +80,24 @@ body {
     font-size: 14px;
 }
 
-/* .slide {
-    flex: 0 0 calc(25% - 10px);
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-} */
-
+/* Navigation Buttons */
 .prev, .next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     color: rgb(255, 255, 255);
+    background-color: rgba(241, 104, 168, 0.5); /* Dark background for visibility */
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 1;
+    z-index: 2; /* Ensure buttons are above other content */
     width: 50px;
     height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 18px; /* Adjust font size if necessary */
 }
 
 .prev::before, .next::before {
@@ -111,6 +109,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%) rotate(45deg);
     border-radius: 2px;
+    background-color: rgb(255, 255, 255); /* Ensure arrow color is visible */
 }
 
 .prev::before {
@@ -132,7 +131,59 @@ body {
     left: -5px;
     width: 60px;
     height: 60px;
-    background-color: rgba(255, 130, 130, 5); /* Fully transparent */
+    background-color: rgba(255, 130, 130, 0.1); /* Slightly transparent background */
     border-radius: 50%;
-    z-index: -1;
+    z-index: -1; /* Ensure this background is behind the button */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .banner-slider {
+        height: 400px; /* Adjust the height for smaller screens */
+    }
+
+    .banner-content {
+        padding: 15px;
+    }
+
+    .slider {
+        max-width: 100%; /* Full width for small screens */
+    }
+
+    .slide {
+        width: 200px; /* Adjust width for smaller screens */
+        height: 150px; /* Adjust height for smaller screens */
+    }
+
+    .prev, .next {
+        width: 40px;
+        height: 40px;
+        font-size: 14px; /* Adjust font size if necessary */
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-slider {
+        height: 250px; /* Further adjust height for very small screens */
+    }
+
+    .banner-content {
+        padding: 10px;
+        font-size: 14px; /* Adjust font size */
+    }
+
+    .slider {
+        padding: 5px; /* Reduce padding inside slider */
+    }
+
+    .slide {
+        width: 150px; /* Adjust width for very small screens */
+        height: 120px; /* Adjust height for very small screens */
+    }
+
+    .prev, .next {
+        width: 35px;
+        height: 35px;
+        font-size: 12px; /* Further adjust font size if necessary */
+    }
 }

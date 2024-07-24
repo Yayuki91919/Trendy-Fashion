@@ -530,6 +530,24 @@ class Product
             return []; // Return an empty array if execution fails
         }
     }
+    public function getImageBanner($id)
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT image_name 
+             FROM product_image 
+             WHERE product_id = :id
+             ORDER BY RAND() 
+             LIMIT 1 ";
+        $statement = $con->prepare($sql);
+        $statement->bindParam(':id', $id);
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } else {
+            return []; // Return an empty array if execution fails
+        }
+    }
 
     public function getProductInfo($id)
     {
