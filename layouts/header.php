@@ -291,7 +291,7 @@ if (isset($_GET['removeCartId'])) {
 											<ul>
 												<li class="dropdown-header">Profile</li>
 												<li role="separator" class="divider"></li>
-												<li><a href="dashboard.php">User Interface</a></li>
+												<li><a href="profile-details.php">User Interface</a></li>
 											
 											</ul>
 										</div>
@@ -337,7 +337,7 @@ if (isset($_GET['removeCartId'])) {
 						?>
 
 						<li class="dropdown ">
-							<a href="index.php">Collaboration</a>
+							<a href="collaboration.php">Collaboration</a>
 						</li>
 
 						<!-- <li class="dropdown ">
