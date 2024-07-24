@@ -9,9 +9,9 @@ class BannerController extends Banner{
         public function getBanner($id){
             return $this->getBannerById($id);
         }
-        public function editBanner($id,$title,$image,$sub_id)
+        public function editBanner($id,$title,$sub_id)
         {
-            return $this->updateBanner($id,$title,$image,$sub_id);
+            return $this->updateBanner($id,$title,$sub_id);
         }
         public function editBannerImage($id,$image)
         {

@@ -44,14 +44,13 @@ class Banner{
                     return false;
                 }
     }
-    public function updateBanner($id, $title, $image, $sub_id)
+    public function updateBanner($id, $title, $sub_id)
     {
     $con = Database::connect();
     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = 'UPDATE banner SET title = :title, image = :image, sub_id = :sub_id WHERE banner_id = :id';
+    $sql = 'UPDATE banner SET title = :title, sub_id = :sub_id WHERE banner_id = :id';
     $statement = $con->prepare($sql);
     $statement->bindParam(':title', $title);
-    $statement->bindParam(':image', $image);
     $statement->bindParam(':sub_id', $sub_id);
     $statement->bindParam(':id', $id);
     return $statement->execute();
