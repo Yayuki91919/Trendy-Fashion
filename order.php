@@ -175,8 +175,7 @@ function confirmDelete() {
                                                     <div class="col-lg-6 text-right">
                                                         <h5 class="">Delivery Location</h5>
                                                         <p class="m-0 ">
-                                                            <?php echo $location['city'] ?>
-                                                        </p>
+                                                            <?php echo $location['city'] ?></p>
                                                         <p class="m-0 text-info">
                                                             <?php echo $location['township'] ?></p>
                                                         <p class="m-0 text-secondary">

@@ -1,10 +1,10 @@
 <?php
 if (!isset($_SESSION)) {
 	session_start();
-    if(!isset($_SESSION['username'])){
-        echo '<script>window.location.href = "index.php";</script>';
-       }
 }
+if(!isset($_SESSION['username'])){
+    echo '<script>window.location.href = "index.php";</script>';
+   }
 
 include_once __DIR__ . '/../controller/profileController.php';
 include_once __DIR__ . '/../controller/productController.php';
