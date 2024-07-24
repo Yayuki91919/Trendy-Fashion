@@ -3,17 +3,27 @@ include_once 'layouts/header.php';
 if(!isset($_SESSION['user_login'])){
     echo '<script>window.location.href = "logout.php";</script>';
    }
-	include_once __DIR__. '/Admin/controller/invoiceController.php';
-    include_once __DIR__. '/Admin/controller/orderController.php';
+    
+    include_once __DIR__. '/Admin/controller/invoiceController.php';
     include_once __DIR__. '/Admin/controller/deli_infoController.php';
     include_once __DIR__. '/Admin/controller/locationController.php';
+    include_once __DIR__. '/Admin/controller/feeController.php';
     include_once __DIR__. '/Admin/controller/deliveryController.php';
-    $delivery_controller=new DeliveryController();
+    include_once __DIR__. '/Admin/controller/orderController.php';
+    $order_controller=new OrderController();
+    $deli_controller=new DeliInfoController();
     $invoice_controller=new InvoiceController();
-    $invoices=$invoice_controller->getInvoices(); 
+    $location_controller=new LocationController();
+    $fee_controller=new FeeController();
+    $delivery_controller=new DeliveryController();
+
+    // $invoices=$invoice_controller->getInvoices(); 
+    $cus_id=$_SESSION['user_login']['customer_id'];
+    $invoices=$invoice_controller->getInvoiceInfoByCustomerId($cus_id);
     if(isset($_GET['invoice_id']))
     {
     $id=$_GET['invoice_id'];
+  
     $order_controller=new OrderController();
     $orders=$order_controller->getOrderListByInvoice($id);
     $invoice_controller=new InvoiceController();
@@ -165,8 +175,7 @@ function confirmDelete() {
                                                     <div class="col-lg-6 text-right">
                                                         <h5 class="">Delivery Location</h5>
                                                         <p class="m-0 ">
-                                                            <?php echo $location['city'] ?>
-                                                        </p>
+                                                            <?php echo $location['city'] ?></p>
                                                         <p class="m-0 text-info">
                                                             <?php echo $location['township'] ?></p>
                                                         <p class="m-0 text-secondary">
@@ -246,12 +255,23 @@ function confirmDelete() {
                             </thead>
                             <tbody>
                                 <?php  
+                                    $count=1;
+                                    if(!empty($invoices)){
                                     foreach($invoices as $invoice){
+                                        $in_id=$invoice['deli_info_id'];
+                                        $invoice_id=$invoice['invoice_id'];
+                                        $fee_id=$invoice['fee_id'];
+                                        $delis=$deli_controller->getDeliInfoListById($in_id);
+                                        $location_id=$delis['location_id'];
+                                        $location=$location_controller->getLocationListById($location_id);
+                                        $fee=$fee_controller->getFeesById($fee_id);
+                                        $delivery=$delivery_controller->getDeliveryListByInvoiceId($invoice_id);
+                                        $orders=$order_controller->getOrderListByInvoice($invoice_id);
                             	?>
                                 <tr>
                                     <td>#<?php echo $invoice['invoice_no'] ?></td>
                                     <td><?php echo $invoice['invoice_date'] ?></td>
-                                    <td><?php echo $invoice['fee'] ?> Ks</td>
+                                    <td><?php echo $fee['fee'] ?> Ks</td>
                                     <td><?php echo $invoice['total'] ?> Ks</td>
                                     <?php 
 										    $in_id=$invoice['invoice_id']; 
@@ -276,7 +296,7 @@ function confirmDelete() {
                                     </td>
                                 </tr>
                                 <?php 
-                            } ?>
+                            } }?>
                             </tbody>
                         </table>
                     </div>
