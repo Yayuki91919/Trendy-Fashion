@@ -113,7 +113,7 @@ if (isset($_POST["signin"])) {
               </div>
               <div class="form-group">
                 <label class="text-danger"><?php echo $password_Err ?></label>
-                <input type="password" class="form-control" name="password" placeholder="Password">
+                <input type="password" class="form-control" name="password" placeholder="Password" minlength="6">
               </div>
               <div class="form-group">
                 <input type="text" class="form-control" name="c_password" placeholder="Confirm Password">
