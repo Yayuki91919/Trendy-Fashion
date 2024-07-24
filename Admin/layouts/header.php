@@ -216,9 +216,9 @@ if (!empty($profiles)) {
                                         </li> -->
 
                                         <hr class="my-2">
-                                        <li>
+                                        <!-- <li>
                                             <a href="#"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
+                                        </li> -->
                                         <li><a href="logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>

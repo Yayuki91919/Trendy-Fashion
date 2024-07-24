@@ -36,6 +36,7 @@
                                                 <th>Delivery_Fee</th>
                                                 <th>Total</th>
                                                 <th>Order_Date</th>
+                                                <th>Delivery_Status</th>
                                                 <th>Invoice_Detail</th>
                                                 
                                             </tr>
@@ -52,6 +53,13 @@
                                                 <td><?php echo $invoice['fee'] ?></td>
                                                 <td><?php echo $invoice['total'] ?></td>
                                                 <td><?php echo $invoice['invoice_date'] ?></td>
+                                                <td><?php if($invoice['status']=='processing'){ ?>
+                                                        <p class="f-s-13 text-danger">
+                                                            <?php echo "Processing"; ?></p>
+                                                        <?php }elseif($invoice['status']=='shipped'){?>
+                                                        <span
+                                                            class="m-0 text-warning"><?php echo "Shipped at "; ?></span>
+                                                        <?php }elseif($invoice['status']=='delivered') ?></td>
                                                 <td><a href="invoice_detail.php?invoice_id=<?php echo $invoice['invoice_id'] ?>" class="btn mb-1 btn-rounded gradient-2">View</a></td>
                                             </tr>
                                             <?php }} ?>
@@ -64,6 +72,7 @@
                                                 <th>Delivery_Fee</th>
                                                 <th>Total</th>
                                                 <th>Order_Date</th>
+                                                <th>Delivery_Status</th>
                                                 <th>Invoice_Detail</th>
                                             </tr>
                                         </tfoot>
