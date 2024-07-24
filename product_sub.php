@@ -86,8 +86,9 @@ $products = $product_controller->getProductsBySubCategory($sid);
                         </div>
                     <?php } ?>
 		</div>
-	</div>
     <a href="shop-sidebar.php" class="btn btn-main btn-solid-border">&larr;View All</a>
+
+	</div>
 
 </section>
 

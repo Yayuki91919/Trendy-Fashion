@@ -89,7 +89,15 @@ function test_input($data)
   <meta name="generator" content="Themefisher Constra HTML Template v1.0">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+  <!-- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+    -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="Admin/icons/trendy-icon/apple-touch-icon.png">
+    </link>
+    <link rel="icon" type="image/png" sizes="32x32" href="Admin/icons/trendy-icon/favicon-32x32.png">
+    </link>
+    <link rel="icon" type="image/png" sizes="16x16" href="Admin/icons/trendy-icon/favicon-16x16.png">
+    </link>
 
   <!-- Themefisher Icon font -->
   <link rel="stylesheet" href="plugins/themefisher-font/style.css">
