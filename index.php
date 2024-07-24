@@ -55,7 +55,7 @@ if ($products != null) {
         foreach ($pimages as $pimage) { 
         ?>
         <a href="product-single.php?pid=<?php echo $product_id ?>">
-        <div class="slide" style="background-image: url('Admin/images/product/<?php echo $pimage['image_name']; ?>');">
+        <div class="slide" style="background-image: url('Admin/images/product/<?php echo htmlspecialchars($pimage['image_name']); ?>');">
         <div class="badge">New</div>
         </div>
         </a>

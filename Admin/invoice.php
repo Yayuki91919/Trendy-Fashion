@@ -37,7 +37,6 @@
                                                 <th>Delivery_Fee</th>
                                                 <th>Total</th>
                                                 <th>Order_Date</th>
-                                                <th>Delivery_Status</th>
                                                 <th>Status</th>
                                                 <th>Invoice_Detail</th>
                                                 

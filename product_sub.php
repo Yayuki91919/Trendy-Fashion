@@ -8,7 +8,7 @@ $cat_controller = new CategoryController();
 $categories = $cat_controller->getCategories();
 
 $product_controller = new productController();
-$sid = $_GET['s_id'];
+$sid = $_GET['sid'];
 
 $products = $product_controller->getProductsBySubCategory($sid);
 ?>
