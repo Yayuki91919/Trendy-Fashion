@@ -28,6 +28,11 @@ if (isset($_GET['delete_img'])) {
         $images = implode(',', $img_array);
         $result = $banner_controller->editBannerImage($id, $images);
         if ($result) {
+            // Delete the image file from the directory
+            $file_path = __DIR__ . '/images/banner_photo/' . $img;
+            if (file_exists($file_path)) {
+                unlink($file_path);
+            }
             $message = 3;
             echo '<script>location.href="view_banner.php?status=' . $message . '"</script>';
         }
@@ -35,6 +40,18 @@ if (isset($_GET['delete_img'])) {
         $message = 2;
         echo '<script>location.href="view_banner.php?status=' . $message . '"</script>';
     }
+}
+
+function getUniqueFileName($upload_dir, $file_name) {
+    $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+    $file_base_name = pathinfo($file_name, PATHINFO_FILENAME);
+    $new_file_name = $file_name;
+    $counter = 1;
+    while (file_exists($upload_dir . $new_file_name)) {
+        $new_file_name = $file_base_name . '_' . time() . '_' . $counter . '.' . $file_ext;
+        $counter++;
+    }
+    return $new_file_name;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -59,13 +76,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mkdir($upload_dir, 0777, true);
         }
 
+        $uploaded_files = [];
         foreach ($files['tmp_name'] as $key => $tmp_name) {
             $file_name = basename($files['name'][$key]);
             $target_file = $upload_dir . $file_name;
-            move_uploaded_file($tmp_name, $target_file);
+
+            // Rename the file if it already exists
+            if (file_exists($target_file)) {
+                $file_name = getUniqueFileName($upload_dir, $file_name);
+                $target_file = $upload_dir . $file_name;
+            }
+
+            if (move_uploaded_file($tmp_name, $target_file)) {
+                $uploaded_files[] = $file_name;
+            }
         }
-        $images = implode(',', $files['name']);
-        $images .= ',' . $banner['image']; 
+
+        $new_images = implode(',', $uploaded_files);
+        $images = $banner['image'] . ',' . $new_images; 
         $result = $banner_controller->editBannerImage($id, $images);
         if ($result) {
             $message = 3;
@@ -90,7 +118,7 @@ function confirmDelete() {
     } elseif (isset($_GET['status']) && $_GET['status'] == 2) {
         echo "<div class='alert alert-danger'> You can't delete the last image.</div>";
     } elseif (isset($_GET['status']) && $_GET['status'] == 3) {
-        echo "<div class='alert alert-success'>Banner has been successfully deleted.</div>";
+        echo "<div class='alert alert-success'>Banner has been successfully updated.</div>";
     } elseif (isset($_GET['status']) && $_GET['status'] == 4) {
         echo "<div class='alert alert-danger'>Image upload failed. (Image size must have width-1280px & height-720px)</div>";
     }
@@ -216,6 +244,5 @@ function previewFiles() {
         }
     }
 }
-
 </script>
 <?php include('layouts/footer.php'); ?>
