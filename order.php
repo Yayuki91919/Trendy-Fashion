@@ -1,5 +1,8 @@
 <?php 
 include_once 'layouts/header.php';
+if(!isset($_SESSION['user_login'])){
+    echo '<script>window.location.href = "logout.php";</script>';
+   }
 	include_once __DIR__. '/Admin/controller/invoiceController.php';
     include_once __DIR__. '/Admin/controller/orderController.php';
     include_once __DIR__. '/Admin/controller/deli_infoController.php';

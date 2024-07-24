@@ -78,7 +78,11 @@ if (isset($_GET['removeCartId'])) {
 
 	<!-- Favicon -->
 	<!-- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" /> -->
-	<link rel="icon" href="images/favicon.ico">
+	<!-- <link rel="icon" href="images/favicon.ico"> -->
+	<link rel="apple-touch-icon" sizes="180x180" href="Admin/icons/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="Admin/icons/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="Admin/icons/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="Admin/icons/site.webmanifest">
 
 	<!-- Themefisher Icon font -->
 	<link rel="stylesheet" href="plugins/themefisher-font/style.css">
@@ -120,8 +124,7 @@ if (isset($_GET['removeCartId'])) {
 					</div>
 				</div>
 				<div class="col-md-4 col-xs-12 col-sm-4">
-					<?php //include "noti.php";
-					?>
+					
 
 					<?php if (isset($_SESSION['user_login'])) { ?>
 						<ul class="top-menu text-right list-inline">

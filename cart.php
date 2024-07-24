@@ -1,4 +1,9 @@
-<?php include_once 'layouts/header.php'; ?>
+<?php include_once 'layouts/header.php'; 
+    if(!isset($_SESSION['user_login'])){
+      echo '<script>window.location.href = "logout.php";</script>';
+     }
+?>
+
 
 <?php 
   $rowcount =0;
