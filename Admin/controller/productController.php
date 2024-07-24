@@ -8,6 +8,14 @@ class productController extends Product
     {
         return $this->getProductList();
     }
+    public function getLowProduct()
+    {
+        return $this->getLowProductList();
+    }
+    public function getProcessingDelivery()
+    {
+        return $this->getProcessingDeli();
+    }
     public function getPublicProduct()
     {
         return $this->getPublicProductList();

@@ -6,15 +6,18 @@ class Invoice{
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         $sql="SELECT 
-            i.*, 
-            c.*, 
-            f.*
-        FROM 
-            invoice i
-        JOIN 
-            customer_account c ON i.customer_id = c.customer_id
-        JOIN 
-            deli_fee f ON i.fee_id = f.fee_id";
+                i.*, 
+                c.*, 
+                f.*,
+                d.*
+            FROM 
+                invoice i
+            JOIN 
+                customer_account c ON i.customer_id = c.customer_id
+            JOIN 
+                delivery d ON d.invoice_id = i.invoice_id
+            JOIN 
+                deli_fee f ON i.fee_id = f.fee_id";
         $statement=$con->prepare($sql);
         if($statement->execute()){
             $result=$statement->fetchAll(PDO::FETCH_ASSOC);

@@ -48,6 +48,63 @@ class Product
         }
         return $result;
     }
+    public function getLowProductList()
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "
+        select 
+            d.d_id,
+            d.product_id,
+            d.qty,
+            ps.size,
+            pc.color,
+            ps.size_id,
+            pc.color_id, 
+            p.product_name,
+            p.description,
+            p.price,
+            p.status,
+            p.type_id,
+            p.sub_id,
+            p.state,
+            (SELECT image_name 
+            FROM product_image 
+            WHERE product_id = d.product_id 
+            ORDER BY RAND() 
+            LIMIT 1) AS random_image
+        from 
+            product_detail as d
+        join 
+            product as p on p.product_id = d.product_id
+        join
+            product_size as ps on ps.size_id = d.size
+        join
+            product_color as pc on pc.color_id = d.color
+        where 
+            d.qty < 10
+            ";
+        $statement = $con->prepare($sql);
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+    }
+    public function getProcessingDeli()
+    {
+        $con = Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT d.*, i.*
+                FROM delivery AS d 
+                JOIN invoice AS i ON i.invoice_id = d.invoice_id 
+                WHERE d.status = 'processing';
+                ";
+        $statement = $con->prepare($sql);
+        if ($statement->execute()) {
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $result;
+    }
     public function getPublicProductList()
     {
         $con = Database::connect();
@@ -270,7 +327,7 @@ class Product
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
         // Retrieve quantity from product_detail
         $sql_get_qty = 'SELECT qty FROM product_detail WHERE d_id = :d_id';
         $statement_get_qty = $con->prepare($sql_get_qty);
@@ -278,27 +335,25 @@ class Product
         $statement_get_qty->execute();
         $product_detail = $statement_get_qty->fetch(PDO::FETCH_ASSOC);
         $old_qty = $product_detail['qty'];
-    
+
         $new_qty = $old_qty + $increaseQty;
-    
-            $sql_update = 'UPDATE product_detail SET qty = :quantity WHERE d_id = :d_id';
-            $statement_update = $con->prepare($sql_update);
-            $statement_update->bindParam(':quantity', $new_qty, PDO::PARAM_INT);
-            $statement_update->bindParam(':d_id', $d_id);
-            
+
+        $sql_update = 'UPDATE product_detail SET qty = :quantity WHERE d_id = :d_id';
+        $statement_update = $con->prepare($sql_update);
+        $statement_update->bindParam(':quantity', $new_qty, PDO::PARAM_INT);
+        $statement_update->bindParam(':d_id', $d_id);
+
         if ($statement_update->execute()) {
             return true;
         } else {
             return false;
         }
-    
- 
     }
     public function decreaseProductQty($d_id, $decreaseQty)
     {
         $con = Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
         // Retrieve quantity from product_detail
         $sql_get_qty = 'SELECT qty FROM product_detail WHERE d_id = :d_id';
         $statement_get_qty = $con->prepare($sql_get_qty);
@@ -307,27 +362,22 @@ class Product
         $product_detail = $statement_get_qty->fetch(PDO::FETCH_ASSOC);
         $old_qty = $product_detail['qty'];
 
-        if($old_qty > $decreaseQty){
+        if ($old_qty > $decreaseQty) {
             $new_qty = $old_qty - $decreaseQty;
-    
+
             $sql_update = 'UPDATE product_detail SET qty = :quantity WHERE d_id = :d_id';
             $statement_update = $con->prepare($sql_update);
             $statement_update->bindParam(':quantity', $new_qty, PDO::PARAM_INT);
             $statement_update->bindParam(':d_id', $d_id);
-            
+
             if ($statement_update->execute()) {
                 return true;
             } else {
                 return false;
             }
-            
-        }else{
+        } else {
             return false;
         }
-    
-
-    
- 
     }
     public function addSizeColorlist($color_id, $color, $size_id, $size, $qty)
     {
@@ -611,7 +661,7 @@ class Product
             return false;
         }
     }
-    
+
     public function deleteImageInfo($delete_image)
     {
         $con = Database::connect();
@@ -636,9 +686,9 @@ class Product
         if ($statement->execute()) {
             $result = $statement->fetch(PDO::FETCH_ASSOC);
             return $result;
-        } 
+        }
     }
- 
+
     public function deleteTempInfo($id)
     {
         $con = Database::connect();
@@ -760,7 +810,7 @@ class Product
 
         $statement = $con->prepare($sql);
         $statement->bindParam(':id', $id);
-  
+
         if ($statement->execute()) {
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -778,10 +828,10 @@ class Product
         GROUP BY product_id";
         $statement = $con->prepare($sql);
         $statement->bindParam(':pid', $product_id);
-  
+
         if ($statement->execute()) {
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $result;
-        } 
+        }
     }
 }
