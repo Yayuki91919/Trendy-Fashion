@@ -21,8 +21,10 @@ class ShopInfoController extends ShopInfo{
         {
             return $this->deleteShopInfo($id);
         }
-       
-
-
+        public function ShopRowCount()
+        {
+            return $this->getShopCount();
+        }
+    
 }
 ?>

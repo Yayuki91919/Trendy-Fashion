@@ -32,8 +32,8 @@ $banners = $banner_controller->getbanners();
                         $sub = $sub_controller->getSubCategory($sub_id); ?>
                     <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">
                         <?php echo $sub['brand_name']; ?></h1>
-                    <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn"
-                        href="product_sub.php?s_id=<?php echo $banner['sub_id']; ?>">Shop Now</a>
+                    <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn btn-main"
+                        href="product_sub.php?sid=<?php echo $banner['sub_id']; ?>">Shop Now</a>
                 </div>
             </div>
             <?php } ?>

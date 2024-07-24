@@ -20,6 +20,14 @@
      
 ?>
 <link href="css/cus_order.css" rel="stylesheet">
+<style>
+        .floating-order-list {
+            display: none;
+        }
+        .floating-order-list.show {
+            display: block;
+        }
+    </style>
 <!--**********************************
             Content body start
         ***********************************-->
@@ -34,7 +42,7 @@
         </div>
     </div>
     <!-- row -->
- 
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -98,58 +106,56 @@
 
                                         </td>
                                         <td>
-                                            <button class="btn mb-1 btn-rounded gradient-2 toggle-button">Show</button>
-                                            <div class="floating-order-list" id="orderList">
-                                                <button class="close-button" id="closeButton">&times;</button>
-                                                <h2>Order List</h2>
-                                                <div class="order-list-content">
-                                                    <ol>
-                                                        <?php foreach($orders as $order){ 
-                                                        $pid=$order['product_detail_id'];
-                                                        $product= $order_controller->getProductListByInvoice($pid);
-                                                    ?>
-                                                        <li class="shadow bg-body-tertiary rounded">
-                                                            <div class="bootstrap-media m-3">
-                                                                <div class="media">
-                                                                    <img id="myImg" class="align-self-start mr-3"
-                                                                        src="images/product/<?php echo $product['random_image'] ?>"
-                                                                        width="80" height="80" >
-                                                                    <div class="media-body">
-                                                                        <div class="row">
-                                                                            <div class="col-md-8">
-                                                                                <h5 class="mt-0">
-                                                                                    <?php echo $product['product_name'] ?> 
-                                                                                    <span class="badge badge-success m-2"><?php echo $order['cus_status'] ?></span>
-                                                                                </h5>
-                                                                                <p>
-                                                                                    <b>Size: </b>
-                                                                                    <?php echo $product['psize'] ?>,
-                                                                                    <b>Color: </b>
-                                                                                    <?php echo $product['pcolor'] ?>,
-                                                                                    <b>Qty:</b>
-                                                                                    <?php echo $order['quantity'] ?> Pcs
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="col-md-2">
-                                                                                <h5 class="mt-0">
-                                                                                    <?php 
-                                                                                    $subtotal=$product['price']*$order['quantity'];
-                                                                                    echo $subtotal ?>
-                                                                                    <b>Ks</b>
-                                                                                </h5>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <?php } ?>
-
-                                                    </ol>
-                                                    <p class="text-right mr-4">Total: <b><?php echo $invoice['total'] ?>
-                                                            MMK</b></p>
-                                                </div>
-                                            </div>
+                                        <div class="toggle-section">
+        <button class="btn mb-1 btn-rounded gradient-2 toggle-button">Show</button>
+        <div class="floating-order-list">
+            <button class="close-button">&times;</button>
+            <h2>Order List</h2>
+            <div class="order-list-content">
+                <ol>
+                    <!-- PHP loop to generate list items -->
+                    <?php foreach($orders as $order){ 
+                        $pid=$order['product_detail_id'];
+                        $product= $order_controller->getProductListByInvoice($pid);
+                    ?>
+                    <li class="shadow bg-body-tertiary rounded">
+                        <div class="bootstrap-media m-3">
+                            <div class="media">
+                                <img id="myImg" class="align-self-start mr-3"
+                                    src="images/product/<?php echo $product['random_image'] ?>"
+                                    width="80" height="80">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5 class="mt-0">
+                                                <?php echo $product['product_name'] ?>
+                                                <span class="badge badge-success m-2"><?php echo $order['cus_status'] ?></span>
+                                            </h5>
+                                            <p>
+                                                <b>Size: </b><?php echo $product['psize'] ?>,
+                                                <b>Color: </b><?php echo $product['pcolor'] ?>,
+                                                <b>Qty:</b> <?php echo $order['quantity'] ?> Pcs
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h5 class="mt-0">
+                                                <?php 
+                                                $subtotal=$product['price']*$order['quantity'];
+                                                echo $subtotal ?>
+                                                <b>Ks</b>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <?php } ?>
+                </ol>
+                <p class="text-right mr-4">Total: <b><?php echo $invoice['total'] ?> MMK</b></p>
+            </div>
+        </div>
+    </div>
                                         </td>
                                     </tr>
                                     <?php }} ?>
@@ -170,34 +176,45 @@
         </div>
     </div>
     <!-- #/ container -->
-     
+
 </div>
 <!--**********************************
             Content body end
         ***********************************-->
- <!-- The Modal -->
+<!-- The Modal -->
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const button = document.querySelector('.toggle-button');
-    const closeButton = document.getElementById('closeButton');
-    const body = document.body;
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButtons = document.querySelectorAll('.toggle-button');
+            const closeButtons = document.querySelectorAll('.close-button');
 
-    button.addEventListener('click', () => {
-        body.classList.toggle('show-order-list');
-        if (body.classList.contains('show-order-list')) {
-            button.textContent = 'Hide';
-        } else {
-            button.textContent = 'Show';
-        }
-    });
+            toggleButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const section = button.closest('.toggle-section');
+                    const orderList = section.querySelector('.floating-order-list');
 
-    closeButton.addEventListener('click', () => {
-        body.classList.remove('show-order-list');
-        button.textContent = 'Show';
-    });
-});
-</script>
+                    if (orderList.classList.contains('show')) {
+                        orderList.classList.remove('show');
+                        button.textContent = 'Show';
+                    } else {
+                        orderList.classList.add('show');
+                        button.textContent = 'Hide';
+                    }
+                });
+            });
+
+            closeButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const section = button.closest('.floating-order-list');
+                    const toggleButton = section.closest('.toggle-section').querySelector('.toggle-button');
+                    const orderList = section.closest('.floating-order-list');
+
+                    orderList.classList.remove('show');
+                    toggleButton.textContent = 'Show';
+                });
+            });
+        });
+    </script>
 
 
 <?php include('layouts/footer.php'); ?>

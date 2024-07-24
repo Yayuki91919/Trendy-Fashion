@@ -1,7 +1,6 @@
 <?php
 include_once 'layouts/header.php';
 include_once __DIR__ . '../controller/productController.php';
-
 $product_controller = new productController();
 $products = $product_controller->getProduct();
 

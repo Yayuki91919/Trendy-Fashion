@@ -82,7 +82,18 @@ class ShopInfo{
             return false;
         }
     }
-   
-
+    
+    public function getShopCount(){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="SELECT COUNT(*) AS row_count FROM shop_info";
+        $statement=$con->prepare($sql);
+        if($statement->execute())
+        {
+            $result=$statement->fetch(PDO::FETCH_ASSOC);
+            return $result['row_count'];
+        }
+    }
+    
 }
 ?>

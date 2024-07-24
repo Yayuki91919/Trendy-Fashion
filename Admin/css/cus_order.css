@@ -14,13 +14,13 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40%;
-    max-height: 100vh; /* Set a maximum height for the order list */
+    max-height: 100vh; 
     padding: 20px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     z-index: 1000;
-    overflow: hidden; /* Prevent content from overflowing */
+    overflow: hidden; 
 }
 
 .floating-order-list h2 {

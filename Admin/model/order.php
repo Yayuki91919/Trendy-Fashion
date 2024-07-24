@@ -20,7 +20,18 @@ class Order{
         }
 
     }
-    
+    public function getOrderCount(){
+        $con=Database::connect();
+        $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $sql="SELECT SUM(quantity) AS total_qty FROM place_order";
+        $statement=$con->prepare($sql);
+        if($statement->execute())
+        {
+            $result=$statement->fetch(PDO::FETCH_ASSOC);
+            return $result['total_qty'];
+        }
+
+    }
     public function getProductByInvoice($id){
         $con=Database::connect();
         $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
