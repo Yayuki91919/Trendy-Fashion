@@ -1,8 +1,8 @@
 <?php
-//session_start();
-// if(isset($_SESSION['username'])){
-//     echo '<script>window.location.href = "index.php";</script>';
-//    }
+session_start();
+if(!isset($_SESSION['username'])){
+    echo '<script>window.location.href = "index.php";</script>';
+   }
 include_once __DIR__ . '/../controller/profileController.php';
 include_once __DIR__ . '/../controller/productController.php';
 $product_controller = new ProductController();
@@ -33,12 +33,17 @@ if (!empty($profiles)) {
     <!-- <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png"> -->
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="./icons/trendy-icon/apple-touch-icon.png">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="./icons/trendy-icon/apple-touch-icon.png">
     </link>
     <link rel="icon" type="image/png" sizes="32x32" href="./icons/trendy-icon/favicon-32x32.png">
     </link>
     <link rel="icon" type="image/png" sizes="16x16" href="/../icons/trendy-icon/favicon-16x16.png">
-    </link>
+    </link> -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 
     <!-- Pignose Calender -->
     <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
@@ -146,8 +151,8 @@ if (!empty($profiles)) {
                                                     <span class="float-left mr-3 avatar-icon bg-success-lighten-2"><i class="icon-present"></i></span>
                                                     <div class="notification-content">
                                                         <div class="notification-heading"><?php echo "Invoice No : " . $p['invoice_no']; ?></div>
-                                                        <div class="notification-timestamp"><?php echo "Invoice Date : " .$p['invoice_date'] ?></div>
-                                                        <div class="notification-text"><?php echo "Total : " .$p['total'] . " Ks" ?></div>
+                                                        <div class="notification-timestamp"><?php echo "Invoice Date : " . $p['invoice_date'] ?></div>
+                                                        <div class="notification-text"><?php echo "Total : " . $p['total'] . " Ks" ?></div>
                                                         <!-- <span class="badge badge-pill gradient-1"></span> -->
                                                     </div>
                                                 </a>
@@ -178,13 +183,12 @@ if (!empty($profiles)) {
                                     <ul>
                                         <?php foreach ($low_stock as $l) { ?>
                                             <li>
-                                                <a href="product_detail.php?<?php echo $l['product_id']; ?>">
+                                                <a href="product_detail.php?pid=<?php echo $l['product_id']; ?>">
                                                     <img class="float-left mr-3 avatar-img" src="images/product/<?php echo $l['random_image'] ?>" alt="">
 
                                                     <div class="notification-content">
                                                         <h6 class="notification-heading"><?php echo $l['product_name']; ?></h6>
                                                         <span class="notification-text"><?php echo $l['size'] . " & " . $l['color']; ?></span>
-
                                                         <span class="badge badge-pill gradient-2"><?php echo $l['qty'] ?></span>
                                                     </div>
                                                 </a>

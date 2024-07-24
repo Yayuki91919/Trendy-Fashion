@@ -1,10 +1,13 @@
 <?php
-session_start();
-session_destroy();
-//$_SESSION['admin_name']=NULL;
-//$_SESSION['user_role'] = NULL;
+session_start(); // Start the session
 
+// Unset all of the session variables
+$_SESSION = array();
+
+// Destroy the session
+session_destroy();
+
+// Redirect to the login page
+header("Location: index.php");
+exit;
 ?>
-<script language="javascript">
-document.location="index.php";
-</script>

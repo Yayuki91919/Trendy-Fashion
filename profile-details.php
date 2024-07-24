@@ -1,5 +1,10 @@
 <?php 
 include_once 'layouts/header.php';
+
+if(!isset($_SESSION['user_login'])){
+    echo '<script>window.location.href = "logout.php";</script>';
+   }
+					
 $cus_id=6;
 include_once __DIR__. '/Admin/controller/customerController.php';
 $customer_controller=new CustomerController();

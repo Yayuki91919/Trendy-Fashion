@@ -50,10 +50,14 @@ function test_input($data) {
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
+
+	<link rel="apple-touch-icon" sizes="180x180" href="icons/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="icons/site.webmanifest">
+
     <link href="css/style.css" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="180x180" href="./icons/trendy-icon/apple-touch-icon.png" ></link>
-    <link rel="icon" type="image/png" sizes="32x32" href="./icons/trendy-icon/favicon-32x32.png" ></link>
-    <link rel="icon" type="image/png" sizes="16x16" href="/../icons/trendy-icon/favicon-16x16.png" ></link>
+
 
 </head>
 <style>
@@ -93,7 +97,7 @@ function test_input($data) {
                                     </div>
                                     <button class="btn gradient-2 login-form__btn submit w-100" name="submit">Login In</button>
                                 </form>
-                                <p class="mt-5 login-form__footer"><a href="forget_password.php" class="text-primary">Forget Password?</a></p>
+                                <!-- <p class="mt-5 login-form__footer"><a href="forget_password.php" class="text-primary">Forget Password?</a></p> -->
                             </div>
                         </div>
                     </div>
