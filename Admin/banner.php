@@ -1,20 +1,36 @@
 <?php 
-    include('layouts/header.php');
-    include_once __DIR__. '../controller/bannerController.php';
-    include_once __DIR__. '../controller/subController.php';
-    $banner_controller=new BannerController();
-    $banners=$banner_controller->getBanners();
-    $sub_controller = new SubCategoryController;
-    if(isset($_GET['delete_id'])){
-       
-        $delete_id=$_GET['delete_id'];
-        $result=$banner_controller->deleteBanner($delete_id);
-        if($result)
-        {
+include('layouts/header.php');
+include_once __DIR__ . '../controller/bannerController.php';
+include_once __DIR__ . '../controller/subController.php';
+$banner_controller = new BannerController();
+$banners = $banner_controller->getBanners();
+$sub_controller = new SubCategoryController();
+
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+    
+    // Fetch the banner information before deleting
+    $banner = $banner_controller->getBannerById($delete_id);
+    if ($banner) {
+        // Extract the image file names
+        $image_files = explode(",", $banner['image']);
+        
+        // Delete the banner from the database
+        $result = $banner_controller->deleteBanner($delete_id);
+        
+        if ($result) {
+            // Delete the image files from the server
+            foreach ($image_files as $image_file) {
+                $file_path = __DIR__ . "/images/banner_photo/" . $image_file;
+                if (file_exists($file_path)) {
+                    unlink($file_path);
+                }
+            }
             $message = 3;
-            echo '<script> location.href="banner.php?status='.$message.'"</script>';
+            echo '<script> location.href="banner.php?status=' . $message . '"</script>';
         }
-    } 
+    }
+}
 ?>
 <script>
 function confirmDelete() {
@@ -91,20 +107,14 @@ function confirmDelete() {
         ***********************************-->
 <div class="content-body">
     <?php
-                if(isset($_GET['status']) && $_GET['status'] == 1)
-                {
-                    echo "<div class='alert alert-success text-success' > New Banner has been successfully added. </div>";
-                }
-                elseif(isset($_GET['status']) && $_GET['status'] == 2)
-                {
-                    echo "<div class='alert alert-success' > New Bannner has been successfully updated.</div>";
-                }
-                elseif(isset($_GET['status']) && $_GET['status'] == 3)
-                {
-                    echo "<div class='alert alert-success' >Banner has been successfully deleted.</div>";
-                }
-
-     ?>
+    if (isset($_GET['status']) && $_GET['status'] == 1) {
+        echo "<div class='alert alert-success text-success' > New Banner has been successfully added. </div>";
+    } elseif (isset($_GET['status']) && $_GET['status'] == 2) {
+        echo "<div class='alert alert-success' > New Bannner has been successfully updated.</div>";
+    } elseif (isset($_GET['status']) && $_GET['status'] == 3) {
+        echo "<div class='alert alert-success' >Banner has been successfully deleted.</div>";
+    }
+    ?>
 
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -142,10 +152,10 @@ function confirmDelete() {
                                 </thead>
                                 <tbody>
                                     <?php  $count=1;
-                                            if(isset($banners)){
-                                            foreach($banners as $banner){
-                                                $sub_id=$banner['sub_id'];
-                                                $sub=$sub_controller->getSubCategory($sub_id);
+                                    if(isset($banners)){
+                                        foreach($banners as $banner){
+                                            $sub_id=$banner['sub_id'];
+                                            $sub=$sub_controller->getSubCategory($sub_id);
                                     ?>
                                     <tr>
                                         <td><?php echo $count++; ?></td>

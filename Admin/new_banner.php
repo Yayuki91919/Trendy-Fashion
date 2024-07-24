@@ -2,25 +2,78 @@
     include('layouts/header.php');
     include_once __DIR__. '../controller/bannerController.php';
     include_once __DIR__. '../controller/subController.php';
-    $sub_controllor = new SubCategoryController;
+    $sub_controllor = new SubCategoryController();
     $banner_controller=new BannerController();
     $errors = [];
     $success = '';
     $sub=$title=$files='';
+    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //     $sub = $_POST['sub'];
+    //     $title = $_POST['title'];
+    //     $files = $_FILES['files'];
+
+    //     // Server-side validation
+    //     if ($sub == 0) {
+    //         $errors['brand'] = "Please select a brand name.";
+    //     }
+
+    //     if (empty($title)) {
+    //         $errors['title'] = "Title is required.";
+    //     }
+
+    //     if (empty($files['name'][0])) {
+    //         $errors['files'] = "Please upload at least one banner image.";
+    //     } else {
+    //         foreach ($files['tmp_name'] as $key => $tmp_name) {
+    //             $image_info = getimagesize($tmp_name);
+    //             if ($image_info) {
+    //                 $width = $image_info[0];
+    //                 $height = $image_info[1];
+    //                 if ($width != 1280 || $height != 720) {
+    //                     $errors['files'] = "Image {$files['name'][$key]} does not have the required dimensions of 1280x720.";
+    //                 }
+    //             } else {
+    //                 $errors['files'] = "File {$files['name'][$key]} is not a valid image.";
+    //             }
+    //         }
+    //     }
+
+    //     if (empty($errors)) {
+    //         $upload_dir = __DIR__ . '/images/banner_photo/';
+    //         if (!is_dir($upload_dir)) {
+    //             mkdir($upload_dir, 0777, true);
+    //         }
+
+    //         foreach ($files['tmp_name'] as $key => $tmp_name) {
+    //             $file_name = basename($files['name'][$key]);
+    //             $target_file = $upload_dir . $file_name;
+    //             move_uploaded_file($tmp_name, $target_file);
+    //         }
+    //         $images = implode(',', $files['name']);
+    //         $result=$banner_controller->addBanner($title, $images, $sub);
+    //     if($result)
+    //     {
+    //         $message=1;
+    //         echo '<script>location.href="new_banner.php?status='.$message.'"</script>';
+    //     }else{
+    //         $fail="fail";
+    //     }
+    //     }
+    // }
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sub = $_POST['sub'];
         $title = $_POST['title'];
         $files = $_FILES['files'];
-
+    
         // Server-side validation
         if ($sub == 0) {
             $errors['brand'] = "Please select a brand name.";
         }
-
+    
         if (empty($title)) {
             $errors['title'] = "Title is required.";
         }
-
+    
         if (empty($files['name'][0])) {
             $errors['files'] = "Please upload at least one banner image.";
         } else {
@@ -37,29 +90,41 @@
                 }
             }
         }
-
+    
         if (empty($errors)) {
             $upload_dir = __DIR__ . '/images/banner_photo/';
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
-
+    
             foreach ($files['tmp_name'] as $key => $tmp_name) {
                 $file_name = basename($files['name'][$key]);
                 $target_file = $upload_dir . $file_name;
+    
+                // Check if file exists and rename if necessary
+                $file_base = pathinfo($file_name, PATHINFO_FILENAME);
+                $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+                $counter = 1;
+                while (file_exists($target_file)) {
+                    $new_file_name = $file_base . '_' . $counter . '.' . $file_ext;
+                    $target_file = $upload_dir . $new_file_name;
+                    $counter++;
+                }
+    
                 move_uploaded_file($tmp_name, $target_file);
+                $files['name'][$key] = basename($target_file);  // Update file name in the array
             }
             $images = implode(',', $files['name']);
-            $result=$banner_controller->addBanner($title, $images, $sub);
-        if($result)
-        {
-            $message=1;
-            echo '<script>location.href="new_banner.php?status='.$message.'"</script>';
-        }else{
-            $fail="fail";
-        }
+            $result = $banner_controller->addBanner($title, $images, $sub);
+            if ($result) {
+                $message = 1;
+                echo '<script>location.href="banner.php?status=' . $message . '"</script>';
+            } else {
+                $fail = "fail";
+            }
         }
     }
+    
 ?>
 <style>
 .img-preview {
