@@ -140,7 +140,9 @@ $product_id = "";
     </div>
 </section>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="plugins/jquery/dist/jquery.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#productTypeSelect').on('change', function() {
